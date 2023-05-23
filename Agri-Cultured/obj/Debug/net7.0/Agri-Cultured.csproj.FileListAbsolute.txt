@@ -859,3 +859,10 @@ D:\P\Mediterranean College\2nd Year\2nd Semester\Assignments\IndustrialWeek\Agri
 D:\P\Mediterranean College\2nd Year\2nd Semester\Assignments\IndustrialWeek\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\obj\Debug\net7.0\Agri-Cultured.pdb
 D:\P\Mediterranean College\2nd Year\2nd Semester\Assignments\IndustrialWeek\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\obj\Debug\net7.0\Agri-Cultured.genruntimeconfig.cache
 D:\P\Mediterranean College\2nd Year\2nd Semester\Assignments\IndustrialWeek\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\obj\Debug\net7.0\ref\Agri-Cultured.dll
+D:\P\Mediterranean College\2nd Year\2nd Semester\Assignments\IndustrialWeek\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\bin\Debug\net7.0\Microsoft.AspNetCore.Authorization.dll
+D:\P\Mediterranean College\2nd Year\2nd Semester\Assignments\IndustrialWeek\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\bin\Debug\net7.0\Microsoft.AspNetCore.Components.dll
+D:\P\Mediterranean College\2nd Year\2nd Semester\Assignments\IndustrialWeek\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\bin\Debug\net7.0\Microsoft.AspNetCore.Components.Forms.dll
+D:\P\Mediterranean College\2nd Year\2nd Semester\Assignments\IndustrialWeek\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\bin\Debug\net7.0\Microsoft.AspNetCore.Components.Web.dll
+D:\P\Mediterranean College\2nd Year\2nd Semester\Assignments\IndustrialWeek\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\bin\Debug\net7.0\Microsoft.AspNetCore.Metadata.dll
+D:\P\Mediterranean College\2nd Year\2nd Semester\Assignments\IndustrialWeek\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\bin\Debug\net7.0\Microsoft.JSInterop.dll
+D:\P\Mediterranean College\2nd Year\2nd Semester\Assignments\IndustrialWeek\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\bin\Debug\net7.0\MudBlazor.dll
