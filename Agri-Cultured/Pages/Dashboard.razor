@@ -2,18 +2,13 @@
 
 <PageTitle>Dashboard</PageTitle>
 
-
-
-<MudGrid Spacing="4" Justify="Justify.Center">
-    <MudCard>
-        <MudItem Style="margin-right: 500px; margin-left: 490px">
-            <div>
-                <MudChart ChartType="ChartType.Bar" ChartSeries="@BarSeries" @bind-SelectedIndex="Index" XAxisLabels="@XAxisBarLabels" Width="100%" Height="350px"></MudChart>
-            </div>
-            <MudText Typo="Typo.h6">Income - Expenses Chart</MudText>
-        </MudItem>
-    </MudCard>
-    
+<MudGrid Spacing="4" Justify="Justify.Center" >
+    <MudItem Style="margin-right: 500px; margin-left: 490px">
+        <div>
+            <MudChart ChartType="ChartType.Bar" ChartSeries="@BarSeries" @bind-SelectedIndex="Index" XAxisLabels="@XAxisBarLabels" Width="100%" Height="350px"></MudChart>
+        </div>
+        <MudText Typo="Typo.h6">Income - Expenses Chart</MudText>
+    </MudItem>
     <MudItem>
         <div>
             <MudChart ChartType="ChartType.Line" ChartSeries="@Series" @bind-SelectedIndex="BarIndex" XAxisLabels="@XAxisLabels" Width="100%" Height="350px"></MudChart>
