@@ -1,0 +1,44 @@
+﻿@page "/Dashboard"
+
+<PageTitle>Dashboard</PageTitle>
+
+
+
+<MudGrid Spacing="4" Justify="Justify.Center">
+    <MudCard>
+        <MudItem Style="margin-right: 500px; margin-left: 490px">
+            <div>
+                <MudChart ChartType="ChartType.Bar" ChartSeries="@BarSeries" @bind-SelectedIndex="Index" XAxisLabels="@XAxisBarLabels" Width="100%" Height="350px"></MudChart>
+            </div>
+            <MudText Typo="Typo.h6">Income - Expenses Chart</MudText>
+        </MudItem>
+    </MudCard>
+    
+    <MudItem>
+        <div>
+            <MudChart ChartType="ChartType.Line" ChartSeries="@Series" @bind-SelectedIndex="BarIndex" XAxisLabels="@XAxisLabels" Width="100%" Height="350px"></MudChart>
+            <MudText Typo="Typo.h6">Land Growth Chart</MudText>
+        </div>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private int Index = -1; //default value cannot be 0 -> first selectedindex is 0.
+
+    public List<ChartSeries> Series = new List<ChartSeries>()
+    {
+        new ChartSeries() { Name = "Series 1", Data = new double[] { 90, 79, 72, 69, 62, 62, 55, 65, 70 } },
+        new ChartSeries() { Name = "Series 2", Data = new double[] { 10, 41, 35, 51, 49, 62, 69, 91, 148 } },
+    };
+    public string[] XAxisLabels = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep" };
+
+
+    private int BarIndex = -1; //default value cannot be 0 -> first selectedindex is 0.
+
+    public List<ChartSeries> BarSeries = new List<ChartSeries>()
+    {
+        new ChartSeries() { Name = "Monthly Income", Data = new double[] { 40, 20, 25, 27, 46, 60, 48, 80, 15 } },
+        new ChartSeries() { Name = "Monthly Expenses", Data = new double[] { 19, 24, 35, 13, 28, 15, 13, 16, 31 } }
+    };
+    public string[] XAxisBarLabels = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep" };
+}
