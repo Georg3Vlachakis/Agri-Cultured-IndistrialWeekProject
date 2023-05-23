@@ -35,6 +35,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 

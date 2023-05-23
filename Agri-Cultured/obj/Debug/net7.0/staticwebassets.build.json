@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "wmGVqcQXELX+RUuo1h7ZaFSLUBa12GMZk53FRJJBhV0=",
+  "Hash": "9W3CPf6o3fIE7YuHua6zpbmJGcAMbpET/skSAKcymFE=",
   "Source": "Agri-Cultured",
   "BasePath": "_content/Agri-Cultured",
   "Mode": "Default",
@@ -10,7 +10,7 @@
     {
       "Name": "Agri-Cultured\\wwwroot",
       "Source": "Agri-Cultured",
-      "ContentRoot": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\",
       "BasePath": "_content/Agri-Cultured",
       "Pattern": "**"
     }
@@ -1037,10 +1037,10 @@
       "OriginalItemSpec": "C:\\Users\\Georg\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\7.0.5\\staticwebassets\\V5\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
     },
     {
-      "Identity": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\obj\\Debug\\net7.0\\scopedcss\\bundle\\Agri-Cultured.styles.css",
+      "Identity": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\obj\\Debug\\net7.0\\scopedcss\\bundle\\Agri-Cultured.styles.css",
       "SourceId": "Agri-Cultured",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\obj\\Debug\\net7.0\\scopedcss\\bundle\\",
+      "ContentRoot": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\obj\\Debug\\net7.0\\scopedcss\\bundle\\",
       "BasePath": "_content/Agri-Cultured",
       "RelativePath": "Agri-Cultured.styles.css",
       "AssetKind": "All",
@@ -1051,13 +1051,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\obj\\Debug\\net7.0\\scopedcss\\bundle\\Agri-Cultured.styles.css"
+      "OriginalItemSpec": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\obj\\Debug\\net7.0\\scopedcss\\bundle\\Agri-Cultured.styles.css"
     },
     {
-      "Identity": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\Agri-Cultured.bundle.scp.css",
+      "Identity": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\Agri-Cultured.bundle.scp.css",
       "SourceId": "Agri-Cultured",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\",
+      "ContentRoot": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\",
       "BasePath": "_content/Agri-Cultured",
       "RelativePath": "Agri-Cultured.bundle.scp.css",
       "AssetKind": "All",
@@ -1068,13 +1068,13 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\Agri-Cultured.bundle.scp.css"
+      "OriginalItemSpec": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\Agri-Cultured.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "Identity": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
       "SourceId": "Agri-Cultured",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\",
       "BasePath": "_content/Agri-Cultured",
       "RelativePath": "css/bootstrap/bootstrap.min.css",
       "AssetKind": "All",
@@ -1088,10 +1088,10 @@
       "OriginalItemSpec": "wwwroot\\css\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Identity": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "Identity": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
       "SourceId": "Agri-Cultured",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\",
       "BasePath": "_content/Agri-Cultured",
       "RelativePath": "css/bootstrap/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -1105,10 +1105,10 @@
       "OriginalItemSpec": "wwwroot\\css\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Identity": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
+      "Identity": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css",
       "SourceId": "Agri-Cultured",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\",
       "BasePath": "_content/Agri-Cultured",
       "RelativePath": "css/open-iconic/font/css/open-iconic-bootstrap.min.css",
       "AssetKind": "All",
@@ -1122,10 +1122,10 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\css\\open-iconic-bootstrap.min.css"
     },
     {
-      "Identity": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot",
+      "Identity": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot",
       "SourceId": "Agri-Cultured",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\",
       "BasePath": "_content/Agri-Cultured",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.eot",
       "AssetKind": "All",
@@ -1139,10 +1139,10 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.eot"
     },
     {
-      "Identity": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf",
+      "Identity": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf",
       "SourceId": "Agri-Cultured",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\",
       "BasePath": "_content/Agri-Cultured",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.otf",
       "AssetKind": "All",
@@ -1156,10 +1156,10 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.otf"
     },
     {
-      "Identity": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg",
+      "Identity": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg",
       "SourceId": "Agri-Cultured",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\",
       "BasePath": "_content/Agri-Cultured",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.svg",
       "AssetKind": "All",
@@ -1173,10 +1173,10 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.svg"
     },
     {
-      "Identity": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf",
+      "Identity": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf",
       "SourceId": "Agri-Cultured",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\",
       "BasePath": "_content/Agri-Cultured",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.ttf",
       "AssetKind": "All",
@@ -1190,10 +1190,10 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.ttf"
     },
     {
-      "Identity": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff",
+      "Identity": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff",
       "SourceId": "Agri-Cultured",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\",
       "BasePath": "_content/Agri-Cultured",
       "RelativePath": "css/open-iconic/font/fonts/open-iconic.woff",
       "AssetKind": "All",
@@ -1207,10 +1207,10 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\font\\fonts\\open-iconic.woff"
     },
     {
-      "Identity": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
+      "Identity": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\css\\open-iconic\\FONT-LICENSE",
       "SourceId": "Agri-Cultured",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\",
       "BasePath": "_content/Agri-Cultured",
       "RelativePath": "css/open-iconic/FONT-LICENSE",
       "AssetKind": "All",
@@ -1224,10 +1224,10 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\FONT-LICENSE"
     },
     {
-      "Identity": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\css\\open-iconic\\ICON-LICENSE",
+      "Identity": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\css\\open-iconic\\ICON-LICENSE",
       "SourceId": "Agri-Cultured",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\",
       "BasePath": "_content/Agri-Cultured",
       "RelativePath": "css/open-iconic/ICON-LICENSE",
       "AssetKind": "All",
@@ -1241,10 +1241,10 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\ICON-LICENSE"
     },
     {
-      "Identity": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\css\\open-iconic\\README.md",
+      "Identity": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\css\\open-iconic\\README.md",
       "SourceId": "Agri-Cultured",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\",
       "BasePath": "_content/Agri-Cultured",
       "RelativePath": "css/open-iconic/README.md",
       "AssetKind": "All",
@@ -1258,10 +1258,10 @@
       "OriginalItemSpec": "wwwroot\\css\\open-iconic\\README.md"
     },
     {
-      "Identity": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\css\\site.css",
+      "Identity": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\css\\site.css",
       "SourceId": "Agri-Cultured",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\",
       "BasePath": "_content/Agri-Cultured",
       "RelativePath": "css/site.css",
       "AssetKind": "All",
@@ -1275,10 +1275,10 @@
       "OriginalItemSpec": "wwwroot\\css\\site.css"
     },
     {
-      "Identity": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\favicon.png",
+      "Identity": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\favicon.png",
       "SourceId": "Agri-Cultured",
       "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Georg\\source\\repos\\Agri-Cultured\\Agri-Cultured\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\wwwroot\\",
       "BasePath": "_content/Agri-Cultured",
       "RelativePath": "favicon.png",
       "AssetKind": "All",
