@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\Agri-Cultured.csproj": {}
+    "D:\\P\\Mediterranean College\\2nd Year\\2nd Semester\\Assignments\\IndustrialWeek\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\Agri-Cultured.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\Agri-Cultured.csproj": {
+    "D:\\P\\Mediterranean College\\2nd Year\\2nd Semester\\Assignments\\IndustrialWeek\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\Agri-Cultured.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\Agri-Cultured.csproj",
+        "projectUniqueName": "D:\\P\\Mediterranean College\\2nd Year\\2nd Semester\\Assignments\\IndustrialWeek\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\Agri-Cultured.csproj",
         "projectName": "Agri-Cultured",
-        "projectPath": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\Agri-Cultured.csproj",
-        "packagesPath": "C:\\Users\\Georg\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Georg\\OneDrive\\Documents\\GitHub\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\obj\\",
+        "projectPath": "D:\\P\\Mediterranean College\\2nd Year\\2nd Semester\\Assignments\\IndustrialWeek\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\Agri-Cultured.csproj",
+        "packagesPath": "C:\\Users\\Dlf\\.nuget\\packages\\",
+        "outputPath": "D:\\P\\Mediterranean College\\2nd Year\\2nd Semester\\Assignments\\IndustrialWeek\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Georg\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Dlf\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
