@@ -12140,23 +12140,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Dlf\\.nuget\\packages\\": {},
+    "C:\\Users\\makle\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\P\\Mediterranean College\\2nd Year\\2nd Semester\\Assignments\\IndustrialWeek\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\Agri-Cultured.csproj",
+      "projectUniqueName": "C:\\Users\\makle\\Desktop\\to do\\java\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\Agri-Cultured.csproj",
       "projectName": "Agri-Cultured",
-      "projectPath": "D:\\P\\Mediterranean College\\2nd Year\\2nd Semester\\Assignments\\IndustrialWeek\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\Agri-Cultured.csproj",
-      "packagesPath": "C:\\Users\\Dlf\\.nuget\\packages\\",
-      "outputPath": "D:\\P\\Mediterranean College\\2nd Year\\2nd Semester\\Assignments\\IndustrialWeek\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\obj\\",
+      "projectPath": "C:\\Users\\makle\\Desktop\\to do\\java\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\Agri-Cultured.csproj",
+      "packagesPath": "C:\\Users\\makle\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\makle\\Desktop\\to do\\java\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Dlf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\makle\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -12165,7 +12165,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -12246,7 +12245,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
