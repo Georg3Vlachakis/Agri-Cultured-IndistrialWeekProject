@@ -1,0 +1,111 @@
+﻿@page "/Plants"
+@using System.Collections.Generic;
+@using System.Text.Json.Serialization;
+@inject IDialogService DialogService
+@using Controllers
+
+<PageTitle>Plants</PageTitle>
+
+<MudDataGrid Items="@data" T="PlantModel" Style="background-image: linear-gradient(180deg, rgb(35, 101, 35) 0%, rgb(0, 255, 144) 70%)">
+    <ToolBarContent>
+        <MudText Typo="Typo.h3" Style="color:white">Plants</MudText>
+    </ToolBarContent>
+    <Columns>
+        <MudButton Disabled="false" Color="@Color.Error" @onclick="PlantDialog">Add new Plant</MudButton>
+        <PropertyColumn Property="x => x.Name" />
+        <PropertyColumn Property="x => x.DatePlanted" Format="{0:d}" />
+        <PropertyColumn Property="x => x.Location" />
+        <TemplateColumn>
+            <HeaderTemplate>
+                Agricultural Task
+            </HeaderTemplate>
+            <CellTemplate>
+                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Settings" @onclick="TaskDialog"></MudButton>
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn>
+            <HeaderTemplate>
+                Fertilizer/Pesticides
+            </HeaderTemplate>
+            <CellTemplate>
+                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Settings" @onclick="FertilizerDialog"></MudButton>
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn>
+            <HeaderTemplate>
+                Irrigation
+            </HeaderTemplate>
+            <CellTemplate>
+                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Settings" @onclick="IrrigationDialog"></MudButton>
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn>
+            <HeaderTemplate>
+                Edit
+            </HeaderTemplate>
+            <CellTemplate>
+                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Edit" @onclick="PlantDialog"></MudButton>
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn>
+            <HeaderTemplate>
+                Delete
+            </HeaderTemplate>
+            <CellTemplate>
+                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Delete"></MudButton>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
+
+@code {
+    public class PlantModel
+    {
+        public PlantModel(string name, DateTime datePlanted, string location)
+        {
+            Name = name;
+            DatePlanted = datePlanted;
+            Location = location;
+        }
+
+        public string Name { get; set; }
+        public DateTime DatePlanted { get; set; }
+        public string Location { get; set; }
+    }
+
+    List<PlantModel> data = new List<PlantModel> {
+        new PlantModel("Plant 1", new DateTime(2023, 5, 1), "Location 1"),
+        new PlantModel("Plant 2", new DateTime(2023, 5, 5), "Location 2"),
+        new PlantModel("Plant 3", new DateTime(2023, 5, 10), "Location 3")
+    };
+
+    @*Add new Plant Dialog*@
+    private void PlantDialog()
+    {
+        var options = new MudBlazor.DialogOptions { };
+        DialogService.Show<PlantDialog>("Add Plant", options);
+    }
+
+    @*Add new Plant Dialog*@
+    private void TaskDialog()
+    {
+        var options = new MudBlazor.DialogOptions { };
+        DialogService.Show<PlantDialog>("Add Task", options);
+    }
+
+    @*Add new Plant Dialog*@
+    private void FertilizerDialog()
+    {
+        var options = new MudBlazor.DialogOptions { };
+        DialogService.Show<PlantDialog>("Add Fertilizer/Persticides", options);
+    }
+
+    @*Add new Plant Dialog*@
+    private void IrrigationDialog()
+    {
+        var options = new MudBlazor.DialogOptions { };
+        DialogService.Show<PlantDialog>("Add Irrigation", options);
+    }
+
+
+}

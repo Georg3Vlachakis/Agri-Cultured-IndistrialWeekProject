@@ -1,10 +1,55 @@
 ﻿@page "/Agriculturaltasks"
+@using System.Net.Http.Json
+@inject HttpClient httpClient
+@using System.Collections.Generic;
+@using System.Text.Json.Serialization;
 
 
 <PageTitle>Agricultural Tasks</PageTitle>
 
 <p>Under Costruction</p>
-@code {
-   
-}
 
+<MudDataGrid Items="@data" T="LinkModel">
+    <Columns>
+        <PropertyColumn Property="x => x.Name" />
+        <TemplateColumn>
+            <HeaderTemplate>
+                <strong>URL</strong>
+            </HeaderTemplate>
+            <CellTemplate>
+                <MudLink Href="@context.Item.Url" Typo="Typo.body2" target="_blank" Underline="Underline.Hover" Color="Color.Error">Assignment URL</MudLink>
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn>
+            <HeaderTemplate>
+                Edit
+            </HeaderTemplate>
+            <CellTemplate>
+                <MudTextField Label="Edit Link" Color="white" Variant="MudBlazor.Variant.Filled" FullWidth="true" Immediate="true" Style="background-color: beige; color:black" />
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn>
+            <CellTemplate>
+                <MudButton Color=" Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Edit"></MudButton>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
+@code {
+    public class LinkModel
+    {
+        public LinkModel(string name, string url)
+        {
+            Name = name;
+            Url = url;
+        }
+
+        public string Name { get; set; }
+        public string Url { get; set; }
+    }
+    List<LinkModel> data = new List<LinkModel> {
+            new LinkModel ("Link 1","https://www.example.com/link1" ),
+            new LinkModel ("Link 2","https://www.example.com/link2" ),
+            new LinkModel ("Link 3","https://www.example.com/link3" )
+    };
+}
