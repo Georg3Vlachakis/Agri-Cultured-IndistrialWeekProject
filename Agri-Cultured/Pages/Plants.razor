@@ -1,8 +1,5 @@
 ﻿@page "/Plants"
-@using System.Collections.Generic;
-@using System.Text.Json.Serialization;
 @inject IDialogService DialogService
-@using Controllers
 
 <PageTitle>Plants</PageTitle>
 
@@ -11,7 +8,7 @@
         <MudText Typo="Typo.h3" Style="color:white">Plants</MudText>
     </ToolBarContent>
     <Columns>
-        <MudButton Disabled="false" Color="@Color.Error" @onclick="PlantDialog">Add new Plant</MudButton>
+        <MudButton Disabled="false" Color="@Color.Error">Add new Plant</MudButton>
         <PropertyColumn Property="x => x.Name" />
         <PropertyColumn Property="x => x.DatePlanted" Format="{0:d}" />
         <PropertyColumn Property="x => x.Location" />
@@ -20,7 +17,7 @@
                 Agricultural Task
             </HeaderTemplate>
             <CellTemplate>
-                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Settings" @onclick="TaskDialog"></MudButton>
+                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Settings"></MudButton>
             </CellTemplate>
         </TemplateColumn>
         <TemplateColumn>
@@ -28,7 +25,7 @@
                 Fertilizer/Pesticides
             </HeaderTemplate>
             <CellTemplate>
-                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Settings" @onclick="FertilizerDialog"></MudButton>
+                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Settings"></MudButton>
             </CellTemplate>
         </TemplateColumn>
         <TemplateColumn>
@@ -36,7 +33,7 @@
                 Irrigation
             </HeaderTemplate>
             <CellTemplate>
-                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Settings" @onclick="IrrigationDialog"></MudButton>
+                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Settings" Href=""></MudButton>
             </CellTemplate>
         </TemplateColumn>
         <TemplateColumn>
@@ -44,7 +41,7 @@
                 Edit
             </HeaderTemplate>
             <CellTemplate>
-                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Edit" @onclick="PlantDialog"></MudButton>
+                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Edit"></MudButton>
             </CellTemplate>
         </TemplateColumn>
         <TemplateColumn>
@@ -79,33 +76,5 @@
         new PlantModel("Plant 3", new DateTime(2023, 5, 10), "Location 3")
     };
 
-    @*Add new Plant Dialog*@
-    private void PlantDialog()
-    {
-        var options = new MudBlazor.DialogOptions { };
-        DialogService.Show<PlantDialog>("Add Plant", options);
-    }
-
-    @*Add new Plant Dialog*@
-    private void TaskDialog()
-    {
-        var options = new MudBlazor.DialogOptions { };
-        DialogService.Show<PlantDialog>("Add Task", options);
-    }
-
-    @*Add new Plant Dialog*@
-    private void FertilizerDialog()
-    {
-        var options = new MudBlazor.DialogOptions { };
-        DialogService.Show<PlantDialog>("Add Fertilizer/Persticides", options);
-    }
-
-    @*Add new Plant Dialog*@
-    private void IrrigationDialog()
-    {
-        var options = new MudBlazor.DialogOptions { };
-        DialogService.Show<PlantDialog>("Add Irrigation", options);
-    }
-
-
+    
 }

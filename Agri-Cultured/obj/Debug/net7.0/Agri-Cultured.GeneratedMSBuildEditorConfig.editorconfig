@@ -20,10 +20,6 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/P/Mediterranean College/2nd Year/2nd Semester/Assignments/IndustrialWeek/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Controllers/PlantDialog.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29udHJvbGxlcnNcUGxhbnREaWFsb2cucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/P/Mediterranean College/2nd Year/2nd Semester/Assignments/IndustrialWeek/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Pages/Agriculturaltasks.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWdyaWN1bHR1cmFsdGFza3MucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
@@ -34,6 +30,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/P/Mediterranean College/2nd Year/2nd Semester/Assignments/IndustrialWeek/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Pages/Dashboard.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGFzaGJvYXJkLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/P/Mediterranean College/2nd Year/2nd Semester/Assignments/IndustrialWeek/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Pages/Events.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXZlbnRzLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/P/Mediterranean College/2nd Year/2nd Semester/Assignments/IndustrialWeek/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Pages/Fertalizer.razor]
