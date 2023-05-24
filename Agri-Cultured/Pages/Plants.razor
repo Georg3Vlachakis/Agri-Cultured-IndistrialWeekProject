@@ -50,7 +50,7 @@
                 Delete
             </HeaderTemplate>
             <CellTemplate>
-                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Delete"></MudButton>
+                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Delete" ></MudButton>
             </CellTemplate>
         </TemplateColumn>
     </Columns>
@@ -77,10 +77,17 @@
         new PlantModel("Plant 3", new DateTime(2023, 5, 10), "Location 3")
     };
 
+    @*Add new Plant*@
     private void AddNewPlant()
     {
         PlantModel newPlant = new PlantModel("New Plant", DateTime.Now, "New Location");
         data.Add(newPlant);
+    }
+
+    @*Delete Plant*@
+    private void DeletePlant(PlantModel plant)
+    {
+        data.Remove(plant);
     }
 
     @*Add new agricultural task dialog*@
