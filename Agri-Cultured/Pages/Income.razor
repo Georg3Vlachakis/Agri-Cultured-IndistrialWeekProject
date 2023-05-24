@@ -1,5 +1,6 @@
 ﻿@page "/Income"
 @inject IDialogService DialogService
+@using Controllers
 
 <PageTitle>Income</PageTitle>
 
@@ -59,5 +60,12 @@
     private void DeleteExpense(IncomeModel expense)
     {
         data.Remove(expense);
+    }
+
+    @*Add new income dialog*@
+    private void PlantDialog()
+    {
+        var options = new MudBlazor.DialogOptions { CloseOnEscapeKey = true };
+        DialogService.Show<IncomeDialog>("Add a new income", options);
     }
 }
