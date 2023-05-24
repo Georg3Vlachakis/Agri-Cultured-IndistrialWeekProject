@@ -1,0 +1,75 @@
+﻿@page "/Events"
+@inject IDialogService DialogService
+@using Controllers
+
+<PageTitle>Events</PageTitle>
+
+<PageTitle>Events</PageTitle>
+
+<MudDataGrid Items="@data" T="EventModel" Style="background-image: linear-gradient(90deg, rgb(165, 165, 175) 0%, rgb(227, 227, 227) 95%); color: #015249; text-shadow: 0px 1px 1px black;}">
+    <ToolBarContent>
+        <MudText Typo="Typo.h3" Style="color:white">Events</MudText>
+    </ToolBarContent>
+    <Columns>
+        <PropertyColumn Property="x => x.Name" />
+        <PropertyColumn Property="x => x.Date" Format="{0:d}" />
+        <PropertyColumn Property="x => x.Location" />
+        <PropertyColumn Property="x => x.Damage" />
+        <PropertyColumn Property="x => x.Comments" />
+        <TemplateColumn>
+            <HeaderTemplate>
+                Edit
+            </HeaderTemplate>
+            <CellTemplate>
+                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Edit"></MudButton>
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn>
+            <HeaderTemplate>
+                Delete
+            </HeaderTemplate>
+            <CellTemplate>
+                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Delete"></MudButton>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
+<MudButton Disabled="false" Color="@Color.Error" @onclick="AddNewEvent">Add new Event</MudButton>
+@code {
+    public class EventModel
+    {
+        public EventModel(string name, DateTime date, string location, string damage, string comments)
+        {
+            Name = name;
+            Date = date;
+            Location = location;
+            Damage = damage;
+            Comments = comments;
+        }
+
+        public string Name { get; set; }
+        public DateTime Date { get; set; }
+        public string Location { get; set; }
+        public string Damage { get; set; }
+        public string Comments { get; set; }
+    }
+
+    List<EventModel> data = new List<EventModel> {
+        new EventModel("Event 1", new DateTime(2023, 5, 1), "Location 1", "Damage 1", "Comments 1"),
+        new EventModel("Event 2", new DateTime(2023, 5, 5), "Location 2", "Damage 2", "Comments 2"),
+        new EventModel("Event 3", new DateTime(2023, 5, 10), "Location 3", "Damage 3", "Comments 3")
+    };
+
+    @*Add new Event*@
+    private void AddNewEvent()
+    {
+        var newEvent = new EventModel("New Event", DateTime.Now, "New Location", "New Damage", "New Comments");
+        data.Add(newEvent);
+    }
+
+    @*Delete Event*@
+    private void DeleteExpense(EventModel expense)
+    {
+        data.Remove(expense);
+    }  
+}

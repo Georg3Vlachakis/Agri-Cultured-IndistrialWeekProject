@@ -1,0 +1,82 @@
+﻿@page "/Dashboard"
+
+<PageTitle>Dashboard</PageTitle>
+<RadzenRow JustifyContent="JustifyContent.Start" AlignItems="Radzen.AlignItems.Center" Gap="0">
+    <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
+        <RadzenColumn Size="12" Style="justify-self:center; align-self:center">
+            <RadzenCard Class="rz-my-12 rz-mx-auto" Style="width:auto; height:455px;  background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 1px 1px black;">
+                <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
+                    <RadzenStack Gap="0" Style="align-self:center">
+                        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0"><b>Plant</b></RadzenText>
+                        <RadzenText TextStyle="TextStyle.Body1"><b>Plant Name</b></RadzenText>
+                    </RadzenStack>
+                </RadzenStack>
+                <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:325px; width:100%; overflow-y: auto">
+                    <RadzenRow RowGap="0">
+                        <RadzenColumn SizeXS="2">
+                            <RadzenRow>
+                                <RadzenColumn>
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">Plant Location</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">Sykies City</RadzenText>
+                                </RadzenColumn>
+                                <RadzenColumn>
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">Date Planted</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">Sykies City</RadzenText>
+                                </RadzenColumn>
+                            </RadzenRow>
+                        </RadzenColumn>
+                        <RadzenColumn SizeXS="8" Style="width: 100%">
+                            <MudPaper Width="100%" Style=" height: 165px;">
+                                <MudList Clickable="true">
+                                    <MudListItem Icon="@Icons.Material.Filled.Inbox" Text="Operations" InitiallyExpanded="true">
+                                        <NestedList>
+                                            <MudListItem Icon="@Icons.Material.Filled.StarRate">
+                                                Tasks
+                                            </MudListItem>
+                                            <MudListItem Icon="@Icons.Material.Filled.WatchLater">
+                                                Fert/Pest
+                                            </MudListItem>
+                                            <MudListItem Icon="@Icons.Material.Filled.WatchLater">
+                                                Irrigation
+                                            </MudListItem>
+                                        </NestedList>
+                                    </MudListItem>
+                                    <MudListItem Icon="@Icons.Material.Filled.Send">
+                                        Events
+                                    </MudListItem>
+                                    <MudListItem Icon="@Icons.Material.Filled.Drafts">
+                                        Other Expenses
+                                    </MudListItem>
+                                    <MudListItem Icon="@Icons.Material.Filled.Drafts">
+                                        Income
+                                    </MudListItem>
+                                    <MudListItem Icon="@Icons.Material.Filled.Drafts">
+                                        History
+                                    </MudListItem>
+
+                                </MudList>
+                            </MudPaper>
+                        </RadzenColumn>
+                    </RadzenRow>
+                </RadzenCard>
+                <br />
+                <br />
+            </RadzenCard>
+        </RadzenColumn>
+        <RadzenButton Text="Create" Icon="add" ButtonStyle="ButtonStyle.Success" Size="ButtonSize.Large" Style="width: 150px; height: 150px; font-size: 25px; justify-content: center"/>
+    </RadzenRow>
+</RadzenRow>
+
+@code 
+{
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+
+
+
+    }
+}
