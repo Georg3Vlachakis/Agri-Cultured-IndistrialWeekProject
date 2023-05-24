@@ -6,7 +6,7 @@
     color: white;
     font-size: 20px;
     -webkit-text-stroke-width: 0.5px;
-    text-shadow: 0px 4px 4px #282828;
+    text-shadow: 0px 4px 4px rgb(18, 52, 18);
 }
 
 .dropdown-menu {
