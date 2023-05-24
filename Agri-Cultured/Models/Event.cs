@@ -17,5 +17,5 @@ public partial class Event
 
     public string Comments { get; set; } = null!;
 
-    public virtual ICollection<PlantsHasUser> PlantsHasUsers { get; set; } = new List<PlantsHasUser>();
+    public virtual ICollection<PlantsHasUser> PlantsUsers { get; set; } = new List<PlantsHasUser>();
 }

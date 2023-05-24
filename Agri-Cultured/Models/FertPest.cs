@@ -15,5 +15,5 @@ public partial class FertPest
 
     public virtual ICollection<Item> Items { get; set; } = new List<Item>();
 
-    public virtual ICollection<PlantsHasUser> PlantsHasUsers { get; set; } = new List<PlantsHasUser>();
+    public virtual ICollection<PlantsHasUser> PlantsUsers { get; set; } = new List<PlantsHasUser>();
 }

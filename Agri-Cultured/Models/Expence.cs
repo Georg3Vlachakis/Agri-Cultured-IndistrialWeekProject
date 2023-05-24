@@ -13,5 +13,5 @@ public partial class Expence
 
     public DateOnly Date { get; set; }
 
-    public virtual ICollection<PlantsHasUser> PlantsHasUsers { get; set; } = new List<PlantsHasUser>();
+    public virtual ICollection<PlantsHasUser> PlantsUsers { get; set; } = new List<PlantsHasUser>();
 }

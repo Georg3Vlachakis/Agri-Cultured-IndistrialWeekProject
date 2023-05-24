@@ -5,6 +5,8 @@ namespace Agri_Cultured.Models;
 
 public partial class PlantsHasUser
 {
+    public int PlantsUserId { get; set; }
+
     public int PlantsPlantId { get; set; }
 
     public string AspnetusersId { get; set; } = null!;
@@ -13,19 +15,21 @@ public partial class PlantsHasUser
 
     public string Location { get; set; } = null!;
 
+    public string Description { get; set; } = null!;
+
     public virtual Aspnetuser Aspnetusers { get; set; } = null!;
 
     public virtual Plant PlantsPlant { get; set; } = null!;
 
-    public virtual ICollection<Event> EventsEvents { get; set; } = new List<Event>();
+    public virtual ICollection<Event> Events { get; set; } = new List<Event>();
 
-    public virtual ICollection<Expence> ExpencesExpences { get; set; } = new List<Expence>();
+    public virtual ICollection<Expence> Expences { get; set; } = new List<Expence>();
 
-    public virtual ICollection<FertPest> FertPestFertPests { get; set; } = new List<FertPest>();
+    public virtual ICollection<FertPest> FertPests { get; set; } = new List<FertPest>();
 
-    public virtual ICollection<Income> IncomeIncomes { get; set; } = new List<Income>();
+    public virtual ICollection<Irrigation> Iirrigations { get; set; } = new List<Irrigation>();
 
-    public virtual ICollection<Irrigation> IrrigationIrrigations { get; set; } = new List<Irrigation>();
+    public virtual ICollection<Income> Incomes { get; set; } = new List<Income>();
 
-    public virtual ICollection<Task> TasksTasks { get; set; } = new List<Task>();
+    public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
 }

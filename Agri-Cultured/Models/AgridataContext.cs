@@ -193,28 +193,6 @@ public partial class AgridataContext : DbContext
                 .HasMaxLength(45)
                 .HasColumnName("name");
             entity.Property(e => e.PercDamage).HasColumnName("perc_damage");
-
-            entity.HasMany(d => d.PlantsHasUsers).WithMany(p => p.EventsEvents)
-                .UsingEntity<Dictionary<string, object>>(
-                    "EventsHasPlant",
-                    r => r.HasOne<PlantsHasUser>().WithMany()
-                        .HasForeignKey("PlantsHasUserPlantsPlantId", "PlantsHasUserAspnetusersId")
-                        .HasConstraintName("fk_events_has_plants_has_user_plants_has_user1"),
-                    l => l.HasOne<Event>().WithMany()
-                        .HasForeignKey("EventsEventId")
-                        .HasConstraintName("fk_events_has_plants_has_user_events1"),
-                    j =>
-                    {
-                        j.HasKey("EventsEventId", "PlantsHasUserPlantsPlantId", "PlantsHasUserAspnetusersId")
-                            .HasName("PRIMARY")
-                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
-                        j.ToTable("events_has_plants");
-                        j.HasIndex(new[] { "EventsEventId" }, "fk_events_has_plants_has_user_events1_idx");
-                        j.HasIndex(new[] { "PlantsHasUserPlantsPlantId", "PlantsHasUserAspnetusersId" }, "fk_events_has_plants_has_user_plants_has_user1_idx");
-                        j.IndexerProperty<int>("EventsEventId").HasColumnName("events_event_id");
-                        j.IndexerProperty<int>("PlantsHasUserPlantsPlantId").HasColumnName("plants_has_user_plants_plant_Id");
-                        j.IndexerProperty<string>("PlantsHasUserAspnetusersId").HasColumnName("plants_has_user_aspnetusers_Id");
-                    });
         });
 
         modelBuilder.Entity<Expence>(entity =>
@@ -232,26 +210,27 @@ public partial class AgridataContext : DbContext
                 .HasMaxLength(45)
                 .HasColumnName("expence_type");
 
-            entity.HasMany(d => d.PlantsHasUsers).WithMany(p => p.ExpencesExpences)
+            entity.HasMany(d => d.PlantsUsers).WithMany(p => p.Expences)
                 .UsingEntity<Dictionary<string, object>>(
                     "ExpencesHasPlant",
                     r => r.HasOne<PlantsHasUser>().WithMany()
-                        .HasForeignKey("PlantsHasUserPlantsPlantId", "PlantsHasUserAspnetusersId")
+                        .HasForeignKey("PlantsUserId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_expences_has_plants_has_user_plants_has_user1"),
                     l => l.HasOne<Expence>().WithMany()
-                        .HasForeignKey("ExpencesExpencesId")
+                        .HasForeignKey("ExpencesId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_expences_has_plants_has_user_expences1"),
                     j =>
                     {
-                        j.HasKey("ExpencesExpencesId", "PlantsHasUserPlantsPlantId", "PlantsHasUserAspnetusersId")
+                        j.HasKey("ExpencesId", "PlantsUserId")
                             .HasName("PRIMARY")
-                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
+                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
                         j.ToTable("expences_has_plants");
-                        j.HasIndex(new[] { "ExpencesExpencesId" }, "fk_expences_has_plants_has_user_expences1_idx");
-                        j.HasIndex(new[] { "PlantsHasUserPlantsPlantId", "PlantsHasUserAspnetusersId" }, "fk_expences_has_plants_has_user_plants_has_user1_idx");
-                        j.IndexerProperty<int>("ExpencesExpencesId").HasColumnName("expences_expences_Id");
-                        j.IndexerProperty<int>("PlantsHasUserPlantsPlantId").HasColumnName("plants_has_user_plants_plant_Id");
-                        j.IndexerProperty<string>("PlantsHasUserAspnetusersId").HasColumnName("plants_has_user_aspnetusers_Id");
+                        j.HasIndex(new[] { "ExpencesId" }, "fk_expences_has_plants_has_user_expences1_idx");
+                        j.HasIndex(new[] { "PlantsUserId" }, "fk_expences_has_plants_has_user_plants_has_user1_idx");
+                        j.IndexerProperty<int>("ExpencesId").HasColumnName("expences_Id");
+                        j.IndexerProperty<int>("PlantsUserId").HasColumnName("plants_user_Id");
                     });
         });
 
@@ -271,6 +250,29 @@ public partial class AgridataContext : DbContext
                 .HasMaxLength(45)
                 .HasColumnName("product_name");
             entity.Property(e => e.Type).HasColumnName("type");
+
+            entity.HasMany(d => d.PlantsUsers).WithMany(p => p.FertPests)
+                .UsingEntity<Dictionary<string, object>>(
+                    "OpFertPest",
+                    r => r.HasOne<PlantsHasUser>().WithMany()
+                        .HasForeignKey("PlantsUserId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("fk_fert_pest_has_plants_has_user_plants_has_user1"),
+                    l => l.HasOne<FertPest>().WithMany()
+                        .HasForeignKey("FertPestId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("fk_fert_pest_has_plants_has_user_fert_pest1"),
+                    j =>
+                    {
+                        j.HasKey("FertPestId", "PlantsUserId")
+                            .HasName("PRIMARY")
+                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+                        j.ToTable("op_fert_pest");
+                        j.HasIndex(new[] { "FertPestId" }, "fk_fert_pest_has_plants_has_user_fert_pest1_idx");
+                        j.HasIndex(new[] { "PlantsUserId" }, "fk_fert_pest_has_plants_has_user_plants_has_user1_idx");
+                        j.IndexerProperty<int>("FertPestId").HasColumnName("fert_pest_Id");
+                        j.IndexerProperty<int>("PlantsUserId").HasColumnName("plants_user_Id");
+                    });
         });
 
         modelBuilder.Entity<Income>(entity =>
@@ -285,26 +287,27 @@ public partial class AgridataContext : DbContext
             entity.Property(e => e.Date).HasColumnName("date");
             entity.Property(e => e.Income1).HasColumnName("income");
 
-            entity.HasMany(d => d.PlantsHasUsers).WithMany(p => p.IncomeIncomes)
+            entity.HasMany(d => d.PlantsUsers).WithMany(p => p.Incomes)
                 .UsingEntity<Dictionary<string, object>>(
                     "IncomeHasPlant",
                     r => r.HasOne<PlantsHasUser>().WithMany()
-                        .HasForeignKey("PlantsHasUserPlantsPlantId", "PlantsHasUserAspnetusersId")
+                        .HasForeignKey("PlantsUserId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_income_has_plants_has_user_plants_has_user1"),
                     l => l.HasOne<Income>().WithMany()
-                        .HasForeignKey("IncomeIncomeId")
+                        .HasForeignKey("IncomeId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_income_has_plants_has_user_income1"),
                     j =>
                     {
-                        j.HasKey("IncomeIncomeId", "PlantsHasUserPlantsPlantId", "PlantsHasUserAspnetusersId")
+                        j.HasKey("IncomeId", "PlantsUserId")
                             .HasName("PRIMARY")
-                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
+                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
                         j.ToTable("income_has_plants");
-                        j.HasIndex(new[] { "IncomeIncomeId" }, "fk_income_has_plants_has_user_income1_idx");
-                        j.HasIndex(new[] { "PlantsHasUserPlantsPlantId", "PlantsHasUserAspnetusersId" }, "fk_income_has_plants_has_user_plants_has_user1_idx");
-                        j.IndexerProperty<int>("IncomeIncomeId").HasColumnName("income_income_id");
-                        j.IndexerProperty<int>("PlantsHasUserPlantsPlantId").HasColumnName("plants_has_user_plants_plant_Id");
-                        j.IndexerProperty<string>("PlantsHasUserAspnetusersId").HasColumnName("plants_has_user_aspnetusers_Id");
+                        j.HasIndex(new[] { "IncomeId" }, "fk_income_has_plants_has_user_income1_idx");
+                        j.HasIndex(new[] { "PlantsUserId" }, "fk_income_has_plants_has_user_plants_has_user1_idx");
+                        j.IndexerProperty<int>("IncomeId").HasColumnName("income_id");
+                        j.IndexerProperty<int>("PlantsUserId").HasColumnName("plants_user_Id");
                     });
         });
 
@@ -321,26 +324,27 @@ public partial class AgridataContext : DbContext
             entity.Property(e => e.Date).HasColumnName("date");
             entity.Property(e => e.Hours).HasColumnName("hours");
 
-            entity.HasMany(d => d.PlantsHasUsers).WithMany(p => p.IrrigationIrrigations)
+            entity.HasMany(d => d.PlantsUsers).WithMany(p => p.Iirrigations)
                 .UsingEntity<Dictionary<string, object>>(
                     "OpIrrigation",
                     r => r.HasOne<PlantsHasUser>().WithMany()
-                        .HasForeignKey("PlantsHasUserPlantsPlantId", "PlantsHasUserAspnetusersId")
+                        .HasForeignKey("PlantsUserId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_irrigation_has_plants_has_user_plants_has_user1"),
                     l => l.HasOne<Irrigation>().WithMany()
-                        .HasForeignKey("IrrigationIrrigationsId")
+                        .HasForeignKey("IirrigationsId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_irrigation_has_plants_has_user_irrigation1"),
                     j =>
                     {
-                        j.HasKey("IrrigationIrrigationsId", "PlantsHasUserPlantsPlantId", "PlantsHasUserAspnetusersId")
+                        j.HasKey("IirrigationsId", "PlantsUserId")
                             .HasName("PRIMARY")
-                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
+                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
                         j.ToTable("op_irrigation");
-                        j.HasIndex(new[] { "IrrigationIrrigationsId" }, "fk_irrigation_has_plants_has_user_irrigation1_idx");
-                        j.HasIndex(new[] { "PlantsHasUserPlantsPlantId", "PlantsHasUserAspnetusersId" }, "fk_irrigation_has_plants_has_user_plants_has_user1_idx");
-                        j.IndexerProperty<int>("IrrigationIrrigationsId").HasColumnName("irrigation_irrigations_Id");
-                        j.IndexerProperty<int>("PlantsHasUserPlantsPlantId").HasColumnName("plants_has_user_plants_plant_Id");
-                        j.IndexerProperty<string>("PlantsHasUserAspnetusersId").HasColumnName("plants_has_user_aspnetusers_Id");
+                        j.HasIndex(new[] { "IirrigationsId" }, "fk_irrigation_has_plants_has_user_irrigation1_idx");
+                        j.HasIndex(new[] { "PlantsUserId" }, "fk_irrigation_has_plants_has_user_plants_has_user1_idx");
+                        j.IndexerProperty<int>("IirrigationsId").HasColumnName("iirrigations_Id");
+                        j.IndexerProperty<int>("PlantsUserId").HasColumnName("plants_user_Id");
                     });
         });
 
@@ -397,9 +401,7 @@ public partial class AgridataContext : DbContext
 
         modelBuilder.Entity<PlantsHasUser>(entity =>
         {
-            entity.HasKey(e => new { e.PlantsPlantId, e.AspnetusersId })
-                .HasName("PRIMARY")
-                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+            entity.HasKey(e => e.PlantsUserId).HasName("PRIMARY");
 
             entity.ToTable("plants_has_user");
 
@@ -407,12 +409,18 @@ public partial class AgridataContext : DbContext
 
             entity.HasIndex(e => e.PlantsPlantId, "fk_plants_has_aspnetusers_plants1_idx");
 
-            entity.Property(e => e.PlantsPlantId).HasColumnName("plants_plant_Id");
+            entity.HasIndex(e => e.PlantsUserId, "plants_user_Id_UNIQUE").IsUnique();
+
+            entity.Property(e => e.PlantsUserId).HasColumnName("plants_user_Id");
             entity.Property(e => e.AspnetusersId).HasColumnName("aspnetusers_Id");
             entity.Property(e => e.DatePlanted).HasColumnName("date_planted");
+            entity.Property(e => e.Description)
+                .HasMaxLength(25)
+                .HasColumnName("description");
             entity.Property(e => e.Location)
                 .HasMaxLength(45)
                 .HasColumnName("location");
+            entity.Property(e => e.PlantsPlantId).HasColumnName("plants_plant_Id");
 
             entity.HasOne(d => d.Aspnetusers).WithMany(p => p.PlantsHasUsers)
                 .HasForeignKey(d => d.AspnetusersId)
@@ -423,26 +431,27 @@ public partial class AgridataContext : DbContext
                 .HasForeignKey(d => d.PlantsPlantId)
                 .HasConstraintName("fk_plants_has_aspnetusers_plants1");
 
-            entity.HasMany(d => d.FertPestFertPests).WithMany(p => p.PlantsHasUsers)
+            entity.HasMany(d => d.Events).WithMany(p => p.PlantsUsers)
                 .UsingEntity<Dictionary<string, object>>(
-                    "OpFertPest",
-                    r => r.HasOne<FertPest>().WithMany()
-                        .HasForeignKey("FertPestFertPestId")
-                        .HasConstraintName("fk_plants_has_user_has_fert_pest_fert_pest1"),
+                    "EventsHasPlant",
+                    r => r.HasOne<Event>().WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("fk_plants_has_user_has_events_events1"),
                     l => l.HasOne<PlantsHasUser>().WithMany()
-                        .HasForeignKey("PlantsHasUserPlantsPlantId", "PlantsHasUserAspnetusersId")
-                        .HasConstraintName("fk_plants_has_user_has_fert_pest_plants_has_user1"),
+                        .HasForeignKey("PlantsUserId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("fk_plants_has_user_has_events_plants_has_user1"),
                     j =>
                     {
-                        j.HasKey("PlantsHasUserPlantsPlantId", "PlantsHasUserAspnetusersId", "FertPestFertPestId")
+                        j.HasKey("PlantsUserId", "EventId")
                             .HasName("PRIMARY")
-                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
-                        j.ToTable("op_fert_pest");
-                        j.HasIndex(new[] { "FertPestFertPestId" }, "fk_plants_has_user_has_fert_pest_fert_pest1_idx");
-                        j.HasIndex(new[] { "PlantsHasUserPlantsPlantId", "PlantsHasUserAspnetusersId" }, "fk_plants_has_user_has_fert_pest_plants_has_user1_idx");
-                        j.IndexerProperty<int>("PlantsHasUserPlantsPlantId").HasColumnName("plants_has_user_plants_plant_Id");
-                        j.IndexerProperty<string>("PlantsHasUserAspnetusersId").HasColumnName("plants_has_user_aspnetusers_Id");
-                        j.IndexerProperty<int>("FertPestFertPestId").HasColumnName("fert_pest_fert_pest_Id");
+                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+                        j.ToTable("events_has_plants");
+                        j.HasIndex(new[] { "EventId" }, "fk_plants_has_user_has_events_events1_idx");
+                        j.HasIndex(new[] { "PlantsUserId" }, "fk_plants_has_user_has_events_plants_has_user1_idx");
+                        j.IndexerProperty<int>("PlantsUserId").HasColumnName("plants_user_Id");
+                        j.IndexerProperty<int>("EventId").HasColumnName("event_id");
                     });
         });
 
@@ -463,28 +472,27 @@ public partial class AgridataContext : DbContext
                 .HasColumnName("task_name");
             entity.Property(e => e.WorkerNumber).HasColumnName("worker_number");
 
-            entity.HasMany(d => d.PlantsHasUsers).WithMany(p => p.TasksTasks)
+            entity.HasMany(d => d.PlantsUsers).WithMany(p => p.Tasks)
                 .UsingEntity<Dictionary<string, object>>(
                     "OpTask",
                     r => r.HasOne<PlantsHasUser>().WithMany()
-                        .HasForeignKey("PlantsHasUserPlantsPlantId", "PlantsHasUserAspnetusersId")
+                        .HasForeignKey("PlantsUserId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_tasks_has_plants_has_user_plants_has_user1"),
                     l => l.HasOne<Task>().WithMany()
-                        .HasForeignKey("TasksTaskId")
+                        .HasForeignKey("TaskId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_tasks_has_plants_has_user_tasks1"),
                     j =>
                     {
-                        j.HasKey("TasksTaskId", "PlantsHasUserPlantsPlantId", "PlantsHasUserAspnetusersId")
+                        j.HasKey("TaskId", "PlantsUserId")
                             .HasName("PRIMARY")
-                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
+                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
                         j.ToTable("op_tasks");
-                        j.HasIndex(new[] { "PlantsHasUserPlantsPlantId", "PlantsHasUserAspnetusersId" }, "fk_tasks_has_plants_has_user_plants_has_user1_idx");
-                        j.HasIndex(new[] { "TasksTaskId" }, "fk_tasks_has_plants_has_user_tasks1_idx");
-                        j.IndexerProperty<int>("TasksTaskId").HasColumnName("tasks_task_id");
-                        j.IndexerProperty<int>("PlantsHasUserPlantsPlantId").HasColumnName("plants_has_user_plants_plant_Id");
-                        j.IndexerProperty<string>("PlantsHasUserAspnetusersId").HasColumnName("plants_has_user_aspnetusers_Id");
+                        j.HasIndex(new[] { "PlantsUserId" }, "fk_tasks_has_plants_has_user_plants_has_user1_idx");
+                        j.HasIndex(new[] { "TaskId" }, "fk_tasks_has_plants_has_user_tasks1_idx");
+                        j.IndexerProperty<int>("TaskId").HasColumnName("task_id");
+                        j.IndexerProperty<int>("PlantsUserId").HasColumnName("plants_user_Id");
                     });
         });
 

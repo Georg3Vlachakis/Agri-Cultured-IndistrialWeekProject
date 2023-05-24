@@ -11,7 +11,7 @@ public partial class Item
 
     public string? ItemDescription { get; set; }
 
-    public int Cost { get; set; }
+    public float Cost { get; set; }
 
     public int FertPestFertPestId { get; set; }
 

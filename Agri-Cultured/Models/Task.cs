@@ -15,5 +15,5 @@ public partial class Task
 
     public int Cost { get; set; }
 
-    public virtual ICollection<PlantsHasUser> PlantsHasUsers { get; set; } = new List<PlantsHasUser>();
+    public virtual ICollection<PlantsHasUser> PlantsUsers { get; set; } = new List<PlantsHasUser>();
 }

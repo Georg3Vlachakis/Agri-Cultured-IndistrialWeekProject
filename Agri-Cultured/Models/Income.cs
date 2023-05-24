@@ -11,5 +11,5 @@ public partial class Income
 
     public int Income1 { get; set; }
 
-    public virtual ICollection<PlantsHasUser> PlantsHasUsers { get; set; } = new List<PlantsHasUser>();
+    public virtual ICollection<PlantsHasUser> PlantsUsers { get; set; } = new List<PlantsHasUser>();
 }
