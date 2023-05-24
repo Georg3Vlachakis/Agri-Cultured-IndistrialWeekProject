@@ -59,4 +59,10 @@
         new EventModel("Event 2", new DateTime(2023, 5, 5), "Location 2", "Damage 2", "Comments 2"),
         new EventModel("Event 3", new DateTime(2023, 5, 10), "Location 3", "Damage 3", "Comments 3")
     };
+
+    @*Delete Event*@
+    private void DeleteExpense(EventModel expense)
+    {
+        data.Remove(expense);
+    }
 }

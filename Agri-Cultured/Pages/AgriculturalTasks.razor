@@ -53,4 +53,10 @@
         new TaskModel ("Task 2", new DateTime(2023, 5, 5), 3, 75.0m),
         new TaskModel ("Task 3", new DateTime(2023, 5, 10), 8, 200.0m)
     };
+
+    @*Delete Task*@
+    private void DeleteExpense(TaskModel expense)
+    {
+        data.Remove(expense);
+    }
 }

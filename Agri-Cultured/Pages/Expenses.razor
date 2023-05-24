@@ -1,0 +1,61 @@
+﻿@page "/Expenses"
+@inject IDialogService DialogService
+
+<PageTitle>Other Expenses</PageTitle>
+
+<MudDataGrid Items="@data" T="ExpenseModel" Style="background-image: linear-gradient(180deg, rgb(35, 101, 35) 0%, rgb(0, 255, 144) 70%)">
+    <ToolBarContent>
+        <MudText Typo="Typo.h3" Style="color:white">Other Expenses</MudText>
+    </ToolBarContent>
+    <Columns>
+        <MudButton Disabled="false" Color="@Color.Error">Add new Expense</MudButton>
+        <PropertyColumn Property="x => x.Name" />
+        <PropertyColumn Property="x => x.Date" Format="{0:d}" />
+        <PropertyColumn Property="x => x.Price" />
+        <TemplateColumn>
+            <HeaderTemplate>
+                Edit
+            </HeaderTemplate>
+            <CellTemplate>
+                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Edit"></MudButton>
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn>
+            <HeaderTemplate>
+                Delete
+            </HeaderTemplate>
+            <CellTemplate>
+                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Delete"></MudButton>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
+
+@code {
+    public class ExpenseModel
+    {
+        public ExpenseModel(string name, DateTime date, decimal price)
+        {
+            Name = name;
+            Date = date;
+            Price = price;
+        }
+
+        public string Name { get; set; }
+        public DateTime Date { get; set; }
+        public decimal Price { get; set; }
+    }
+
+    List<ExpenseModel> data = new List<ExpenseModel> {
+        new ExpenseModel("Tractor purchase", new DateTime(2023, 5, 1), 1500.00m),
+        new ExpenseModel("Agronomist payment", new DateTime(2023, 5, 5), 500.00m),
+        new ExpenseModel("Plant 3", new DateTime(2023, 5, 10), 300.00m),
+        new ExpenseModel("Seeds purchase", new DateTime(2023, 5, 15), 200.00m)
+    };
+
+    @*Delete Expense*@
+    private void DeleteExpense(ExpenseModel expense)
+    {
+        data.Remove(expense);
+    }
+}

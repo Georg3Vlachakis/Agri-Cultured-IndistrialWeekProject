@@ -54,4 +54,10 @@
         new IncomeModel("Compensation", new DateTime(2023, 5, 5), "Product 2", 15.99m),
         new IncomeModel("Sale", new DateTime(2023, 5, 10), "Product 3", 20.99m)
     };
+
+    @*Delete Income*@
+    private void DeleteExpense(IncomeModel expense)
+    {
+        data.Remove(expense);
+    }
 }
