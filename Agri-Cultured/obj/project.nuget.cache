@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TAsWvrZU/7iKLV7OEB3dEg0vSERsCndVIpugIflV9oo1MmiRRLHyUPJ7tsKKXum0ViJDt/dZIj7KA+cd/ILSLA==",
+  "dgSpecHash": "MOY6s36tNuXhSpGLpvAUw22RxXXjAwwZdNUGHCvVvdwIQgnD8Ndnm7cjxDq4I8ZlzvpJs5Rpr+GHeeCkwcbfWg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\makle\\Desktop\\to do\\java\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\Agri-Cultured.csproj",
+  "projectFilePath": "C:\\Users\\makle\\Desktop\\agro-culture\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\Agri-Cultured.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\makle\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\makle\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
