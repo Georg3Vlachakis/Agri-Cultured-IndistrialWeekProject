@@ -9,7 +9,7 @@
         <MudText Typo="Typo.h3" Style="color:white">Incomes</MudText>
     </ToolBarContent>
     <Columns>
-        <MudButton Disabled="false" Color="@Color.Error">Add new Income</MudButton>
+        <MudButton Disabled="false" Color="@Color.Error" @onclick="AddNewIncome">Add new Income</MudButton>
         <PropertyColumn Property="x => x.Name" />
         <PropertyColumn Property="x => x.Date" Format="{0:d}" />
         <PropertyColumn Property="x => x.Product" />
@@ -56,16 +56,15 @@
         new IncomeModel("Sale", new DateTime(2023, 5, 10), "Product 3", 20.99m)
     };
 
+    @*Add new Income*@
+    private void AddNewIncome()
+    {
+        data.Add(new IncomeModel("", DateTime.Now, "", 0.0m));
+    }
+
     @*Delete Income*@
     private void DeleteExpense(IncomeModel expense)
     {
         data.Remove(expense);
-    }
-
-    @*Add new income dialog*@
-    private void PlantDialog()
-    {
-        var options = new MudBlazor.DialogOptions { CloseOnEscapeKey = true };
-        DialogService.Show<IncomeDialog>("Add a new income", options);
     }
 }
