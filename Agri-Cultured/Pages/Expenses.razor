@@ -1,5 +1,6 @@
 ﻿@page "/Expenses"
 @inject IDialogService DialogService
+@using Controllers
 
 <PageTitle>Other Expenses</PageTitle>
 
@@ -57,5 +58,12 @@
     private void DeleteExpense(ExpenseModel expense)
     {
         data.Remove(expense);
+    }
+
+    @*Add new plant dialog*@
+    private void PlantDialog()
+    {
+        var options = new MudBlazor.DialogOptions { CloseOnEscapeKey = true };
+        DialogService.Show<ExpensesDialog>("Add a new expense", options);
     }
 }
