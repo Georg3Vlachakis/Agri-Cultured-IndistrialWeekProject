@@ -1,6 +1,6 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a id="dashboard"  class="navbar-brand" href="">Agri-Cultured</a>
+        <a id="dashboard" class="navbar-brand" href="">Agri-Cultured</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -9,6 +9,11 @@
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
+        <div id="dashboard" class="nav-item px-0">
+            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+                <span class="oi oi-dashboard" aria-hidden="true"></span>Dashboard
+            </NavLink>
+        </div>
         <div id="dashboard" class="nav-item px-0">
             <NavLink class="nav-link" href="">
                 <span class="oi oi-account-logout" aria-hidden="true"></span> Log Out
