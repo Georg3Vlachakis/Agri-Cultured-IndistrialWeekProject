@@ -352,3 +352,5 @@ MigrationBackup/
 # Certificate Type Files
 *.pem
 
+*.editorconfig
+*.cache
