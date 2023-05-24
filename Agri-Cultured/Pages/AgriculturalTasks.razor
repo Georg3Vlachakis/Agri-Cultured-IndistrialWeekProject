@@ -9,7 +9,7 @@
         <MudText Typo="Typo.h3" Style="color:white">Irrigation</MudText>
     </ToolBarContent>
     <Columns>
-        <MudButton Disabled="false" Color="@Color.Error">Add new Irrigation</MudButton>
+        <MudButton Disabled="false" Color="@Color.Error" OnClick="AddNewIrrigation">Add new Irrigation</MudButton>
         <PropertyColumn Property="x => x.Date" Title="Date" FormatString="dd/MM/yyyy" />
         <PropertyColumn Property="x => x.Hours" Title="Hours" />
         <PropertyColumn Property="x => x.Cost" Title="Cost (Not Necessary)" FormatString="C" />
@@ -33,6 +33,14 @@
 </MudDataGrid>
 
 @code {
+
+    private void AddNewIrrigation()
+    {
+        // Create a new TaskModel object and add it to the data list
+        TaskModel newIrrigation = new TaskModel(DateTime.Now, 0, 0.0m); // Modify the default values as needed
+        data.Add(newIrrigation);
+    }
+
     public class TaskModel
     {
         public TaskModel(DateTime date, int hours, decimal cost)
