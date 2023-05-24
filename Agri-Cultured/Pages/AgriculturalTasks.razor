@@ -4,18 +4,15 @@
 
 <PageTitle>Agricultural Tasks</PageTitle>
 
-    <MudDataGrid Items="@data" T="TaskModel" Style="background-image: linear-gradient(180deg, rgb(35, 101, 35) 0%, rgb(0, 255, 144) 70%)">
+<MudDataGrid Items="@data" T="TaskModel" Style="background-image: linear-gradient(180deg, rgb(35, 101, 35) 0%, rgb(0, 255, 144) 70%)">
     <ToolBarContent>
-        <MudText Typo="Typo.h3" Style="color:white">Fertilizer/Pesticides</MudText>
+        <MudText Typo="Typo.h3" Style="color:white">Irrigation</MudText>
     </ToolBarContent>
     <Columns>
-        <MudButton Disabled="false" Color="@Color.Error">Add new Fertilizer/Pesticide</MudButton>
-        <PropertyColumn Property="x => x.TaskType" Title="Type" />
-        <PropertyColumn Property="x => x.ProductName" Title="Product Name" />
-        <PropertyColumn Property="x => x.ItemsUsed" Title="Items Used" />
-        <PropertyColumn Property="x => x.DateStarted" Title="Date" FormatString="dd/MM/yyyy" />
-        <PropertyColumn Property="x => x.CostPerItem" Title="Cost Per Item" FormatString="C" />
-        <PropertyColumn Property="x => x.TotalCost" Title="Total Cost" FormatString="C" />
+        <MudButton Disabled="false" Color="@Color.Error">Add new Irrigation</MudButton>
+        <PropertyColumn Property="x => x.Date" Title="Date" FormatString="dd/MM/yyyy" />
+        <PropertyColumn Property="x => x.Hours" Title="Hours" />
+        <PropertyColumn Property="x => x.Cost" Title="Cost (Not Necessary)" FormatString="C" />
         <TemplateColumn>
             <HeaderTemplate>
                 <strong>Edit</strong>
@@ -38,32 +35,23 @@
 @code {
     public class TaskModel
     {
-        public TaskModel(string taskType, string productName, string itemsUsed, DateTime dateStarted, decimal costPerItem, int quantity)
+        public TaskModel(DateTime date, int hours, decimal cost)
         {
-            TaskType = taskType;
-            ProductName = productName;
-            ItemsUsed = itemsUsed;
-            DateStarted = dateStarted;
-            CostPerItem = costPerItem;
-            Quantity = quantity;
-            TotalCost = costPerItem * quantity;
+            Date = date;
+            Hours = hours;
+            Cost = cost;
         }
 
-        public string TaskType { get; set; }
-        public string ProductName { get; set; }
-        public string ItemsUsed { get; set; }
-        public DateTime DateStarted { get; set; }
-        public decimal CostPerItem { get; set; }
-        public int Quantity { get; set; }
-        public decimal TotalCost { get; set; }
+        public DateTime Date { get; set; }
+        public int Hours { get; set; }
+        public decimal Cost { get; set; }
     }
 
     List<TaskModel> data = new List<TaskModel> {
-        new TaskModel("F", "Fertilizer A", "Item 1, Item 2", new DateTime(2023, 5, 1), 10.0m, 5),
-        new TaskModel("P", "Pesticide B", "Item 3, Item 4", new DateTime(2023, 5, 5), 8.0m, 3),
-        new TaskModel("F", "Fertilizer C", "Item 2, Item 4", new DateTime(2023, 5, 10), 12.0m, 8)
-
-      };
+        new TaskModel(new DateTime(2023, 5, 1), 3, 20.0m),
+        new TaskModel(new DateTime(2023, 5, 5), 4, 15.0m),
+        new TaskModel(new DateTime(2023, 5, 10), 6, 18.0m)
+    };
 
     @*Delete Fertilizer/Pesticide*@
     private void DeleteExpense(TaskModel expense)
