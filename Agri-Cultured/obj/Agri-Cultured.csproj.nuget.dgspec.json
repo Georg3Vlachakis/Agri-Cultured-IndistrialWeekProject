@@ -82,6 +82,10 @@
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "Radzen.Blazor": {
+              "target": "Package",
+              "version": "[4.11.2, )"
             }
           },
           "imports": [
