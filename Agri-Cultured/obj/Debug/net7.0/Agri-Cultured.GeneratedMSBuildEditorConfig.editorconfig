@@ -20,8 +20,28 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/P/Mediterranean College/2nd Year/2nd Semester/Assignments/IndustrialWeek/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Pages/Agriculturaltasks.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWdyaWN1bHR1cmFsdGFza3MucmF6b3I=
+[D:/P/Mediterranean College/2nd Year/2nd Semester/Assignments/IndustrialWeek/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Controllers/EventDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29udHJvbGxlcnNcRXZlbnREaWFsb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/P/Mediterranean College/2nd Year/2nd Semester/Assignments/IndustrialWeek/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Controllers/ExpensesDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29udHJvbGxlcnNcRXhwZW5zZXNEaWFsb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/P/Mediterranean College/2nd Year/2nd Semester/Assignments/IndustrialWeek/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Controllers/IncomeDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29udHJvbGxlcnNcSW5jb21lRGlhbG9nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/P/Mediterranean College/2nd Year/2nd Semester/Assignments/IndustrialWeek/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Controllers/PlantDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29udHJvbGxlcnNcUGxhbnREaWFsb2cucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/P/Mediterranean College/2nd Year/2nd Semester/Assignments/IndustrialWeek/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Controllers/TaskDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29udHJvbGxlcnNcVGFza0RpYWxvZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/P/Mediterranean College/2nd Year/2nd Semester/Assignments/IndustrialWeek/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Pages/AgriculturalTasks.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWdyaWN1bHR1cmFsVGFza3MucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/P/Mediterranean College/2nd Year/2nd Semester/Assignments/IndustrialWeek/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Pages/Counter.razor]
