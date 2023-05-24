@@ -1,17 +1,61 @@
-﻿<link href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" rel="stylesheet">
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">Agri-Cultured</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
 
-<MudPaper Width="250px" Class="d-inline-flex py-3" Elevation="0">
-    <MudNavMenu Class="mud-width-full" Bordered="true" Margin="Margin.Normal" Rounded="true">
-        <MudText Typo="Typo.h6" Class="px-15" Style="margin-bottom: 24px">Agri-Cultured</MudText>
-        <MudDivider Class="my-2"/>
-        <MudNavLink Href="/dashboard" Icon="fas fa-chart-line">Dashboard</MudNavLink>
-        <MudNavGroup Title="Operations" Icon="fas fa-cogs" Expanded="true">
-            <MudNavLink Href="" Icon="fas fa-tractor" IconColor="Color.Success" Style="cursor">Agricultural Tasks</MudNavLink>
-            <MudNavLink Href="" Icon="fas fa-tint" IconColor="Color.Info">Fertilizer/Pesticides</MudNavLink>
-            <MudNavLink Href="" Icon="fas fa-faucet" IconColor="Color.Info">Irrigation</MudNavLink>
-        </MudNavGroup>
-        <MudNavLink Href="" Icon="fas fa-hand-holding-usd">Income</MudNavLink>
-        <MudNavLink Href="" Icon="fas fa-file-invoice-dollar">Billing</MudNavLink>
-        
-    </MudNavMenu>
-</MudPaper>
+<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-0">
+            <NavLink class="nav-link" href="dashboard" Match="NavLinkMatch.All">
+                <span class="oi oi-dashboard" aria-hidden="true"></span> Dashboard
+            </NavLink>
+        </div>
+        <div class="nav-item px-0 dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="operationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="oi oi-cog" aria-hidden="true"></span> Operations
+            </a>
+            <div class="dropdown-menu" aria-labelledby="operationsDropdown">
+                <NavLink class="dropdown-item" href="Agriculturaltasks">Agricultural Tasks</NavLink>
+                <NavLink class="dropdown-item" href="Fertalizer">Fertilizer/Pesticides</NavLink>
+                <NavLink class="dropdown-item" href="Irrigation">Irrigation</NavLink>
+            </div>
+        </div>
+        <div class="nav-item px-0">
+            <NavLink class="nav-link" href="">
+                <span class="oi oi-clipboard" aria-hidden="true"></span> Events
+            </NavLink>
+        </div>
+        <div class="nav-item px-0">
+            <NavLink class="nav-link" href="">
+                <span class="oi oi-graph" aria-hidden="true"></span> Income
+            </NavLink>
+        </div>
+        <div class="nav-item px-0">
+            <NavLink class="nav-link" href="">
+                <span class="oi oi-euro" aria-hidden="true"></span> Other Expenses
+            </NavLink>
+        </div>
+        <div class="nav-item px-0">
+            <NavLink class="nav-link" href="">
+                <span class="oi oi-magnifying-glass" aria-hidden="true"></span> Search/History
+            </NavLink>
+        </div>
+    </nav>
+</div>
+
+
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

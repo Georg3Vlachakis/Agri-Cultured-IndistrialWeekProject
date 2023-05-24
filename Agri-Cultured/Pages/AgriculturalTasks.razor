@@ -1,94 +1,10 @@
-﻿@page "/Operations"
+﻿@page "/Agriculturaltasks"
 
-<PageTitle>Dashboard</PageTitle>
 
-<RadzenRow JustifyContent="JustifyContent.SpaceEvenly" AlignItems="Radzen.AlignItems.Center" Gap="0" Style="background-image: linear-gradient(180deg, rgb(35, 101, 35) 0%, rgb(0, 255, 144) 70%);">
-        <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
-            <RadzenColumn Size="12" Style="justify-self:center; align-self:center">
-                <RadzenCard Class="rz-my-12 rz-mx-auto" Style="width:480px; height:355px; background-color:#12080c">
-                    <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
-                        <RadzenStack Gap="0" Style="align-self:center">
-                        <RadzenText TextStyle="TextStyle.H4" class="rz-display-flex rz-mt-2 rz-my-0"><b>Agricultural Task</b></RadzenText>
-                            <RadzenText TextStyle="TextStyle.Body1"><b>Name</b></RadzenText>
-                            <RadzenText TextStyle="TextStyle.Body2">ID</RadzenText>
-                        </RadzenStack>
-                    </RadzenStack>
-                    <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:225px; width:100%">
-                        <RadzenRow RowGap="0">
-                            <RadzenColumn SizeXS="8">
-                                        <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">Instructor</RadzenText>
-                                        <RadzenText TextStyle="TextStyle.Body1">Teacher</RadzenText>
-                                <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">Module Info</RadzenText>
-                            </RadzenColumn>
-                            <RadzenColumn SizeXS="4">
-                                <MudButton Variant="@MudBlazor.Variant.Outlined" Style="width:100%; margin-top:9px" Color="Color.Secondary">Assignemnt</MudButton>
-                                <MudButton Variant="@MudBlazor.Variant.Outlined" Style="width:100%; margin-top:9px" Color="Color.Secondary">Quiz</MudButton>
-                            </RadzenColumn>
-                        </RadzenRow>
-                    </RadzenCard>
-                    <br />
-                    <br />
-                </RadzenCard>
-            </RadzenColumn>
-        </RadzenRow>
-    <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
-        <RadzenColumn Size="12" Style="justify-self:center; align-self:center">
-            <RadzenCard Class="rz-my-12 rz-mx-auto" Style="width:480px; height:355px; background-color:#12080c">
-                <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
-                    <RadzenStack Gap="0" Style="align-self:center">
-                        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0"><b>Module</b></RadzenText>
-                        <RadzenText TextStyle="TextStyle.Body1"><b>Name</b></RadzenText>
-                        <RadzenText TextStyle="TextStyle.Body2">ID</RadzenText>
-                    </RadzenStack>
-                </RadzenStack>
-                <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:225px; width:100%">
-                    <RadzenRow RowGap="0">
-                        <RadzenColumn SizeXS="8">
-                            <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">Instructor</RadzenText>
-                            <RadzenText TextStyle="TextStyle.Body1">Teacher</RadzenText>
-                            <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">Module Info</RadzenText>
-                        </RadzenColumn>
-                        <RadzenColumn SizeXS="4">
-                            <MudButton Variant="@MudBlazor.Variant.Outlined" Style="width:100%; margin-top:9px" Color="Color.Secondary">Assignemnt</MudButton>
-                            <MudButton Variant="@MudBlazor.Variant.Outlined" Style="width:100%; margin-top:9px" Color="Color.Secondary">Quiz</MudButton>
-                        </RadzenColumn>
-                    </RadzenRow>
-                </RadzenCard>
-                <br />
-                <br />
-            </RadzenCard>
-        </RadzenColumn>
-    </RadzenRow>
-    <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
-        <RadzenColumn Size="12" Style="justify-self:center; align-self:center">
-            <RadzenCard Class="rz-my-12 rz-mx-auto" Style="width:480px; height:355px; background-color:#12080c">
-                <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
-                    <RadzenStack Gap="0" Style="align-self:center">
-                        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0"><b>Module</b></RadzenText>
-                        <RadzenText TextStyle="TextStyle.Body1"><b>Name</b></RadzenText>
-                        <RadzenText TextStyle="TextStyle.Body2">ID</RadzenText>
-                    </RadzenStack>
-                </RadzenStack>
-                <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:225px; width:100%">
-                    <RadzenRow RowGap="0">
-                        <RadzenColumn SizeXS="8">
-                            <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">Instructor</RadzenText>
-                            <RadzenText TextStyle="TextStyle.Body1">Teacher</RadzenText>
-                            <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">Module Info</RadzenText>
-                        </RadzenColumn>
-                        <RadzenColumn SizeXS="4">
-                            <MudButton Variant="@MudBlazor.Variant.Outlined" Style="width:100%; margin-top:9px" Color="Color.Secondary">Assignemnt</MudButton>
-                            <MudButton Variant="@MudBlazor.Variant.Outlined" Style="width:100%; margin-top:9px" Color="Color.Secondary">Quiz</MudButton>
-                        </RadzenColumn>
-                    </RadzenRow>
-                </RadzenCard>
-                <br />
-                <br />
-            </RadzenCard>
-        </RadzenColumn>
-    </RadzenRow>
-    }
-</RadzenRow>
+<PageTitle>Agricultural Tasks</PageTitle>
+
+<p>Under Costruction</p>
 @code {
-
+   
 }
+
