@@ -4,72 +4,67 @@
 
 <PageTitle>Events</PageTitle>
 
-<PageTitle>Events</PageTitle>
+<h2>Events</h2>
 
-<MudDataGrid Items="@data" T="EventModel" Style="background-image: linear-gradient(90deg, rgb(165, 165, 175) 0%, rgb(227, 227, 227) 95%); color: #015249; text-shadow: 0px 1px 1px black;}">
-    <ToolBarContent>
-        <MudText Typo="Typo.h3" Style="color:white">Events</MudText>
-    </ToolBarContent>
-    <Columns>
-        <PropertyColumn Property="x => x.Name" />
-        <PropertyColumn Property="x => x.Date" Format="{0:d}" />
-        <PropertyColumn Property="x => x.Location" />
-        <PropertyColumn Property="x => x.Damage" />
-        <PropertyColumn Property="x => x.Comments" />
-        <TemplateColumn>
-            <HeaderTemplate>
-                Edit
-            </HeaderTemplate>
-            <CellTemplate>
-                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Edit"></MudButton>
-            </CellTemplate>
-        </TemplateColumn>
-        <TemplateColumn>
-            <HeaderTemplate>
-                Delete
-            </HeaderTemplate>
-            <CellTemplate>
-                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Delete"></MudButton>
-            </CellTemplate>
-        </TemplateColumn>
-    </Columns>
-</MudDataGrid>
-<MudButton Disabled="false" Color="@Color.Error" @onclick="AddNewEvent">Add new Event</MudButton>
+<RadzenRow JustifyContent="JustifyContent.Start" AlignItems="Radzen.AlignItems.Center" Gap="0">
+    <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
+        <RadzenColumn Size="12" Style="justify-self:center; align-self:center">
+            <RadzenCard Class="rz-my-12 rz-mx-auto" Style="width:auto; height:470px;  background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 1px 3px gray;">
+                <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
+                    <RadzenStack Gap="0" Style="align-self:center">
+                        <RadzenText TextStyle="TextStyle.Body1" class="rz-display-flex rz-mt-2 rz-my-0"><b>Event</b></RadzenText>
+                    </RadzenStack>
+                </RadzenStack>
+                <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:325px; width:100%; overflow-y: auto">
+                    <RadzenRow RowGap="0">
+                        <RadzenColumn SizeXS="12">
+                            <RadzenRow>
+                                <RadzenColumn>
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary rz-display-flex rz-mt-4 rz-mb-0">Event Name:</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">Legalize It</RadzenText>
+                                </RadzenColumn>
+                                <RadzenColumn>
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary rz-display-flex rz-mt-4 rz-mb-0">Date Started:</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">20/04</RadzenText>
+                                </RadzenColumn>
+                            </RadzenRow>
+                        </RadzenColumn>
+                        <RadzenColumn SizeXS="12" Style="margin-top: 15%">
+                            <RadzenRow>
+                                <RadzenColumn>
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary rz-display-flex rz-mt-4 rz-mb-0">Damage:</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">Critical Strike</RadzenText>
+                                </RadzenColumn>
+                                <RadzenColumn>
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary rz-display-flex rz-mt-4 rz-mb-0">Percentage</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">69%</RadzenText>
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow>
+                                <RadzenColumn>
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary rz-display-flex rz-mt-4 rz-mb-0">Comments:</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">
+                                        Grab ya glocks, when you see Tupac
+                                        Call the cops, when you see Tupac, uh
+                                        Who shot me, but ya punks didn't finish
+                                        Now ya bout to feel the wrath of a menace
+                                        N***a, we hit em' up
+                                    </RadzenText>
+                                </RadzenColumn>
+                            </RadzenRow>
+                        </RadzenColumn>
+                    </RadzenRow>
+                </RadzenCard>
+                <div class="mt-2">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" />
+                    <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" />
+                </div>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenRow>
+<RadzenButton Text="Create" Icon="add" ButtonStyle="ButtonStyle.Success" Size="ButtonSize.Large" Style="width: 48%; height: 15%; font-size: 25px; justify-content: center" />
+
 @code {
-    public class EventModel
-    {
-        public EventModel(string name, DateTime date, string location, string damage, string comments)
-        {
-            Name = name;
-            Date = date;
-            Location = location;
-            Damage = damage;
-            Comments = comments;
-        }
 
-        public string Name { get; set; }
-        public DateTime Date { get; set; }
-        public string Location { get; set; }
-        public string Damage { get; set; }
-        public string Comments { get; set; }
-    }
-
-    List<EventModel> data = new List<EventModel> {
-        new EventModel("Event 1", new DateTime(2023, 5, 1), "Location 1", "Damage 1", "Comments 1"),
-        new EventModel("Event 2", new DateTime(2023, 5, 5), "Location 2", "Damage 2", "Comments 2"),
-        new EventModel("Event 3", new DateTime(2023, 5, 10), "Location 3", "Damage 3", "Comments 3")
-    };
-
-    @*Add new Event*@
-    private void AddNewEvent()
-    {
-        var newEvent = new EventModel("New Event", DateTime.Now, "New Location", "New Damage", "New Comments");
-        data.Add(newEvent);
-    }
-
-    @*Delete Event*@
-    private void DeleteExpense(EventModel expense)
-    {
-        data.Remove(expense);
-    }  
 }

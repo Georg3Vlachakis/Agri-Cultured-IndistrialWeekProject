@@ -1,71 +1,59 @@
 ﻿@page "/Agriculturaltasks"
 @inject IDialogService DialogService
-@using Controllers
 
 <PageTitle>Agricultural Tasks</PageTitle>
 
-<MudDataGrid Items="@data" T="TaskModel" Style="background-image: linear-gradient(180deg, rgb(35, 101, 35) 0%, rgb(0, 255, 144) 70%)">
-    <ToolBarContent>
-        <MudText Typo="Typo.h3" Style="color:white">Irrigation</MudText>
-    </ToolBarContent>
-    <Columns>
-        <MudButton Disabled="false" Color="@Color.Error" OnClick="AddNewIrrigation">Add new Irrigation</MudButton>
-        <PropertyColumn Property="x => x.Date" Title="Date" FormatString="dd/MM/yyyy" />
-        <PropertyColumn Property="x => x.Hours" Title="Hours" />
-        <PropertyColumn Property="x => x.Cost" Title="Cost (Not Necessary)" FormatString="C" />
-        <TemplateColumn>
-            <HeaderTemplate>
-                <strong>Edit</strong>
-            </HeaderTemplate>
-            <CellTemplate>
-                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Edit"></MudButton>
-            </CellTemplate>
-        </TemplateColumn>
-        <TemplateColumn>
-            <HeaderTemplate>
-                <strong>Delete</strong>
-            </HeaderTemplate>
-            <CellTemplate>
-                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Delete"></MudButton>
-            </CellTemplate>
-        </TemplateColumn>
-    </Columns>
-</MudDataGrid>
+<h2>Agricultural Tasks</h2>
 
+<RadzenRow JustifyContent="JustifyContent.Start" AlignItems="Radzen.AlignItems.Center" Gap="0">
+    <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
+        <RadzenColumn Size="12" Style="justify-self:center; align-self:center">
+            <RadzenCard Class="rz-my-12 rz-mx-auto" Style="width:auto; height:470px;  background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 1px 3px gray;">
+                <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
+                    <RadzenStack Gap="0" Style="align-self:center">
+                        <RadzenText TextStyle="TextStyle.Body1" class="rz-display-flex rz-mt-2 rz-my-0"><b>Agricultural Task</b></RadzenText>
+                    </RadzenStack>
+                </RadzenStack>
+                <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:325px; width:100%; overflow-y: auto">
+                    <RadzenRow RowGap="0">
+                        <RadzenColumn SizeXS="12">
+                            <RadzenRow>
+                                <RadzenColumn>
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary rz-display-flex rz-mt-4 rz-mb-0">Task Name:</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">Life is a waste of time, and time is a waste of life. Get wasted all the time, and you'll have the time of your life!</RadzenText>
+                                </RadzenColumn>
+                            </RadzenRow>
+                             <RadzenRow>
+                                <RadzenColumn>
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary rz-display-flex rz-mt-4 rz-mb-0">Date Started:</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">Since 1997</RadzenText>
+                                </RadzenColumn>
+                            </RadzenRow>
+                        </RadzenColumn>
+                        <RadzenColumn SizeXS="12" Style="margin-top: 25%">
+                            <RadzenRow>
+                                <RadzenColumn>
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary rz-display-flex rz-mt-4 rz-mb-0">Workers N:</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">Shiptar</RadzenText>
+                                </RadzenColumn>
+                                <RadzenColumn>
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary rz-display-flex rz-mt-4 rz-mb-0">Cost</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">1000000</RadzenText>
+                                </RadzenColumn>
+                            </RadzenRow>
+                        </RadzenColumn>
+                    </RadzenRow>
+                </RadzenCard>
+                <div class="mt-2">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" />
+                    <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" />
+                </div>
+            </RadzenCard>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenRow>
+<RadzenButton Text="Create" Icon="add" ButtonStyle="ButtonStyle.Success" Size="ButtonSize.Large" Style="width: 48%; height: 15%; font-size: 25px; justify-content: center" />
 @code {
-
-    private void AddNewIrrigation()
-    {
-        // Create a new TaskModel object and add it to the data list
-        TaskModel newIrrigation = new TaskModel(DateTime.Now, 0, 0.0m); // Modify the default values as needed
-        data.Add(newIrrigation);
-    }
-
-    public class TaskModel
-    {
-        public TaskModel(DateTime date, int hours, decimal cost)
-        {
-            Date = date;
-            Hours = hours;
-            Cost = cost;
-        }
-
-        public DateTime Date { get; set; }
-        public int Hours { get; set; }
-        public decimal Cost { get; set; }
-    }
-
-    List<TaskModel> data = new List<TaskModel> {
-        new TaskModel(new DateTime(2023, 5, 1), 3, 20.0m),
-        new TaskModel(new DateTime(2023, 5, 5), 4, 15.0m),
-        new TaskModel(new DateTime(2023, 5, 10), 6, 18.0m)
-    };
-
-    @*Delete Fertilizer/Pesticide*@
-    private void DeleteExpense(TaskModel expense)
-    {
-        data.Remove(expense);
-    }
 
     
 }

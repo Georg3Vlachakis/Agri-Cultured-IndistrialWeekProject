@@ -1,6 +1,6 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a id="dashboard"  class="navbar-brand" href="">Agri-Cultured</a>
+        <a id="dashboard" class="navbar-brand" href="">Agri-Cultured</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -10,33 +10,13 @@
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div id="dashboard" class="nav-item px-0">
-            <NavLink  class="nav-link" href="dashboard" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
                 <span class="oi oi-dashboard" aria-hidden="true"></span>Dashboard
             </NavLink>
         </div>
         <div id="dashboard" class="nav-item px-0">
-            <NavLink class="nav-link" href="plants">
-                <span class="oi oi-clipboard" aria-hidden="true"></span> Plants
-            </NavLink>
-        </div>
-        <div id="dashboard" class="nav-item px-0">
-            <NavLink class="nav-link" href="events">
-                <span class="oi oi-clipboard" aria-hidden="true"></span> Events
-            </NavLink>
-        </div>
-        <div id="dashboard" class="nav-item px-0">
-            <NavLink class="nav-link" href="income">
-                <span class="oi oi-graph" aria-hidden="true"></span> Income
-            </NavLink>
-        </div>
-        <div id="dashboard" class="nav-item px-0">
-            <NavLink class="nav-link" href="expenses">
-                <span class="oi oi-euro" aria-hidden="true"></span> Other Expenses
-            </NavLink>
-        </div>
-        <div id="dashboard" class="nav-item px-0">
             <NavLink class="nav-link" href="">
-                <span class="oi oi-magnifying-glass" aria-hidden="true"></span> Search/History
+                <span class="oi oi-account-logout" aria-hidden="true"></span> Log Out
             </NavLink>
         </div>
     </nav>
