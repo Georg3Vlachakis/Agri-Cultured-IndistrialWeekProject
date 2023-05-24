@@ -1,5 +1,6 @@
 ﻿@page "/Events"
 @inject IDialogService DialogService
+@using Controllers
 
 <PageTitle>Events</PageTitle>
 
@@ -64,5 +65,12 @@
     private void DeleteExpense(EventModel expense)
     {
         data.Remove(expense);
+    }
+
+    @*Add new plant dialog*@
+    private void PlantDialog()
+    {
+        var options = new MudBlazor.DialogOptions { CloseOnEscapeKey = true };
+        DialogService.Show<EventDialog>("Add a new event", options);
     }
 }
