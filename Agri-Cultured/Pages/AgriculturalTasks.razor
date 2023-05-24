@@ -59,4 +59,11 @@
     {
         data.Remove(expense);
     }
+
+    @*Add new task dialog*@
+    private void TaskDialog()
+    {
+        var options = new MudBlazor.DialogOptions { CloseOnEscapeKey = true };
+        DialogService.Show<TaskDialog>("Add a new task", options);
+    }
 }
