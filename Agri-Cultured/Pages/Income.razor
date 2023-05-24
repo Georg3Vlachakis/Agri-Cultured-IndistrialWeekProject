@@ -8,10 +8,27 @@
         <MudText Typo="Typo.h3" Style="color:white">Incomes</MudText>
     </ToolBarContent>
     <Columns>
+        <MudButton Disabled="false" Color="@Color.Error">Add new Income</MudButton>
         <PropertyColumn Property="x => x.Name" />
         <PropertyColumn Property="x => x.Date" Format="{0:d}" />
         <PropertyColumn Property="x => x.Product" />
         <PropertyColumn Property="x => x.Price" />
+        <TemplateColumn>
+            <HeaderTemplate>
+                Edit
+            </HeaderTemplate>
+            <CellTemplate>
+                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Edit"></MudButton>
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn>
+            <HeaderTemplate>
+                Delete
+            </HeaderTemplate>
+            <CellTemplate>
+                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Delete"></MudButton>
+            </CellTemplate>
+        </TemplateColumn>
     </Columns>
 </MudDataGrid>
 
