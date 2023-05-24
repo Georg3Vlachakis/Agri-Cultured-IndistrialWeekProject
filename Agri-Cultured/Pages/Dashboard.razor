@@ -1,14 +1,22 @@
-﻿@page "/"
+@page "/Dashboard"
+@using Agri_Cultured.Models;
+@using Microsoft.AspNetCore.Mvc;
+@using Microsoft.EntityFrameworkCore;
+@using Microsoft.Extensions.Configuration;
+@inject IConfiguration Configuration
 
 <PageTitle>Dashboard</PageTitle>
+
 <RadzenRow JustifyContent="JustifyContent.Start" AlignItems="Radzen.AlignItems.Center" Gap="0">
     <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
         <RadzenColumn Size="12" Style="justify-self:center; align-self:center">
+          @foreach (PlantsHasUser a in field)
+          {
             <RadzenCard Class="rz-my-12 rz-mx-auto" Style="width:auto; height:470px;  background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 1px 3px gray;">
                 <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
                     <RadzenStack Gap="0" Style="align-self:center">
                         <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0"><b>Plant</b></RadzenText>
-                        <RadzenText TextStyle="TextStyle.Body1"><b>Plant Name</b></RadzenText>
+                        <RadzenText TextStyle="TextStyle.Body1"><b>@a.Description</b></RadzenText>
                     </RadzenStack>
                 </RadzenStack>
                 <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:325px; width:100%; overflow-y: auto">
@@ -17,11 +25,11 @@
                             <RadzenRow>
                                 <RadzenColumn>
                                     <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">Plant Location</RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1">Sykies City</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">@a.Location</RadzenText>
                                 </RadzenColumn>
                                 <RadzenColumn>
                                     <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">Date Planted</RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1">Sykies City</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1">@a.DatePlanted</RadzenText>
                                 </RadzenColumn>
                             </RadzenRow>
                         </RadzenColumn>
@@ -63,21 +71,43 @@
                     <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" />
                 </div>
             </RadzenCard>
+          }
         </RadzenColumn>
     </RadzenRow>
 </RadzenRow>
-<RadzenButton Text="Create" Icon="add" ButtonStyle="ButtonStyle.Success" Size="ButtonSize.Large" Style="width: 48%; height: 15%; font-size: 25px; justify-content: center"/>
+<RadzenButton Text="Create" Icon="add" ButtonStyle="ButtonStyle.Success" Size="ButtonSize.Large" Style="width: 48%; height: 15%; font-size: 25px; margin-left: 26%"/>
+<br/>
+<br/>
 
 @code 
 {
+    List<PlantsHasUser> field = new List<PlantsHasUser>();
+    private string placeholderid = "ff92215f-54c2-46d6-a47e-037b24a3d5fa";
 
-
-
-    protected override async Task OnInitializedAsync()
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
-        
-
-
-
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string sqlmyfields = "SELECT * FROM plants_has_user WHERE aspnetusers_Id = '"+placeholderid+"'";
+        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlmyfields, connection))
+        {
+            
+            connection.Open();
+            MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(sqlmyfields, connection);
+            sqlcmd.CommandText = sqlmyfields;
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            MySql.Data.MySqlClient.MySqlDataReader rdr = sqlcmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                PlantsHasUser plant = new PlantsHasUser();
+                plant.PlantsPlantId = (Int32)rdr["plants_user_Id"];
+                plant.AspnetusersId = placeholderid;
+                plant.PlantsPlantId = (Int32)rdr["plants_plant_Id"];
+                plant.DatePlanted = DateOnly.FromDateTime((DateTime)rdr["date_planted"]);
+                plant.Location = rdr["location"].ToString();
+                plant.Description = rdr["description"].ToString();
+                field.Add(plant);
+            }
+        }
     }
 }
