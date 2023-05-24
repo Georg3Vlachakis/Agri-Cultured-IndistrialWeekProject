@@ -12443,11 +12443,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\makle\\Desktop\\agro-culture\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\Agri-Cultured.csproj",
+      "projectUniqueName": "C:\\Users\\makle\\Desktop\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\Agri-Cultured.csproj",
       "projectName": "Agri-Cultured",
-      "projectPath": "C:\\Users\\makle\\Desktop\\agro-culture\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\Agri-Cultured.csproj",
+      "projectPath": "C:\\Users\\makle\\Desktop\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\Agri-Cultured.csproj",
       "packagesPath": "C:\\Users\\makle\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\makle\\Desktop\\agro-culture\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\obj\\",
+      "outputPath": "C:\\Users\\makle\\Desktop\\Agri-Cultured-IndistrialWeekProject\\Agri-Cultured\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

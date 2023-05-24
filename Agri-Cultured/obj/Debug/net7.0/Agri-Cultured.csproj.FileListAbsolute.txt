@@ -1482,3 +1482,15 @@ C:\Users\makle\Desktop\agro-culture\Agri-Cultured-IndistrialWeekProject\Agri-Cul
 C:\Users\makle\Desktop\agro-culture\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\obj\Debug\net7.0\Agri-Cultured.pdb
 C:\Users\makle\Desktop\agro-culture\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\obj\Debug\net7.0\Agri-Cultured.genruntimeconfig.cache
 C:\Users\makle\Desktop\agro-culture\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\obj\Debug\net7.0\ref\Agri-Cultured.dll
+C:\Users\makle\Desktop\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\obj\Debug\net7.0\Agri-Cultured.csproj.AssemblyReference.cache
+C:\Users\makle\Desktop\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\obj\Debug\net7.0\Agri-Cultured.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\makle\Desktop\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\obj\Debug\net7.0\Agri-Cultured.AssemblyInfoInputs.cache
+C:\Users\makle\Desktop\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\obj\Debug\net7.0\Agri-Cultured.AssemblyInfo.cs
+C:\Users\makle\Desktop\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\obj\Debug\net7.0\Agri-Cultured.csproj.CoreCompileInputs.cache
+C:\Users\makle\Desktop\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\obj\Debug\net7.0\Agri-Cultured.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\makle\Desktop\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\obj\Debug\net7.0\Agri-Cultured.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\makle\Desktop\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\obj\Debug\net7.0\Agri-Cultured.RazorAssemblyInfo.cache
+C:\Users\makle\Desktop\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\obj\Debug\net7.0\Agri-Cultured.RazorAssemblyInfo.cs
+C:\Users\makle\Desktop\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\obj\Debug\net7.0\Agri-Cultured.dll
+C:\Users\makle\Desktop\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\obj\Debug\net7.0\refint\Agri-Cultured.dll
+C:\Users\makle\Desktop\Agri-Cultured-IndistrialWeekProject\Agri-Cultured\obj\Debug\net7.0\Agri-Cultured.pdb

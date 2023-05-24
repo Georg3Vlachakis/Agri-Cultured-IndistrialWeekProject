@@ -36,6 +36,7 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWdyaWN1bHR1cmFsVGFza3MucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+
 [C:/Users/makle/Desktop/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -55,6 +56,7 @@ build_metadata.AdditionalFiles.CssScope =
 [C:/Users/makle/Desktop/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Pages/Fertalizer.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmVydGFsaXplci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
+
 
 [C:/Users/makle/Desktop/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Pages/FetchData.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
@@ -96,6 +98,7 @@ build_metadata.AdditionalFiles.CssScope = b-pf473kf17p
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-eyhnehdah7
 
+
 [C:/Users/makle/Desktop/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Areas/Identity/Pages/Account/ExternalLogin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxFeHRlcm5hbExvZ2luLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -103,6 +106,7 @@ build_metadata.AdditionalFiles.CssScope =
 [C:/Users/makle/Desktop/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Areas/Identity/Pages/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
+
 
 [C:/Users/makle/Desktop/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Areas/Identity/Pages/Account/Manage/ExternalLogins.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcRXh0ZXJuYWxMb2dpbnMuY3NodG1s
@@ -136,9 +140,11 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+
 [C:/Users/makle/Desktop/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Pages/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
+
 
 [C:/Users/makle/Desktop/Agri-Cultured-IndistrialWeekProject/Agri-Cultured/Pages/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
