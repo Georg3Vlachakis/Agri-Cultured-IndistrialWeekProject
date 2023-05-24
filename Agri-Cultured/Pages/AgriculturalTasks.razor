@@ -1,69 +1,75 @@
 ﻿@page "/Agriculturaltasks"
+@inject IDialogService DialogService
+@using Controllers
 
 <PageTitle>Agricultural Tasks</PageTitle>
 
     <MudDataGrid Items="@data" T="TaskModel" Style="background-image: linear-gradient(180deg, rgb(35, 101, 35) 0%, rgb(0, 255, 144) 70%)">
-        <ToolBarContent>
-            <MudText Typo="Typo.h3" Style="color:white">Tasks</MudText>
-        </ToolBarContent>
-        <Columns>
-            <MudButton Disabled="false" Color="@Color.Error">Add new Task</MudButton>
-            <PropertyColumn Property="x => x.TaskName" />
-            <PropertyColumn Property="x => x.DateStarted" />
-            <PropertyColumn Property="x => x.WorkersNumber" />
-            <PropertyColumn Property="x => x.Cost" />
-            <TemplateColumn>
-                <HeaderTemplate>
-                    <strong>Edit</strong>
-                </HeaderTemplate>
-                <CellTemplate>
-                    <MudButton Color=" Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Edit"></MudButton>
-                </CellTemplate>
-            </TemplateColumn>
-            <TemplateColumn>
-                <HeaderTemplate>
-                    <strong>Delete</strong>
-                </HeaderTemplate>
-                <CellTemplate>
-                    <MudButton Color=" Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Delete"></MudButton>
-                </CellTemplate>
-            </TemplateColumn>
-        </Columns>
-    </MudDataGrid>
+    <ToolBarContent>
+        <MudText Typo="Typo.h3" Style="color:white">Fertilizer/Pesticides</MudText>
+    </ToolBarContent>
+    <Columns>
+        <MudButton Disabled="false" Color="@Color.Error">Add new Fertilizer/Pesticide</MudButton>
+        <PropertyColumn Property="x => x.TaskType" Title="Type" />
+        <PropertyColumn Property="x => x.ProductName" Title="Product Name" />
+        <PropertyColumn Property="x => x.ItemsUsed" Title="Items Used" />
+        <PropertyColumn Property="x => x.DateStarted" Title="Date" FormatString="dd/MM/yyyy" />
+        <PropertyColumn Property="x => x.CostPerItem" Title="Cost Per Item" FormatString="C" />
+        <PropertyColumn Property="x => x.TotalCost" Title="Total Cost" FormatString="C" />
+        <TemplateColumn>
+            <HeaderTemplate>
+                <strong>Edit</strong>
+            </HeaderTemplate>
+            <CellTemplate>
+                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Edit"></MudButton>
+            </CellTemplate>
+        </TemplateColumn>
+        <TemplateColumn>
+            <HeaderTemplate>
+                <strong>Delete</strong>
+            </HeaderTemplate>
+            <CellTemplate>
+                <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Delete"></MudButton>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
 
 @code {
     public class TaskModel
     {
-        public TaskModel(string taskName, DateTime dateStarted, int workersNumber, decimal cost)
+        public TaskModel(string taskType, string productName, string itemsUsed, DateTime dateStarted, decimal costPerItem, int quantity)
         {
-            TaskName = taskName;
+            TaskType = taskType;
+            ProductName = productName;
+            ItemsUsed = itemsUsed;
             DateStarted = dateStarted;
-            WorkersNumber = workersNumber;
-            Cost = cost;
+            CostPerItem = costPerItem;
+            Quantity = quantity;
+            TotalCost = costPerItem * quantity;
         }
 
-        public string TaskName { get; set; }
+        public string TaskType { get; set; }
+        public string ProductName { get; set; }
+        public string ItemsUsed { get; set; }
         public DateTime DateStarted { get; set; }
-        public int WorkersNumber { get; set; }
-        public decimal Cost { get; set; }
+        public decimal CostPerItem { get; set; }
+        public int Quantity { get; set; }
+        public decimal TotalCost { get; set; }
     }
 
     List<TaskModel> data = new List<TaskModel> {
-        new TaskModel ("Task 1", new DateTime(2023, 5, 1), 5, 100.0m),
-        new TaskModel ("Task 2", new DateTime(2023, 5, 5), 3, 75.0m),
-        new TaskModel ("Task 3", new DateTime(2023, 5, 10), 8, 200.0m)
-    };
+        new TaskModel("F", "Fertilizer A", "Item 1, Item 2", new DateTime(2023, 5, 1), 10.0m, 5),
+        new TaskModel("P", "Pesticide B", "Item 3, Item 4", new DateTime(2023, 5, 5), 8.0m, 3),
+        new TaskModel("F", "Fertilizer C", "Item 2, Item 4", new DateTime(2023, 5, 10), 12.0m, 8)
 
-    @*Delete Task*@
+      };
+
+    @*Delete Fertilizer/Pesticide*@
     private void DeleteExpense(TaskModel expense)
     {
         data.Remove(expense);
     }
 
-    @*Add new task dialog*@
-    private void TaskDialog()
-    {
-        var options = new MudBlazor.DialogOptions { CloseOnEscapeKey = true };
-        DialogService.Show<TaskDialog>("Add a new task", options);
-    }
+    
 }

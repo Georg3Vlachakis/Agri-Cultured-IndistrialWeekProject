@@ -83,4 +83,25 @@
         var options = new MudBlazor.DialogOptions { CloseOnEscapeKey = true };
         DialogService.Show<PlantDialog>("Add a new plant", options);
     }
+
+    @*Add new agricultural task dialog*@
+    private void TaskDialog()
+    {
+        var options = new MudBlazor.DialogOptions { CloseOnEscapeKey = true };
+        DialogService.Show<TaskDialog>("Add a new task", options);
+    }
+
+    @*Add new fertilizer/pesticide dialog*@
+    private void FertilizerDialog()
+    {
+        var options = new MudBlazor.DialogOptions { CloseOnEscapeKey = true };
+        DialogService.Show<FertilizerDialog>("Add a new Fertilizer/Pesticide", options);
+    }
+
+    @*Add new irrigation dialog*@
+    private void IrrigationDialog()
+    {
+        var options = new MudBlazor.DialogOptions { CloseOnEscapeKey = true };
+        DialogService.Show<IrrigationDialog>("Add a new Irrigation", options);
+    }
 }

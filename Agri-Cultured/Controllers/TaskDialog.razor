@@ -1,6 +1,33 @@
 ﻿<MudDialog Style="background-color:black; color:aliceblue">
     <DialogContent>
-        <p>Add Task</p>
+        <MudDataGrid Items="@data" T="TaskModel" Style="background-image: linear-gradient(180deg, rgb(35, 101, 35) 0%, rgb(0, 255, 144) 70%)">
+            <ToolBarContent>
+                <MudText Typo="Typo.h3" Style="color:white">Tasks</MudText>
+            </ToolBarContent>
+            <Columns>
+                <MudButton Disabled="false" Color="@Color.Error">Add new Task</MudButton>
+                <PropertyColumn Property="x => x.TaskName" />
+                <PropertyColumn Property="x => x.DateStarted" />
+                <PropertyColumn Property="x => x.WorkersNumber" />
+                <PropertyColumn Property="x => x.Cost" />
+                <TemplateColumn>
+                    <HeaderTemplate>
+                        <strong>Edit</strong>
+                    </HeaderTemplate>
+                    <CellTemplate>
+                        <MudButton Color=" Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Edit"></MudButton>
+                    </CellTemplate>
+                </TemplateColumn>
+                <TemplateColumn>
+                    <HeaderTemplate>
+                        <strong>Delete</strong>
+                    </HeaderTemplate>
+                    <CellTemplate>
+                        <MudButton Color=" Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Delete"></MudButton>
+                    </CellTemplate>
+                </TemplateColumn>
+            </Columns>
+        </MudDataGrid>
     </DialogContent>
     <DialogActions>
         <MudButton Color="Color.Secondary" OnClick="Submit">Ok</MudButton>
@@ -8,8 +35,37 @@
 </MudDialog>
 
 @code {
+
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
     void Submit() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();
+
+    public class TaskModel
+    {
+        public TaskModel(string taskName, DateTime dateStarted, int workersNumber, decimal cost)
+        {
+            TaskName = taskName;
+            DateStarted = dateStarted;
+            WorkersNumber = workersNumber;
+            Cost = cost;
+        }
+
+        public string TaskName { get; set; }
+        public DateTime DateStarted { get; set; }
+        public int WorkersNumber { get; set; }
+        public decimal Cost { get; set; }
+    }
+
+    List<TaskModel> data = new List<TaskModel> {
+        new TaskModel ("Task 1", new DateTime(2023, 5, 1), 5, 100.0m),
+        new TaskModel ("Task 2", new DateTime(2023, 5, 5), 3, 75.0m),
+        new TaskModel ("Task 3", new DateTime(2023, 5, 10), 8, 200.0m)
+    };
+
+    @*Delete Task*@
+    private void DeleteExpense(TaskModel expense)
+    {
+        data.Remove(expense);
+    }
 }
