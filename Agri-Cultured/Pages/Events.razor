@@ -11,7 +11,7 @@
         <MudText Typo="Typo.h3" Style="color:white">Events</MudText>
     </ToolBarContent>
     <Columns>
-        <MudButton Disabled="false" Color="@Color.Error">Add new Event</MudButton>
+        <MudButton Disabled="false" Color="@Color.Error" @onclick="AddNewEvent">Add new Event</MudButton>
         <PropertyColumn Property="x => x.Name" />
         <PropertyColumn Property="x => x.Date" Format="{0:d}" />
         <PropertyColumn Property="x => x.Location" />
@@ -61,16 +61,16 @@
         new EventModel("Event 3", new DateTime(2023, 5, 10), "Location 3", "Damage 3", "Comments 3")
     };
 
+    @*Add new Event*@
+    private void AddNewEvent()
+    {
+        var newEvent = new EventModel("New Event", DateTime.Now, "New Location", "New Damage", "New Comments");
+        data.Add(newEvent);
+    }
+
     @*Delete Event*@
     private void DeleteExpense(EventModel expense)
     {
         data.Remove(expense);
-    }
-
-    @*Add new plant Event*@
-    private void PlantDialog()
-    {
-        var options = new MudBlazor.DialogOptions { CloseOnEscapeKey = true };
-        DialogService.Show<EventDialog>("Add a new event", options);
-    }
+    }  
 }
