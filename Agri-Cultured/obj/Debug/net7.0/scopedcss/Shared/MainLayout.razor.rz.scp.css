@@ -9,11 +9,11 @@ main[b-pf473kf17p] {
 }
 
 .sidebar[b-pf473kf17p] {
-    background-image: linear-gradient(180deg, rgb(35, 101, 35) 0%, rgb(0, 255, 144) 70%);
+    background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%)
 }
 
 .top-row[b-pf473kf17p] {
-    background-color: rgb(35, 101, 35);
+    background-color: rgb(87, 188, 144);
     border-bottom: 1px solid #d6d5d5;
     justify-content: flex-end;
     height: 3.5rem;

@@ -6,12 +6,11 @@
 
 <PageTitle>Events</PageTitle>
 
-<MudDataGrid Items="@data" T="EventModel" Style="background-image: linear-gradient(180deg, rgb(35, 101, 35) 0%, rgb(0, 255, 144) 70%)">
+<MudDataGrid Items="@data" T="EventModel" Style="background-image: linear-gradient(90deg, rgb(165, 165, 175) 0%, rgb(227, 227, 227) 95%); color: #015249; text-shadow: 0px 1px 1px black;}">
     <ToolBarContent>
         <MudText Typo="Typo.h3" Style="color:white">Events</MudText>
     </ToolBarContent>
     <Columns>
-        <MudButton Disabled="false" Color="@Color.Error" @onclick="AddNewEvent">Add new Event</MudButton>
         <PropertyColumn Property="x => x.Name" />
         <PropertyColumn Property="x => x.Date" Format="{0:d}" />
         <PropertyColumn Property="x => x.Location" />
@@ -35,7 +34,7 @@
         </TemplateColumn>
     </Columns>
 </MudDataGrid>
-
+<MudButton Disabled="false" Color="@Color.Error" @onclick="AddNewEvent">Add new Event</MudButton>
 @code {
     public class EventModel
     {
