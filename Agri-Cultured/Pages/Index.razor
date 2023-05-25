@@ -4,15 +4,21 @@
 
 @inject NavigationManager NavigationManager;
 
-<RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Style="height:100vh">
-    <RadzenColumn Size="12">
-        <MudText Align="Align.Center" Style="font-size:3.2rem; color:white;  -webkit-text-stroke-width: 1px; text-shadow: 0px 4px 4px rgb(0, 0, 50)"><strong>Agri-Cultured</strong></MudText>
-    </RadzenColumn>
+    <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Style="height:80vh">
+        <RadzenColumn Size="12">
+            <MudText Align="Align.Center" Style="font-size:3.2rem; color:white;  -webkit-text-stroke-width: 1px; text-shadow: 4px 0px 4px rgb(0, 0, 50)"><strong>Agri-Cultured</strong></MudText>
+        </RadzenColumn>
 
-    <MudImage Src="tractorLogoBlack.png" Alt="tractor" Align="Align.Center"/> @*Tractor Logo*@
+    <MudImage Src="tractorLogoWhite.png" Alt="tractor" Align="Align.Center" Style="height: 45%; width: auto%;-webkit-box-reflect: below -140px linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.4)" /> @*Tractor Logo*@
 
     <RadzenColumn Size="12">
-        <MudButton FullWidth="true" Href="/Identity/Account/Login"><MudText Align="Align.Center" Style="font-size:1.2rem; color: rgb(102, 255, 178); -webkit-text-stroke-width: 1px; text-shadow: 0px 2px 4px rgb(0, 0, 50)">LogIn</MudText></MudButton>
-        <MudButton Color="Color.Error" FullWidth="true"><MudText Style="font-size:1.2rem; color: rgb(102, 255, 178); -webkit-text-stroke-width: 1px; text-shadow: 0px 2px 4px rgb(0, 0, 50)">About</MudText></MudButton>
-    </RadzenColumn>
-</RadzenRow>
+            <MudButton FullWidth="true" Href="/Identity/Account/Login"><MudText  Style="font-size:1.2rem; color: rgb(102, 255, 178); -webkit-text-stroke-width: 1px; text-shadow: 5px 0px 3px black; margin-bottom: 2%;">LogIn</MudText></MudButton>
+            <MudButton Color="Color.Error" FullWidth="true"><MudText Style="font-size:1.2rem; color: rgb(102, 255, 178); -webkit-text-stroke-width: 1px; text-shadow: 5px 0px 3px black">About</MudText></MudButton>
+        </RadzenColumn>
+        <MudTFootRow>
+            <p>p</p>
+        </MudTFootRow>
+    </RadzenRow>
+
+    
+
