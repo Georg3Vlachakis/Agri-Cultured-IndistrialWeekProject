@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Agri_Cultured.Models;
+﻿namespace Agri_Cultured.Models;
 
 public partial class Item
 {
