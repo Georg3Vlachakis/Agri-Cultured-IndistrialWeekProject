@@ -73,8 +73,7 @@
                     </RadzenRow>
                 </RadzenCard>
                     <div class="mt-2" >
-                   @* <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" />*@
-                        <RadzenButton Icon="delete" Click="(() => DeletePlant(a.PlantsUserId))" ButtonStyle="ButtonStyle.Danger" />
+                        <RadzenButton Icon="delete" Click="(() => DeletePlant(a.PlantsUserId))" ButtonStyle="ButtonStyle.Danger" Disabled="true" /> @*Delete button REMOVE DISABLE!!!!*@
                     </div>                        
             </RadzenCard>
           }
