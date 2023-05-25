@@ -40,24 +40,24 @@
                                 <MudList Clickable="true">
                                     <MudListItem Icon="@Icons.Material.Filled.Agriculture" Text="Operations" InitiallyExpanded="false">
                                         <NestedList>
-                                            <MudListItem Href="/Agriculturaltasks" Icon="@Icons.Material.Filled.TaskAlt">
+                                                <MudListItem OnClick="(()=>NavAsync(ArgiTaskHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.TaskAlt">
                                                 Tasks
                                             </MudListItem>
-                                            <MudListItem Href="/Fertilizer" Icon="@Icons.Material.Filled.Compost">
+                                                <MudListItem OnClick="(()=>NavAsync(FertHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Compost">
                                                 Fert/Pest
                                             </MudListItem>
-                                            <MudListItem Href="/Irrigation" Icon="@Icons.Material.Filled.Bloodtype">
+                                                <MudListItem OnClick="(()=>NavAsync(IrrHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Bloodtype">
                                                 Irrigation
                                             </MudListItem>
                                         </NestedList>
                                     </MudListItem>
-                                    <MudListItem Href="/Events" Icon="@Icons.Material.Filled.Event">
+                                        <MudListItem OnClick="(()=>NavAsync(EventHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Event">
                                         Events
                                     </MudListItem>
-                                    <MudListItem Href="/Expenses" Icon="@Icons.Material.Filled.AreaChart">
+                                    <MudListItem OnClick="(()=>NavAsync(ExpHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.AreaChart">
                                         Other Expenses
                                     </MudListItem>
-                                    <MudListItem Href="/Income" Icon="@Icons.Material.Filled.AttachMoney">
+                                        <MudListItem OnClick="(()=>NavAsync(IncHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.AttachMoney">
                                         Income
                                     </MudListItem>
                                     <MudListItem Icon="@Icons.Material.Filled.Drafts">
@@ -83,7 +83,15 @@
 
 @code 
 {
-    int b = 0;
+
+    //redirect links for buttons
+    string ArgiTaskHref = "/Agriculturaltasks";
+    string FertHref = "/Fertilizer";
+    string IrrHref = "/Irrigation";
+    string EventHref = "/Events";
+    string ExpHref = "/Expenses";
+    string IncHref = "/Income";
+
     List<PlantsHasUser> field = new List<PlantsHasUser>();
     private string placeholderid = "ff92215f-54c2-46d6-a47e-037b24a3d5fa";
 
@@ -127,6 +135,9 @@
         }
         NavigationManager.NavigateTo("/Dashboard",forceLoad:true); //refresh page to delete the item
     }
+    void NavAsync (string href, int plantid)
+    {
+        // Attach the parameter to the url
+        NavigationManager.NavigateTo(href + "/" + plantid);
+    }
 }
-
-
