@@ -3,65 +3,69 @@
 @using Microsoft.AspNetCore.Mvc;
 @using Microsoft.EntityFrameworkCore;
 @using Microsoft.Extensions.Configuration;
+@using Microsoft.AspNetCore.Components.Authorization;
 @using MySql.Data.MySqlClient;
 @inject IConfiguration Configuration
 @inject NavigationManager NavigationManager;
 
 <PageTitle>Dashboard</PageTitle>
 
+<h3 style="color: #015249; text-shadow: 0px 2px 3px #015249;">Plants Owned</h3>
+
 <RadzenRow JustifyContent="JustifyContent.Start" AlignItems="Radzen.AlignItems.Center" Gap="0">
     <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
         <RadzenColumn Size="12" Style="justify-self:center; align-self:center">
           @foreach (PlantsHasUser a in field)
           {
-            <RadzenCard Class="rz-my-12 rz-mx-auto" Style="width:auto; height:470px;  background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 1px 3px gray;">
+            <RadzenCard Class="rz-my-12 rz-mx-auto" id="plantmenu" Style="width:auto; height:490px;  background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 2px 3px gray;">
                 <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
                     <RadzenStack Gap="0" Style="align-self:center">
-                        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0"><b>Plant</b></RadzenText>
-                        <RadzenText TextStyle="TextStyle.Body1"><b>@a.Description</b></RadzenText>
+                        <RadzenText TextStyle="TextStyle.Overline" Style="color: white; text-shadow: 0px 2px 3px gray; font-size: 15px;" class="rz-display-flex rz-mt-2 rz-my-0;"><b>Plant</b></RadzenText>
+                        <RadzenText TextStyle="TextStyle.Body1" Style="color: white; text-shadow: 0px 1px 1px gray;"><b>@a.Description</b></RadzenText>
                     </RadzenStack>
                 </RadzenStack>
-                <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:325px; width:100%; overflow-y: auto">
+                <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:330px; width:100%; overflow-y: auto">
                     <RadzenRow RowGap="0">
                         <RadzenColumn SizeXS="2">
                             <RadzenRow>
                                 <RadzenColumn>
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">Plant Location</RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1">@a.Location</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0 rz-mr-3" Style="color: #015249"><strong>Location</strong></RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1" class="rz-mr-3" Style="color: white">@a.Location</RadzenText>
                                 </RadzenColumn>
                                 <RadzenColumn>
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-color-primary-light rz-display-flex rz-mt-4 rz-mb-0">Date Planted</RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1">@a.DatePlanted</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0 rz-mr-3" Style="color: #015249"><strong>Date Planted</strong></RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1" class="rz-mr-3" Style="color: white">@a.DatePlanted</RadzenText>
                                 </RadzenColumn>
                             </RadzenRow>
                         </RadzenColumn>
                         <RadzenColumn SizeXS="8" Style="width: 100%">
                             <MudPaper Width="100%" Style=" height: 165px;">
                                 <MudList Clickable="true">
-                                    <MudListItem Icon="@Icons.Material.Filled.Agriculture" Text="Operations" InitiallyExpanded="false">
+                                    @*Menu*@
+                                    <MudListItem Icon="@Icons.Material.Filled.Agriculture" Text="Operations" Style="font-weight: bold"InitiallyExpanded="false"> @*Dropdown*@
                                         <NestedList>
-                                                <MudListItem OnClick="(()=>NavAsync(ArgiTaskHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.TaskAlt">
+                                                <MudListItem OnClick="(()=>NavAsync(ArgiTaskHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.TaskAlt" Style="font-weight: bold">
                                                 Tasks
                                             </MudListItem>
-                                                <MudListItem OnClick="(()=>NavAsync(FertHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Compost">
+                                                <MudListItem OnClick="(()=>NavAsync(FertHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Compost" Style="font-weight: bold">
                                                 Fert/Pest
                                             </MudListItem>
-                                                <MudListItem OnClick="(()=>NavAsync(IrrHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Bloodtype">
+                                                <MudListItem OnClick="(()=>NavAsync(IrrHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Bloodtype" Style="font-weight: bold">
                                                 Irrigation
                                             </MudListItem>
                                         </NestedList>
                                     </MudListItem>
-                                        <MudListItem OnClick="(()=>NavAsync(EventHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Event">
+                                        <MudListItem OnClick="(()=>NavAsync(EventHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Event"  Style="font-weight: bold">
                                         Events
                                     </MudListItem>
-                                    <MudListItem OnClick="(()=>NavAsync(ExpHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.AreaChart">
+                                    <MudListItem OnClick="(()=>NavAsync(ExpHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.AreaChart"  Style="font-weight: bold">
                                         Other Expenses
                                     </MudListItem>
-                                        <MudListItem OnClick="(()=>NavAsync(IncHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.AttachMoney">
+                                        <MudListItem OnClick="(()=>NavAsync(IncHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.AttachMoney"  Style="font-weight: bold">
                                         Income
                                     </MudListItem>
-                                    <MudListItem Icon="@Icons.Material.Filled.Drafts">
-                                        History
+                                    <MudListItem Icon="@Icons.Material.Filled.Drafts" Style="font-weight: bold">
+                                        Search/History
                                     </MudListItem>
                                 </MudList>
                             </MudPaper>
@@ -83,7 +87,9 @@
 
 @code 
 {
-
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+      
     //redirect links for buttons
     string ArgiTaskHref = "/Agriculturaltasks";
     string FertHref = "/Fertilizer";
@@ -92,14 +98,19 @@
     string ExpHref = "/Expenses";
     string IncHref = "/Income";
 
+
     List<PlantsHasUser> field = new List<PlantsHasUser>();
-    private string placeholderid = "ff92215f-54c2-46d6-a47e-037b24a3d5fa";
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
+        async Task<string> getUserId()
+        {
+            return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+        }
+
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
         MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
-        string sqlmyfields = "SELECT * FROM plants_has_user WHERE aspnetusers_Id = '"+placeholderid+"'";
+        string sqlmyfields = "SELECT * FROM plants_has_user WHERE aspnetusers_Id = '" + (await getUserId()) + "'";
         using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlmyfields, connection))
         {
 
@@ -111,8 +122,8 @@
             while (rdr.Read())
             {
                 PlantsHasUser plant = new PlantsHasUser();
-                plant.PlantsUserId = (Int32)rdr["plants_user_Id"];
-                plant.AspnetusersId = placeholderid;
+                plant.PlantsPlantId = (Int32)rdr["plants_user_Id"];
+                plant.AspnetusersId = (await getUserId());
                 plant.PlantsPlantId = (Int32)rdr["plants_plant_Id"];
                 plant.DatePlanted = DateOnly.FromDateTime((DateTime)rdr["date_planted"]);
                 plant.Location = rdr["location"].ToString();

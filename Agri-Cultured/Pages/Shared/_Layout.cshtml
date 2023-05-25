@@ -23,30 +23,11 @@
 </head>
 <body style="background-image: linear-gradient(90deg, rgb(165, 165, 175) 0%, rgb(227, 227, 227) 95%); color: #015249; text-shadow: 0px 1px 3px grey;">
     <header >
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="background-image: linear-gradient(90deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 50%);">
+        <div class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="background-image: linear-gradient(90deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 50%);">
             <div class="container">
-                <a class="navbar-brand" href="~/">Agri-Cultured</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    @{
-                        var result = Engine.FindView(ViewContext, "_LoginPartial", isMainPage: false);
-                    }
-                    @if (result.Success)
-                    {
-                        await Html.RenderPartialAsync("_LoginPartial");
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("The default Identity UI layout requires a partial view '_LoginPartial' " +
-                            "usually located at '/Pages/_LoginPartial' or at '/Views/Shared/_LoginPartial' to work. Based on your configuration " +
-                            $"we have looked at it in the following locations: {System.Environment.NewLine}{string.Join(System.Environment.NewLine, result.SearchedLocations)}.");
-                    }
-                </div>
+                <a class="navbar-brand" style="color: white; font-size: 20px; -webkit-text-stroke-width: 0.5px; text-shadow: 0px 4px 4px rgb(18, 52, 18);" href="~/">Agri-Cultured</a>
             </div>
-        </nav>
+        </div>
     </header>
 
     <div class="container">
@@ -57,7 +38,7 @@
     </div>
     <footer class="footer pl-3 text-muted overflow-hidden">
         <div class="container">
-        &copy; 2023 - Agri-Cultured
+        &copy; 2023 - Agri-Cultured | Powered by SyntaxSavants
             @{
                 var foundPrivacy = Url.Page("/Privacy", new { area = "" });
             }
