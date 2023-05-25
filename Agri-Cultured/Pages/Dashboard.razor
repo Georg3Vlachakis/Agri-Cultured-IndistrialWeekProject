@@ -81,11 +81,19 @@
 
 @code 
 {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
     List<PlantsHasUser> field = new List<PlantsHasUser>();
     private string placeholderid = "ff92215f-54c2-46d6-a47e-037b24a3d5fa";
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
+        async Task<string> getUserId()
+        {
+            return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+        }
+
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
         MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
         string sqlmyfields = "SELECT * FROM plants_has_user WHERE aspnetusers_Id = '"+placeholderid+"'";
