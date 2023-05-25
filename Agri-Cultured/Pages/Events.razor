@@ -1,4 +1,4 @@
-﻿@page "/Events"
+﻿@page "/Events/{plantid}"
 @inject IDialogService DialogService
 @using Controllers
 
@@ -66,5 +66,6 @@
 <RadzenButton Text="Create" Icon="add" ButtonStyle="ButtonStyle.Success" Size="ButtonSize.Large" Style="width: 48%; height: 15%; font-size: 25px; justify-content: center" />
 
 @code {
-
+    [Parameter]
+    public string plantid { get; set; }
 }

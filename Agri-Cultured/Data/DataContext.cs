@@ -5,7 +5,7 @@ namespace Agri_Cultured.Data
 {
     public class DataContext : IdentityDbContext
     {
-        public DataContext(DbContextOptions options) : base(options) 
+        public DataContext(DbContextOptions options) : base(options)
         {
 
         }

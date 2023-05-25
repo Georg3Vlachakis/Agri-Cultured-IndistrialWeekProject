@@ -4,8 +4,9 @@
 @using Microsoft.EntityFrameworkCore;
 @using Microsoft.Extensions.Configuration;
 @using Microsoft.AspNetCore.Components.Authorization;
-
+@using MySql.Data.MySqlClient;
 @inject IConfiguration Configuration
+@inject NavigationManager NavigationManager;
 
 <PageTitle>Dashboard</PageTitle>
 
@@ -43,24 +44,24 @@
                                     @*Menu*@
                                     <MudListItem Icon="@Icons.Material.Filled.Agriculture" Text="Operations" Style="font-weight: bold"InitiallyExpanded="false"> @*Dropdown*@
                                         <NestedList>
-                                            <MudListItem Href="/Agriculturaltasks" Icon="@Icons.Material.Filled.Task" Style="font-weight: bold">
-                                                Agricultural Tasks
+                                                <MudListItem OnClick="(()=>NavAsync(ArgiTaskHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.TaskAlt" Style="font-weight: bold">
+                                                Tasks
                                             </MudListItem>
-                                            <MudListItem Href="/Fertilizer" Icon="@Icons.Material.Filled.Compost" Style="font-weight: bold">
+                                                <MudListItem OnClick="(()=>NavAsync(FertHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Compost" Style="font-weight: bold">
                                                 Fert/Pest
                                             </MudListItem>
-                                            <MudListItem Href="/Irrigation" Icon="@Icons.Material.Filled.Bloodtype" Style="font-weight: bold">
+                                                <MudListItem OnClick="(()=>NavAsync(IrrHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Bloodtype" Style="font-weight: bold">
                                                 Irrigation
                                             </MudListItem>
                                         </NestedList>
                                     </MudListItem>
-                                    <MudListItem Href="/Events" Icon="@Icons.Material.Filled.Event" Style="font-weight: bold">
+                                        <MudListItem OnClick="(()=>NavAsync(EventHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Event"  Style="font-weight: bold">
                                         Events
                                     </MudListItem>
-                                    <MudListItem Href="/Expenses" Icon="@Icons.Material.Filled.AreaChart" Style="font-weight: bold">
+                                    <MudListItem OnClick="(()=>NavAsync(ExpHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.AreaChart"  Style="font-weight: bold">
                                         Other Expenses
                                     </MudListItem>
-                                    <MudListItem Href="/Income" Icon="@Icons.Material.Filled.AttachMoney" Style="font-weight: bold">
+                                        <MudListItem OnClick="(()=>NavAsync(IncHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.AttachMoney"  Style="font-weight: bold">
                                         Income
                                     </MudListItem>
                                     <MudListItem Icon="@Icons.Material.Filled.Drafts" Style="font-weight: bold">
@@ -71,10 +72,10 @@
                         </RadzenColumn>
                     </RadzenRow>
                 </RadzenCard>
-                <div class="mt-2">
-                    @*<RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" /> *@ @*Edit Button*@
-                    <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" /> @*Delete Button*@
-                </div>
+                    <div class="mt-2" >
+                   @* <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" />*@
+                        <RadzenButton Icon="delete" Click="(() => DeletePlant(a.PlantsUserId))" ButtonStyle="ButtonStyle.Danger" />
+                    </div>                        
             </RadzenCard>
           }
         </RadzenColumn>
@@ -88,6 +89,15 @@
 {
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
+      
+    //redirect links for buttons
+    string ArgiTaskHref = "/Agriculturaltasks";
+    string FertHref = "/Fertilizer";
+    string IrrHref = "/Irrigation";
+    string EventHref = "/Events";
+    string ExpHref = "/Expenses";
+    string IncHref = "/Income";
+
 
     List<PlantsHasUser> field = new List<PlantsHasUser>();
 
@@ -103,7 +113,7 @@
         string sqlmyfields = "SELECT * FROM plants_has_user WHERE aspnetusers_Id = '" + (await getUserId()) + "'";
         using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlmyfields, connection))
         {
-            
+
             connection.Open();
             MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(sqlmyfields, connection);
             sqlcmd.CommandText = sqlmyfields;
@@ -121,5 +131,24 @@
                 field.Add(plant);
             }
         }
+    }
+    void DeletePlant(int plantid)
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string sqldeleteplant = "DELETE FROM plants_has_user WHERE plants_user_id = " + plantid;
+        using (MySqlCommand command = new MySqlCommand(sqldeleteplant, connection))
+        {
+            //command.Parameters.AddWithValue("@plantId", plantid);
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+        NavigationManager.NavigateTo("/Dashboard",forceLoad:true); //refresh page to delete the item
+    }
+    void NavAsync (string href, int plantid)
+    {
+        // Attach the parameter to the url
+        NavigationManager.NavigateTo(href + "/" + plantid);
     }
 }

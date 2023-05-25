@@ -1,9 +1,10 @@
-﻿@page "/Fertilizer"
-
+@page "/Fertilizer/{plantid}"
 
 <PageTitle>Fertilizer</PageTitle>
 
+
 <h3 style="color: #015249; text-shadow: 0px 2px 3px #015249;">Fertilizer/Pesticides</h3>
+
 
 <RadzenRow JustifyContent="JustifyContent.Start" AlignItems="Radzen.AlignItems.Center" Gap="0">
     <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
@@ -24,7 +25,6 @@
                                 </RadzenColumn>
                             </RadzenRow>
                             <RadzenRow>
-                                <RadzenColumn>
                                     <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Date Started:</strong></RadzenText>
                                     <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">Since 1875</RadzenText>
                                 </RadzenColumn>
@@ -55,7 +55,9 @@
     </RadzenRow>
 </RadzenRow>
 <RadzenButton Text="Create" Icon="add" ButtonStyle="ButtonStyle.Success" Size="ButtonSize.Large" Style="width: 48%; height: 15%; font-size: 25px; justify-content: center" />
-@code {
-
+@code 
+{
+    [Parameter]
+    public string plantid { get; set; }
 }
 
