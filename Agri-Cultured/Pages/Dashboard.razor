@@ -3,6 +3,8 @@
 @using Microsoft.AspNetCore.Mvc;
 @using Microsoft.EntityFrameworkCore;
 @using Microsoft.Extensions.Configuration;
+@using Microsoft.AspNetCore.Components.Authorization;
+
 @inject IConfiguration Configuration
 
 <PageTitle>Dashboard</PageTitle>
@@ -85,7 +87,6 @@
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     List<PlantsHasUser> field = new List<PlantsHasUser>();
-    private string placeholderid = "ff92215f-54c2-46d6-a47e-037b24a3d5fa";
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
@@ -96,7 +97,7 @@
 
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
         MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
-        string sqlmyfields = "SELECT * FROM plants_has_user WHERE aspnetusers_Id = '"+placeholderid+"'";
+        string sqlmyfields = "SELECT * FROM plants_has_user WHERE aspnetusers_Id = '" + (await getUserId()) + "'";
         using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlmyfields, connection))
         {
             
@@ -109,7 +110,7 @@
             {
                 PlantsHasUser plant = new PlantsHasUser();
                 plant.PlantsPlantId = (Int32)rdr["plants_user_Id"];
-                plant.AspnetusersId = placeholderid;
+                plant.AspnetusersId = (await getUserId());
                 plant.PlantsPlantId = (Int32)rdr["plants_plant_Id"];
                 plant.DatePlanted = DateOnly.FromDateTime((DateTime)rdr["date_planted"]);
                 plant.Location = rdr["location"].ToString();
