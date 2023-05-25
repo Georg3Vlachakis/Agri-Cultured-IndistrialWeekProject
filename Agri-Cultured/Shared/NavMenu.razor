@@ -1,7 +1,6 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a id="dashboard" class="navbar-brand" href="/Dashboard">Agri-Cultured</a>
-        <MudIconButton Icon="@Icons.Material.Filled.Logout" aria-label="delete" Color="Color.Warning" Size="Size.Medium" Href="/Identity/Account/Logout"></MudIconButton>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -16,7 +15,7 @@
             </NavLink>
         </div>
         <div id="dashboard" class="nav-item px-0">
-            <NavLink class="nav-link" href="">
+            <NavLink class="nav-link" href="/Identity/Account/Logout">
                 <span class="oi oi-account-logout" aria-hidden="true"></span> Log Out
             </NavLink>
         </div>
