@@ -5,6 +5,7 @@
 @using Microsoft.Extensions.Configuration;
 @using MySql.Data.MySqlClient;
 @inject IConfiguration Configuration
+@inject NavigationManager NavigationManager;
 
 <PageTitle>Dashboard</PageTitle>
 
@@ -124,7 +125,7 @@
             command.ExecuteNonQuery();
             connection.Close();
         }
-        StateHasChanged();
+        NavigationManager.NavigateTo("/Dashboard",forceLoad:true); //refresh page to delete the item
     }
 }
 
