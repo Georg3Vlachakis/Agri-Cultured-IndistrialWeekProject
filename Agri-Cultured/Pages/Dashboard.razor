@@ -38,7 +38,8 @@
                         <RadzenColumn SizeXS="8" Style="width: 100%">
                             <MudPaper Width="100%" Style=" height: 165px;">
                                 <MudList Clickable="true">
-                                    <MudListItem Icon="@Icons.Material.Filled.Agriculture" Text="Operations" Style="font-weight: bold"InitiallyExpanded="false">
+                                    @*Menu*@
+                                    <MudListItem Icon="@Icons.Material.Filled.Agriculture" Text="Operations" Style="font-weight: bold"InitiallyExpanded="false"> @*Dropdown*@
                                         <NestedList>
                                             <MudListItem Href="/Agriculturaltasks" Icon="@Icons.Material.Filled.Task" Style="font-weight: bold">
                                                 Tasks
@@ -69,7 +70,7 @@
                     </RadzenRow>
                 </RadzenCard>
                 <div class="mt-2">
-                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" />
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" /> @*Edit Button*@
                     @*<RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" />*@
                 </div>
             </RadzenCard>
