@@ -3,7 +3,9 @@
 @using Microsoft.AspNetCore.Mvc;
 @using Microsoft.EntityFrameworkCore;
 @using Microsoft.Extensions.Configuration;
+@using MySql.Data.MySqlClient;
 @inject IConfiguration Configuration
+@inject NavigationManager NavigationManager;
 
 <PageTitle>Dashboard</PageTitle>
 
@@ -66,10 +68,10 @@
                         </RadzenColumn>
                     </RadzenRow>
                 </RadzenCard>
-                <div class="mt-2">
-                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" />
-                    <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" />
-                </div>
+                    <div class="mt-2" >
+                   @* <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" />*@
+                        <RadzenButton Icon="delete" Click="(() => DeletePlant(a.PlantsUserId))" ButtonStyle="ButtonStyle.Danger" />
+                    </div>                        
             </RadzenCard>
           }
         </RadzenColumn>
@@ -81,6 +83,7 @@
 
 @code 
 {
+    int b = 0;
     List<PlantsHasUser> field = new List<PlantsHasUser>();
     private string placeholderid = "ff92215f-54c2-46d6-a47e-037b24a3d5fa";
 
@@ -91,7 +94,7 @@
         string sqlmyfields = "SELECT * FROM plants_has_user WHERE aspnetusers_Id = '"+placeholderid+"'";
         using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlmyfields, connection))
         {
-            
+
             connection.Open();
             MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(sqlmyfields, connection);
             sqlcmd.CommandText = sqlmyfields;
@@ -100,7 +103,7 @@
             while (rdr.Read())
             {
                 PlantsHasUser plant = new PlantsHasUser();
-                plant.PlantsPlantId = (Int32)rdr["plants_user_Id"];
+                plant.PlantsUserId = (Int32)rdr["plants_user_Id"];
                 plant.AspnetusersId = placeholderid;
                 plant.PlantsPlantId = (Int32)rdr["plants_plant_Id"];
                 plant.DatePlanted = DateOnly.FromDateTime((DateTime)rdr["date_planted"]);
@@ -110,4 +113,20 @@
             }
         }
     }
+    void DeletePlant(int plantid)
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string sqldeleteplant = "DELETE FROM plants_has_user WHERE plants_user_id = " + plantid;
+        using (MySqlCommand command = new MySqlCommand(sqldeleteplant, connection))
+        {
+            //command.Parameters.AddWithValue("@plantId", plantid);
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+        NavigationManager.NavigateTo("/Dashboard",forceLoad:true); //refresh page to delete the item
+    }
 }
+
+
