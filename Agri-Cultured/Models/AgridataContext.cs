@@ -203,7 +203,7 @@ public partial class AgridataContext : DbContext
 
             entity.Property(e => e.ExpencesId).HasColumnName("expences_Id");
             entity.Property(e => e.Date).HasColumnName("date");
-            entity.Property(e => e.Expence1).HasColumnName("expence");
+            entity.Property(e => e.ExpenceAmmount).HasColumnName("expence");
             entity.Property(e => e.ExpenceType)
                 .HasMaxLength(45)
                 .HasColumnName("expence_type");

@@ -1,4 +1,5 @@
 @page "/Fertilizer/{plantid}"
+@inject IConfiguration Configuration
 @inject IDialogService DialogService
 @using Controllers
 
@@ -69,6 +70,15 @@
 {
     [Parameter]
     public string plantid { get; set; }
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+
+    async Task<string> getUserId()
+    {
+        return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+    }
 
     //Create new fertilizer/pesticide operetion dialog
     private void OpenCreateFertilizerDialog()

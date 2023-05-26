@@ -6,7 +6,7 @@ public partial class Expence
 
     public string ExpenceType { get; set; } = null!;
 
-    public int Expence1 { get; set; }
+    public int ExpenceAmmount { get; set; }
 
     public DateOnly Date { get; set; }
 
