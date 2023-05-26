@@ -13,8 +13,24 @@
         <MudButton Variant="MudBlazor.Variant.Text" FullWidth="true" Href="/Identity/Account/Login"><MudText Style="font-size:1.2rem; color: rgb(102, 255, 178); -webkit-text-stroke-width: 1px; text-shadow: 5px 0px 3px black; margin-bottom: 2%;">LogIn</MudText></MudButton>
         <MudButton Variant="MudBlazor.Variant.Text" FullWidth="true"><MudText Style="font-size:1.2rem; color: rgb(102, 255, 178); -webkit-text-stroke-width: 1px; text-shadow: 5px 0px 3px black">About</MudText></MudButton>
     </RadzenColumn>
-
 </RadzenRow>
+
+@code
+{
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if ((await authenticationStateTask).User != null)
+        {
+            if ((await authenticationStateTask).User.Identity.IsAuthenticated)
+            {
+                NavigationManager.NavigateTo("/Dashboard");
+            }
+        }
+    }
+}
 
 
 
