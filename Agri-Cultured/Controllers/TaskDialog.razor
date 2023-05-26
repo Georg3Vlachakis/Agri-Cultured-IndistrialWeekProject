@@ -1,71 +1,26 @@
-﻿<MudDialog Style="background-color:black; color:aliceblue">
+﻿<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
+    <TitleContent>
+        Create a new Task
+    </TitleContent>
     <DialogContent>
-        <MudDataGrid Items="@data" T="TaskModel" Style="background-image: linear-gradient(180deg, rgb(35, 101, 35) 0%, rgb(0, 255, 144) 70%)">
-            <ToolBarContent>
-                <MudText Typo="Typo.h3" Style="color:white">Tasks</MudText>
-            </ToolBarContent>
-            <Columns>
-                <MudButton Disabled="false" Color="@Color.Error">Add new Task</MudButton>
-                <PropertyColumn Property="x => x.TaskName" />
-                <PropertyColumn Property="x => x.DateStarted" />
-                <PropertyColumn Property="x => x.WorkersNumber" />
-                <PropertyColumn Property="x => x.Cost" />
-                <TemplateColumn>
-                    <HeaderTemplate>
-                        <strong>Edit</strong>
-                    </HeaderTemplate>
-                    <CellTemplate>
-                        <MudButton Color=" Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Edit"></MudButton>
-                    </CellTemplate>
-                </TemplateColumn>
-                <TemplateColumn>
-                    <HeaderTemplate>
-                        <strong>Delete</strong>
-                    </HeaderTemplate>
-                    <CellTemplate>
-                        <MudButton Color=" Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Delete"></MudButton>
-                    </CellTemplate>
-                </TemplateColumn>
-            </Columns>
-        </MudDataGrid>
+        <MudTextField T="string" Label="Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
+        <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
+        <MudNumericField @bind-Value="DoubleValue" Label="Workers" Variant="MudBlazor.Variant.Filled" Min="0.0" Style="margin-bottom: 15px;"/>
+        <MudTextField @bind-Value="Amount" Label="Cost" Variant="MudBlazor.Variant.Filled" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" AdornmentColor="Color.Warning" Style="margin-bottom: 15px;" Required="true" />
     </DialogContent>
     <DialogActions>
-        <MudButton Color="Color.Secondary" OnClick="Submit">Ok</MudButton>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
     </DialogActions>
 </MudDialog>
-
-@code {
-
+@code {     
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
     void Submit() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();
 
-    public class TaskModel
-    {
-        public TaskModel(string taskName, DateTime dateStarted, int workersNumber, decimal cost)
-        {
-            TaskName = taskName;
-            DateStarted = dateStarted;
-            WorkersNumber = workersNumber;
-            Cost = cost;
-        }
+    public double? Amount { get; set; } // For cost
 
-        public string TaskName { get; set; }
-        public DateTime DateStarted { get; set; }
-        public int WorkersNumber { get; set; }
-        public decimal Cost { get; set; }
-    }
-
-    List<TaskModel> data = new List<TaskModel> {
-        new TaskModel ("Task 1", new DateTime(2023, 5, 1), 5, 100.0m),
-        new TaskModel ("Task 2", new DateTime(2023, 5, 5), 3, 75.0m),
-        new TaskModel ("Task 3", new DateTime(2023, 5, 10), 8, 200.0m)
-    };
-
-    @*Delete Task*@
-    private void DeleteExpense(TaskModel expense)
-    {
-        data.Remove(expense);
-    }
+    public double DoubleValue { get; set; } // For workers number
+    
 }

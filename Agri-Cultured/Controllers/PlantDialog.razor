@@ -3,16 +3,16 @@
         Create a new Plant
     </TitleContent>
     <DialogContent>
-        <MudTextField T="string" Label="Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense"></MudTextField>
-        <MudSelect T="string" Label="Plant Type" AnchorOrigin="Origin.BottomCenter" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense">
+        <MudTextField T="string" Label="Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
+        <MudSelect T="string" Label="Plant Type" AnchorOrigin="Origin.BottomCenter" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true">
             <MudSelectItem Value="@("Herbs")" />
             <MudSelectItem Value="@("Shrubs")" />
             <MudSelectItem Value="@("Climbers")" />
             <MudSelectItem Value="@("Trees")" />
             <MudSelectItem Value="@("Creepers")" />
         </MudSelect>
-        <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Planted" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense"/>
-        <MudSelect T="string" Label="Location" AnchorOrigin="Origin.BottomCenter" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense">
+        <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Planted" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
+        <MudSelect T="string" Label="Location" AnchorOrigin="Origin.BottomCenter" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true">
             <MudSelectItem Value="@("Thessaloniki")" />
             <MudSelectItem Value="@("Serres")" />
             <MudSelectItem Value="@("Kriti")" />
