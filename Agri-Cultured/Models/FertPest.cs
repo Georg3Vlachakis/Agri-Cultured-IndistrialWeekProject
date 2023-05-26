@@ -1,4 +1,7 @@
-﻿namespace Agri_Cultured.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Agri_Cultured.Models;
 
 public partial class FertPest
 {
