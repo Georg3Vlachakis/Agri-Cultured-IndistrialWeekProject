@@ -47,7 +47,7 @@
                     </RadzenRow>
                 </RadzenCard>
                 <div class="mt-2">
-                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" /> @*Edit button*@
+                    <RadzenButton Click="(() => EditIrrigationDialog())" Icon=" edit" ButtonStyle="ButtonStyle.Primary" /> @*Edit button*@
                     <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" /> @*Delete button*@
                 </div>
             </RadzenCard>
@@ -64,6 +64,13 @@
     {
         var options = new MudBlazor.DialogOptions { };
         DialogService.Show<IrrigationDialog>(" ", options);
+    }
+
+    //Edit irrigation operetion dialog
+    private void EditIrrigationDialog()
+    {
+        var options = new MudBlazor.DialogOptions { };
+        DialogService.Show<EditIrrigationDialog>(" ", options);
     }
 }
 
