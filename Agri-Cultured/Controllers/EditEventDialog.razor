@@ -1,0 +1,27 @@
+﻿<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
+    <TitleContent>
+        Edit Event
+    </TitleContent>
+    <DialogContent>
+        <MudTextField T="string" Label="Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
+        <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
+        <MudTextField T="string" Label="Damage" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
+        <MudNumericField @bind-Value="DoubleValue" Label="Percentage" Variant="MudBlazor.Variant.Filled" Min="0.0" Style="margin-bottom: 15px;" Required="true" />
+        <MudTextField T="string" Label="Comments" Variant="MudBlazor.Variant.Filled" Text="@sampleText" Lines="3" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+
+    public double DoubleValue { get; set; } // For hours
+
+    string sampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."; // For comments
+}
