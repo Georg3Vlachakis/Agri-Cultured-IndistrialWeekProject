@@ -1,10 +1,18 @@
 @page "/Fertilizer/{plantid}"
 @inject IConfiguration Configuration
+@inject IDialogService DialogService
+@using Controllers
 
 <PageTitle>Fertilizer</PageTitle>
 
 
-<h3 style="color: #015249; text-shadow: 0px 2px 3px #015249;">Fertilizer/Pesticides</h3>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h3 style="color: #015249; text-shadow: 0px 2px 3px #015249; margin-right: 10px;">Fertilizer/Pesticides</h3>
+    @*Add new plant button*@
+    <div style="display: flex; justify-content: flex-end; flex-grow: 1;">
+        <RadzenButton Icon="add" Click="(() => OpenCreateFertilizerDialog())" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Large" class="rz-border-radius-10 rz-shadow-10" />
+    </div>
+</div>
 
 
 <RadzenRow JustifyContent="JustifyContent.Start" AlignItems="Radzen.AlignItems.Center" Gap="0">
@@ -49,18 +57,20 @@
                     </RadzenRow>
                 </RadzenCard>
                 <div class="mt-2">
-                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" />
+                    <RadzenButton Click="(() => EditFertilizerDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
                     <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" />
                 </div>
             </RadzenCard>
         </RadzenColumn>
     </RadzenRow>
 </RadzenRow>
-<RadzenButton Text="Create" Icon="add" ButtonStyle="ButtonStyle.Success" Size="ButtonSize.Large" Style="width: 48%; height: 15%; font-size: 25px; justify-content: center" />
+
+
 @code 
 {
     [Parameter]
     public string plantid { get; set; }
+
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
@@ -68,6 +78,20 @@
     async Task<string> getUserId()
     {
         return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+    }
+
+    //Create new fertilizer/pesticide operetion dialog
+    private void OpenCreateFertilizerDialog()
+    {
+        var options = new MudBlazor.DialogOptions { };
+        DialogService.Show<FertilizerDialog>(" ", options);
+    }
+
+    //Edit fertilizer/pesticide operetion dialog
+    private void EditFertilizerDialog()
+    {
+        var options = new MudBlazor.DialogOptions { };
+        DialogService.Show<EditFertilizerDialog>(" ", options);
     }
 }
 
