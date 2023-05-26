@@ -60,33 +60,32 @@
                                                     Fert/Pest
                                                 </MudListItem>
                                                 <MudListItem OnClick="(()=>NavAsync(IrrHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Bloodtype" Style="font-weight: bold">
-                                                    Irrigation
-                                                </MudListItem>
-                                            </NestedList>
-                                        </MudListItem>
-                                        <MudListItem OnClick="(()=>NavAsync(EventHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Event" Style="font-weight: bold">
-                                            Events
-                                        </MudListItem>
-                                        <MudListItem OnClick="(()=>NavAsync(ExpHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.AreaChart" Style="font-weight: bold">
-                                            Other Expenses
-                                        </MudListItem>
-                                        <MudListItem OnClick="(()=>NavAsync(IncHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.AttachMoney" Style="font-weight: bold">
-                                            Income
-                                        </MudListItem>
-                                        <MudListItem Icon="@Icons.Material.Filled.Drafts" Style="font-weight: bold">
-                                            Search/History
-                                        </MudListItem>
-                                    </MudList>
-                                </MudPaper>
-                            </RadzenColumn>
-                        </RadzenRow>
-                    </RadzenCard>
-                    <div class="mt-2">
-                        @* <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" />*@
-                        <RadzenButton Icon="delete" Click="(() => DeletePlant(a.PlantsUserId))" ButtonStyle="ButtonStyle.Danger" />
-                    </div>
+                                                  Irrigation
+                                            </MudListItem>
+                                        </NestedList>
+                                    </MudListItem>
+                                        <MudListItem OnClick="(()=>NavAsync(EventHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Event"  Style="font-weight: bold">
+                                        Events
+                                    </MudListItem>
+                                    <MudListItem OnClick="(()=>NavAsync(ExpHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.AreaChart"  Style="font-weight: bold">
+                                        Other Expenses
+                                    </MudListItem>
+                                        <MudListItem OnClick="(()=>NavAsync(IncHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.AttachMoney"  Style="font-weight: bold">
+                                        Income
+                                    </MudListItem>
+                                    <MudListItem Icon="@Icons.Material.Filled.Drafts" Style="font-weight: bold">
+                                        Search/History
+                                    </MudListItem>
+                                </MudList>
+                            </MudPaper>
+                        </RadzenColumn>
+                    </RadzenRow>
                 </RadzenCard>
-            }
+                    <div class="mt-2" >
+                        <RadzenButton Icon="delete" Click="(() => DeletePlant(a.PlantsUserId))" ButtonStyle="ButtonStyle.Danger" Disabled="true" /> @*Delete button REMOVE DISABLE!!!!*@
+                    </div>                        
+            </RadzenCard>
+          }
         </RadzenColumn>
     </RadzenRow>
 </RadzenRow>
@@ -118,10 +117,9 @@
 
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
         MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
-        string sqlmyfields = "SELECT * FROM plants_has_user WHERE aspnetusers_Id = '" + (await getUserId()) + "'";
+        string sqlmyfields = "SELECT * FROM plants_has_user WHERE aspnetusers_Id = '" + await getUserId() + "'";
         using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlmyfields, connection))
         {
-
             connection.Open();
             MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(sqlmyfields, connection);
             sqlcmd.CommandText = sqlmyfields;
@@ -130,8 +128,8 @@
             while (rdr.Read())
             {
                 PlantsHasUser plant = new PlantsHasUser();
-                plant.PlantsPlantId = (Int32)rdr["plants_user_Id"];
-                plant.AspnetusersId = (await getUserId());
+                plant.PlantsUserId = (Int32)rdr["plants_user_Id"];
+                plant.AspnetusersId = await getUserId();
                 plant.PlantsPlantId = (Int32)rdr["plants_plant_Id"];
                 plant.DatePlanted = DateOnly.FromDateTime((DateTime)rdr["date_planted"]);
                 plant.Location = rdr["location"].ToString();
