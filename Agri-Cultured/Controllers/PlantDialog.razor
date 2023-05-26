@@ -4,21 +4,13 @@
     </TitleContent>
     <DialogContent>
         <MudTextField T="string" Label="Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
-        <MudSelect T="string" Label="Plant Type" AnchorOrigin="Origin.BottomCenter" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true">
-            <MudSelectItem Value="@("Herbs")" />
-            <MudSelectItem Value="@("Shrubs")" />
-            <MudSelectItem Value="@("Climbers")" />
-            <MudSelectItem Value="@("Trees")" />
-            <MudSelectItem Value="@("Creepers")" />
-        </MudSelect>
+
+        <RadzenDropDown AllowClear="true" Placeholder="Plant Type" @bind-Value=@plant Data=@plants Style="width: 100%; max-width: 400px; margin-bottom: 15px" />
+
         <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Planted" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
-        <MudSelect T="string" Label="Location" AnchorOrigin="Origin.BottomCenter" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true">
-            <MudSelectItem Value="@("Thessaloniki")" />
-            <MudSelectItem Value="@("Serres")" />
-            <MudSelectItem Value="@("Kriti")" />
-            <MudSelectItem Value="@("Ksanthi")" />
-            <MudSelectItem Value="@("Kastoria")" />
-        </MudSelect>
+
+        <RadzenDropDown AllowClear="true" Placeholder="City" @bind-Value=@city Data=@cities Style="width: 100%; max-width: 400px; margin-bottom: 15px" />
+
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -30,4 +22,27 @@
 
     void Submit() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();
+
+    //temp
+    private string plant;
+
+    IEnumerable<string> plants = new List<string>
+    {
+        new String("Herbs"),
+        new String("Shrubs"),
+        new String("Climbers"),
+        new String("Trees"),
+        new String("Creepers")
+    };
+
+    private string city;
+
+    IEnumerable<string> cities = new List<string>
+    {
+        new String("Thessaloniki"),
+        new String("Serres"),
+        new String("Kriti"),
+        new String("Xanthi"),
+        new String("Kastoria")
+    };
 }
