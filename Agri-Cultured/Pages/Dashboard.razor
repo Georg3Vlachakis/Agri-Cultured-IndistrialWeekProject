@@ -88,7 +88,7 @@
 {
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
-      
+
     //redirect links for buttons
     string ArgiTaskHref = "/Agriculturaltasks";
     string FertHref = "/Fertilizer";
@@ -102,11 +102,6 @@
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
-        async Task<string> getUserId()
-        {
-            return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
-        }
-
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
         MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
         string sqlmyfields = "SELECT * FROM plants_has_user WHERE aspnetusers_Id = '" + await getUserId() + "'";
@@ -128,6 +123,8 @@
                 plant.Description = rdr["description"].ToString();
                 field.Add(plant);
             }
+            rdr.Close();
+            connection.Close();
         }
     }
     void DeletePlant(int plantid)
@@ -148,5 +145,9 @@
     {
         // Attach the parameter to the url
         NavigationManager.NavigateTo(href + "/" + plantid);
+    }
+    async Task<string> getUserId()
+    {
+        return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
     }
 }
