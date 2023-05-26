@@ -1,5 +1,6 @@
 ﻿@page "/Expenses/{plantid}"
 @inject IDialogService DialogService
+@inject IConfiguration Configuration
 @using Controllers
 
 <PageTitle>Other Expenses</PageTitle>
@@ -9,6 +10,8 @@
 <RadzenRow JustifyContent="JustifyContent.Start" AlignItems="Radzen.AlignItems.Center" Gap="0">
     <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
         <RadzenColumn Size="12" Style="justify-self:center; align-self:center">
+            @foreach(Models.Expence a in exp)
+            {
             <RadzenCard Class="rz-my-12 rz-mx-auto" Style="width:auto; height:470px;  background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 1px 3px gray;">
                 <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
                     <RadzenStack Gap="0" Style="align-self:center">
@@ -21,13 +24,13 @@
                             <RadzenRow>
                                 <RadzenColumn>
                                     <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Expense Name:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">Nissan Navar D2</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@a.ExpenceType</RadzenText>
                                 </RadzenColumn>
                             </RadzenRow>
                             <RadzenRow>
                                 <RadzenColumn>
                                     <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Date:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">20/04</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@a.Date</RadzenText>
                                 </RadzenColumn>
                             </RadzenRow>
                         </RadzenColumn>
@@ -35,7 +38,7 @@
                             <RadzenRow>
                                 <RadzenColumn>
                                     <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Cost:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">16.666</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@a.ExpenceAmmount</RadzenText>
                                 </RadzenColumn>
                             </RadzenRow>
                         </RadzenColumn>
@@ -46,6 +49,7 @@
                     <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" />
                 </div>
             </RadzenCard>
+            }
         </RadzenColumn>
     </RadzenRow>
 </RadzenRow>
@@ -54,4 +58,40 @@
 @code {
     [Parameter]
     public string plantid { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    List<Models.Expence> exp = new List<Models.Expence>();
+
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string sqlmyevents = "SELECT e.* FROM expences AS e JOIN expences_has_plants AS ep ON e.expences_Id = ep.expences_Id JOIN plants_has_user AS pu ON ep.plants_user_Id = pu.plants_user_Id WHERE pu.aspnetusers_Id = '" + await getUserId() + "' AND pu.plants_user_Id = '" + plantid + "'";
+        
+        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlmyevents, connection))
+        {
+            connection.Open();
+            MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(sqlmyevents, connection);
+            sqlcmd.CommandText = sqlmyevents;
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            MySql.Data.MySqlClient.MySqlDataReader rdr = sqlcmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                Models.Expence myexp = new Models.Expence();
+                myexp.ExpencesId = (Int32)rdr["expences_Id"];
+                myexp.ExpenceType = rdr["expence_type"].ToString();
+                myexp.ExpenceAmmount = (Int32)rdr["expence"];
+                myexp.Date = DateOnly.FromDateTime((DateTime)rdr["date"]);
+                exp.Add(myexp);
+            }
+            rdr.Close();
+            connection.Close();
+        }
+    }
+
+    async Task<string> getUserId()
+    {
+        return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+    }
 }

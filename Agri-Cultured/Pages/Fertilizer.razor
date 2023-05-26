@@ -1,4 +1,5 @@
 @page "/Fertilizer/{plantid}"
+@inject IConfiguration Configuration
 
 <PageTitle>Fertilizer</PageTitle>
 
@@ -60,5 +61,13 @@
 {
     [Parameter]
     public string plantid { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+
+    async Task<string> getUserId()
+    {
+        return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+    }
 }
 
