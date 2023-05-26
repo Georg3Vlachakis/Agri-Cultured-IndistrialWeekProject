@@ -1,4 +1,5 @@
 @page "/Dashboard"
+@using Agri_Cultured.Controllers;
 @using Agri_Cultured.Models;
 @using Microsoft.AspNetCore.Mvc;
 @using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@
 @using MySql.Data.MySqlClient;
 @inject IConfiguration Configuration
 @inject NavigationManager NavigationManager;
+@inject IDialogService DialogService
 
 <PageTitle>Dashboard</PageTitle>
 
@@ -80,7 +82,7 @@
         </RadzenColumn>
     </RadzenRow>
 </RadzenRow>
-<RadzenButton Text="Create" Icon="add" ButtonStyle="ButtonStyle.Success" Size="ButtonSize.Large" Style="width: 48%; height: 15%; font-size: 25px; margin-left: 26%"/>
+<RadzenButton Text="Create" Icon="add" Click="(() => OpenCreatePlantDialog())" ButtonStyle="ButtonStyle.Success" Size="ButtonSize.Large" Style="width: 48%; height: 15%; font-size: 25px; margin-left: 26%" />
 <br/>
 <br/>
 
@@ -148,5 +150,11 @@
     {
         // Attach the parameter to the url
         NavigationManager.NavigateTo(href + "/" + plantid);
+    }
+
+    private void OpenCreatePlantDialog()
+    {
+        var options = new MudBlazor.DialogOptions { };
+        DialogService.Show<TaskDialog>("Create New Plant", options);
     }
 }
