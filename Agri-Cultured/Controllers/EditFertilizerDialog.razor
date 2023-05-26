@@ -1,0 +1,26 @@
+﻿<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
+    <TitleContent>
+        Edit Fertilizer or Pesticide
+    </TitleContent>
+    <DialogContent>
+        <MudCheckBox @bind-Checked="@Label_CheckBox2" Label="Fertilizer" Color="Color.Primary"></MudCheckBox>
+        <MudCheckBox @bind-Checked="@Label_CheckBox3" Label="Pestiside" Color="Color.Secondary"></MudCheckBox>
+        <MudTextField T="string" Label="Product Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
+        <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+
+    // For checkboxes
+    public bool Label_CheckBox2 { get; set; } = true;
+    public bool Label_CheckBox3 { get; set; } = false;
+
+}
