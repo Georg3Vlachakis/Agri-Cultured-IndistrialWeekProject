@@ -96,7 +96,7 @@
                 tasks.DateStarted = DateOnly.FromDateTime((DateTime)rdr["date_started"]);
                 tasks.WorkerNumber = (Int32)rdr["worker_number"];
                 //make it float in db
-                tasks.Cost = (Int32)rdr["Cost"];
+                tasks.Cost = (float)rdr["Cost"];
                 AgrTask.Add(tasks);
             }
             rdr.Close();

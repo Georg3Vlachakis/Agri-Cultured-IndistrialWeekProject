@@ -1,4 +1,7 @@
-﻿namespace Agri_Cultured.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Agri_Cultured.Models;
 
 public partial class Irrigation
 {
@@ -8,7 +11,7 @@ public partial class Irrigation
 
     public int Hours { get; set; }
 
-    public int? Cost { get; set; }
+    public float? Cost { get; set; }
 
     public virtual ICollection<PlantsHasUser> PlantsUsers { get; set; } = new List<PlantsHasUser>();
 }

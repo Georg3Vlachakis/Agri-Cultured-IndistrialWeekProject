@@ -1,4 +1,7 @@
-﻿namespace Agri_Cultured.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Agri_Cultured.Models;
 
 public partial class PlantsHasUser
 {
@@ -16,11 +19,11 @@ public partial class PlantsHasUser
 
     public virtual Aspnetuser Aspnetusers { get; set; } = null!;
 
+    public virtual ICollection<ExpensesHasPlant> ExpensesHasPlants { get; set; } = new List<ExpensesHasPlant>();
+
     public virtual Plant PlantsPlant { get; set; } = null!;
 
     public virtual ICollection<Event> Events { get; set; } = new List<Event>();
-
-    public virtual ICollection<Expence> Expences { get; set; } = new List<Expence>();
 
     public virtual ICollection<FertPest> FertPests { get; set; } = new List<FertPest>();
 

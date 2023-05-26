@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Agri_Cultured.Models;
 
@@ -29,7 +31,9 @@ public partial class AgridataContext : DbContext
 
     public virtual DbSet<Event> Events { get; set; }
 
-    public virtual DbSet<Expence> Expences { get; set; }
+    public virtual DbSet<Expense> Expenses { get; set; }
+
+    public virtual DbSet<ExpensesHasPlant> ExpensesHasPlants { get; set; }
 
     public virtual DbSet<FertPest> FertPests { get; set; }
 
@@ -193,43 +197,40 @@ public partial class AgridataContext : DbContext
             entity.Property(e => e.PercDamage).HasColumnName("perc_damage");
         });
 
-        modelBuilder.Entity<Expence>(entity =>
+        modelBuilder.Entity<Expense>(entity =>
         {
-            entity.HasKey(e => e.ExpencesId).HasName("PRIMARY");
+            entity.HasKey(e => e.ExpensesId).HasName("PRIMARY");
 
-            entity.ToTable("expences");
+            entity.ToTable("expenses");
 
-            entity.HasIndex(e => e.ExpencesId, "expences_Id_UNIQUE").IsUnique();
+            entity.HasIndex(e => e.ExpensesId, "expences_Id_UNIQUE").IsUnique();
 
-            entity.Property(e => e.ExpencesId).HasColumnName("expences_Id");
+            entity.Property(e => e.ExpensesId).HasColumnName("expenses_Id");
             entity.Property(e => e.Date).HasColumnName("date");
-            entity.Property(e => e.ExpenceAmmount).HasColumnName("expence");
-            entity.Property(e => e.ExpenceType)
+            entity.Property(e => e.ExpenseAmmount).HasColumnName("expense_ammount");
+            entity.Property(e => e.ExpenseType)
                 .HasMaxLength(45)
-                .HasColumnName("expence_type");
+                .HasColumnName("expense_type");
+        });
 
-            entity.HasMany(d => d.PlantsUsers).WithMany(p => p.Expences)
-                .UsingEntity<Dictionary<string, object>>(
-                    "ExpencesHasPlant",
-                    r => r.HasOne<PlantsHasUser>().WithMany()
-                        .HasForeignKey("PlantsUserId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("fk_expences_has_plants_has_user_plants_has_user1"),
-                    l => l.HasOne<Expence>().WithMany()
-                        .HasForeignKey("ExpencesId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("fk_expences_has_plants_has_user_expences1"),
-                    j =>
-                    {
-                        j.HasKey("ExpencesId", "PlantsUserId")
-                            .HasName("PRIMARY")
-                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
-                        j.ToTable("expences_has_plants");
-                        j.HasIndex(new[] { "ExpencesId" }, "fk_expences_has_plants_has_user_expences1_idx");
-                        j.HasIndex(new[] { "PlantsUserId" }, "fk_expences_has_plants_has_user_plants_has_user1_idx");
-                        j.IndexerProperty<int>("ExpencesId").HasColumnName("expences_Id");
-                        j.IndexerProperty<int>("PlantsUserId").HasColumnName("plants_user_Id");
-                    });
+        modelBuilder.Entity<ExpensesHasPlant>(entity =>
+        {
+            entity.HasKey(e => new { e.ExpensesId, e.PlantsUserId })
+                .HasName("PRIMARY")
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+
+            entity.ToTable("expenses_has_plants");
+
+            entity.HasIndex(e => e.ExpensesId, "fk_expences_has_plants_has_user_expences1_idx");
+
+            entity.HasIndex(e => e.PlantsUserId, "fk_expences_has_plants_has_user_plants_has_user1_idx");
+
+            entity.Property(e => e.ExpensesId).HasColumnName("expenses_Id");
+            entity.Property(e => e.PlantsUserId).HasColumnName("plants_user_Id");
+
+            entity.HasOne(d => d.PlantsUser).WithMany(p => p.ExpensesHasPlants)
+                .HasForeignKey(d => d.PlantsUserId)
+                .HasConstraintName("fk_expences_has_plants_has_user_plants_has_user1");
         });
 
         modelBuilder.Entity<FertPest>(entity =>
@@ -254,11 +255,9 @@ public partial class AgridataContext : DbContext
                     "OpFertPest",
                     r => r.HasOne<PlantsHasUser>().WithMany()
                         .HasForeignKey("PlantsUserId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_fert_pest_has_plants_has_user_plants_has_user1"),
                     l => l.HasOne<FertPest>().WithMany()
                         .HasForeignKey("FertPestId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_fert_pest_has_plants_has_user_fert_pest1"),
                     j =>
                     {
@@ -290,11 +289,9 @@ public partial class AgridataContext : DbContext
                     "IncomeHasPlant",
                     r => r.HasOne<PlantsHasUser>().WithMany()
                         .HasForeignKey("PlantsUserId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_income_has_plants_has_user_plants_has_user1"),
                     l => l.HasOne<Income>().WithMany()
                         .HasForeignKey("IncomeId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_income_has_plants_has_user_income1"),
                     j =>
                     {
@@ -327,11 +324,9 @@ public partial class AgridataContext : DbContext
                     "OpIrrigation",
                     r => r.HasOne<PlantsHasUser>().WithMany()
                         .HasForeignKey("PlantsUserId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_irrigation_has_plants_has_user_plants_has_user1"),
                     l => l.HasOne<Irrigation>().WithMany()
                         .HasForeignKey("IirrigationsId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_irrigation_has_plants_has_user_irrigation1"),
                     j =>
                     {
@@ -422,7 +417,6 @@ public partial class AgridataContext : DbContext
 
             entity.HasOne(d => d.Aspnetusers).WithMany(p => p.PlantsHasUsers)
                 .HasForeignKey(d => d.AspnetusersId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_plants_has_aspnetusers_aspnetusers1");
 
             entity.HasOne(d => d.PlantsPlant).WithMany(p => p.PlantsHasUsers)
@@ -434,11 +428,9 @@ public partial class AgridataContext : DbContext
                     "EventsHasPlant",
                     r => r.HasOne<Event>().WithMany()
                         .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_plants_has_user_has_events_events1"),
                     l => l.HasOne<PlantsHasUser>().WithMany()
                         .HasForeignKey("PlantsUserId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_plants_has_user_has_events_plants_has_user1"),
                     j =>
                     {
@@ -475,11 +467,9 @@ public partial class AgridataContext : DbContext
                     "OpTask",
                     r => r.HasOne<PlantsHasUser>().WithMany()
                         .HasForeignKey("PlantsUserId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_tasks_has_plants_has_user_plants_has_user1"),
                     l => l.HasOne<Task>().WithMany()
                         .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_tasks_has_plants_has_user_tasks1"),
                     j =>
                     {
