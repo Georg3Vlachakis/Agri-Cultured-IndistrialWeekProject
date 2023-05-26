@@ -52,7 +52,7 @@
                     </RadzenRow>
                 </RadzenCard>
                 <div class="mt-2">
-                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" />
+                    <RadzenButton Click="(() => EditIncomeDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
                     <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" />
                 </div>
             </RadzenCard>
@@ -69,5 +69,12 @@
     {
         var options = new MudBlazor.DialogOptions { };
         DialogService.Show<IncomeDialog>(" ", options);
+    }
+
+    //Edit income dialog
+    private void EditIncomeDialog()
+    {
+        var options = new MudBlazor.DialogOptions { };
+        DialogService.Show<EditIncomeDialog>(" ", options);
     }
 }
