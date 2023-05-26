@@ -1,11 +1,10 @@
 ﻿<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
     <TitleContent>
-        Create a new Task
+        Create a new Expense
     </TitleContent>
     <DialogContent>
-        <MudTextField T="string" Label="Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
+        <MudTextField T="string" Label="Type" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
         <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
-        <MudNumericField @bind-Value="DoubleValue" Label="Workers" Variant="MudBlazor.Variant.Filled" Min="0.0" Style="margin-bottom: 15px;"/>
         <MudTextField @bind-Value="Amount" Label="Cost" Variant="MudBlazor.Variant.Filled" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" AdornmentColor="Color.Warning" Style="margin-bottom: 15px;" Required="true" />
     </DialogContent>
     <DialogActions>
@@ -13,7 +12,8 @@
         <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
     </DialogActions>
 </MudDialog>
-@code {     
+
+@code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
     void Submit() => MudDialog.Close(DialogResult.Ok(true));
@@ -21,6 +21,4 @@
 
     public double? Amount { get; set; } // For cost
 
-    public double DoubleValue { get; set; } // For workers number
-    
 }

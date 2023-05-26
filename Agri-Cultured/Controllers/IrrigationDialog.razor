@@ -1,32 +1,11 @@
-﻿<MudDialog>
+﻿<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
+    <TitleContent>
+        Create a new Irrigation
+    </TitleContent>
     <DialogContent>
-        <MudDataGrid Items="@data" T="TaskModel" Style="background-image: linear-gradient(180deg, rgb(35, 101, 35) 0%, rgb(0, 255, 144) 70%)">
-            <ToolBarContent>
-                <MudText Typo="Typo.h3" Style="color:white">Irrigation</MudText>
-            </ToolBarContent>
-            <Columns>
-                <MudButton Disabled="false" Color="@Color.Error">Add new Irrigation</MudButton>
-                <PropertyColumn Property="x => x.Date" Title="Date" FormatString="dd/MM/yyyy" />
-                <PropertyColumn Property="x => x.Hours" Title="Hours" />
-                <PropertyColumn Property="x => x.Cost" Title="Cost (Not Necessary)" FormatString="C" />
-                <TemplateColumn>
-                    <HeaderTemplate>
-                        <strong>Edit</strong>
-                    </HeaderTemplate>
-                    <CellTemplate>
-                        <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Edit"></MudButton>
-                    </CellTemplate>
-                </TemplateColumn>
-                <TemplateColumn>
-                    <HeaderTemplate>
-                        <strong>Delete</strong>
-                    </HeaderTemplate>
-                    <CellTemplate>
-                        <MudButton Color="Color.Secondary" ButtonType="MudBlazor.ButtonType.Submit" StartIcon="@Icons.Material.Filled.Delete"></MudButton>
-                    </CellTemplate>
-                </TemplateColumn>
-            </Columns>
-        </MudDataGrid>
+        <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"/>
+        <MudNumericField @bind-Value="DoubleValue" Label="Hours" Variant="MudBlazor.Variant.Filled" Min="0.0" Style="margin-bottom: 15px;" Required="true"/>
+        <MudTextField @bind-Value="Amount" Label="Cost" Variant="MudBlazor.Variant.Filled" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" AdornmentColor="Color.Warning" Style="margin-bottom: 15px;"/>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -34,36 +13,13 @@
     </DialogActions>
 </MudDialog>
 
-
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
     void Submit() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();
 
-    public class TaskModel
-    {
-        public TaskModel(DateTime date, int hours, decimal cost)
-        {
-            Date = date;
-            Hours = hours;
-            Cost = cost;
-        }
+    public double? Amount { get; set; } // For cost
 
-        public DateTime Date { get; set; }
-        public int Hours { get; set; }
-        public decimal Cost { get; set; }
-    }
-
-    List<TaskModel> data = new List<TaskModel> {
-        new TaskModel(new DateTime(2023, 5, 1), 3, 20.0m),
-        new TaskModel(new DateTime(2023, 5, 5), 4, 15.0m),
-        new TaskModel(new DateTime(2023, 5, 10), 6, 18.0m)
-    };
-
-    @*Delete Fertilizer/Pesticide*@
-    private void DeleteExpense(TaskModel expense)
-    {
-        data.Remove(expense);
-    }
+    public double DoubleValue { get; set; } // For hours
 }

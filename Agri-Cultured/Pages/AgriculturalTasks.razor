@@ -1,9 +1,17 @@
 ﻿@page "/Agriculturaltasks/{plantid}"
 @inject IDialogService DialogService
+@using Controllers
 
 <PageTitle>Agricultural Tasks</PageTitle>
 
-<h3 style="color: #015249; text-shadow: 0px 2px 3px #015249;">Agricultural Tasks</h3>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h3 style="color: #015249; text-shadow: 0px 2px 3px #015249; margin-right: 10px;">Agricultural Tasks</h3>
+    @*Add new plant button*@
+    <div style="display: flex; justify-content: flex-end; flex-grow: 1;">
+        <RadzenButton Icon="add" Click="(() => OpenCreateTaskDialog())" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Large" class="rz-border-radius-10 rz-shadow-10" />
+    </div>
+</div>
+
 
 <RadzenRow JustifyContent="JustifyContent.Start" AlignItems="Radzen.AlignItems.Center" Gap="0">
     <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
@@ -45,19 +53,34 @@
                     </RadzenRow>
                 </RadzenCard>
                 <div class="mt-2">
-                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Primary" />
+                    <RadzenButton Click="(() => EditTaskDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
                     <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" />
                 </div>
             </RadzenCard>
         </RadzenColumn>
     </RadzenRow>
 </RadzenRow>
-<RadzenButton Text="Create" Icon="add" ButtonStyle="ButtonStyle.Success" Size="ButtonSize.Large" Style="width: 48%; height: 15%; font-size: 25px; justify-content: center" />
+
+
 @code {
     [Parameter]
     public string plantid { get; set; }
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
        Console.WriteLine(plantid);    
+    }
+
+    //Create new task dialog
+    private void OpenCreateTaskDialog()
+    {
+        var options = new MudBlazor.DialogOptions { };
+        DialogService.Show<TaskDialog>(" ", options);
+    }
+
+    //Edit task dialog
+    private void EditTaskDialog()
+    {
+        var options = new MudBlazor.DialogOptions { };
+        DialogService.Show<EditTaskDialog>(" ", options);
     }
 }
