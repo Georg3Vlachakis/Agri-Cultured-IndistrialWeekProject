@@ -7,8 +7,6 @@
 @using MySql.Data.MySqlClient;
 @inject IConfiguration Configuration
 @inject NavigationManager NavigationManager;
-@inject Radzen.DialogService DialogService;
-@using Controllers;
 
 <PageTitle>Dashboard</PageTitle>
 
@@ -83,12 +81,9 @@
         </RadzenColumn>
     </RadzenRow>
 </RadzenRow>
-
-<RadzenButton Text="Create" Icon="add" Click="@OpenSideDialog" ButtonStyle="ButtonStyle.Success" Size="ButtonSize.Large" Style="width: 48%; height: 15%; font-size: 25px; margin-left: 26%" />
-
+<RadzenButton Text="Create" Icon="add" ButtonStyle="ButtonStyle.Success" Size="ButtonSize.Large" Style="width: 48%; height: 15%; font-size: 25px; margin-left: 26%"/>
 <br/>
 <br/>
-
 
 @code 
 {
@@ -155,13 +150,5 @@
     {
         // Attach the parameter to the url
         NavigationManager.NavigateTo(href + "/" + plantid);
-    }
-
-    //Modal Dialog
-
-
-    async System.Threading.Tasks.Task OpenSideDialog()
-    {
-        await DialogService.OpenSideAsync<PlantDialog>("Side Dialog");
     }
 }
