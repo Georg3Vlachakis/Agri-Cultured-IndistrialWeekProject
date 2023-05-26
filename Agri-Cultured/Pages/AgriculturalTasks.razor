@@ -64,6 +64,7 @@
 
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
+
     List<Models.Task> AgrTask = new List<Models.Task>();
 
 
@@ -71,13 +72,13 @@
     {
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
         MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
-        string sqlmyfields = "SELECT t.* FROM tasks AS t JOIN plants_has_user AS pu ON t.task_id = pu.plants_user_Id AND pu.aspnetusers_Id = '" + await getUserId() + "' AND pu.plants_user_Id = '" + plantid + "'";
+        string sqlmytasks = "SELECT t.* FROM tasks AS t JOIN plants_has_user AS pu ON t.task_id = pu.plants_user_Id AND pu.aspnetusers_Id = '" + await getUserId() + "' AND pu.plants_user_Id = '" + plantid + "'";
 
-        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlmyfields, connection))
+        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlmytasks, connection))
         {
             connection.Open();
-            MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(sqlmyfields, connection);
-            sqlcmd.CommandText = sqlmyfields;
+            MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(sqlmytasks, connection);
+            sqlcmd.CommandText = sqlmytasks;
             sqlcmd.CommandType = System.Data.CommandType.Text;
             MySql.Data.MySqlClient.MySqlDataReader rdr = sqlcmd.ExecuteReader();
             while (rdr.Read())
@@ -93,17 +94,7 @@
             }
             rdr.Close();
             connection.Close();
-        }  
-
-
-
-
-
-
-
-
-
-
+        }
     }
     async Task<string> getUserId()
     {
