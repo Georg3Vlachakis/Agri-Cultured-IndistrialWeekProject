@@ -1,13 +1,17 @@
-﻿<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
+﻿@using MySql.Data.MySqlClient;
+@inject NavigationManager NavigationManager
+@inject IConfiguration Configuration
+
+<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
     <TitleContent>
         Create a new Event
     </TitleContent>
     <DialogContent>
-        <MudTextField T="string" Label="Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
-        <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
-        <MudTextField T="string" Label="Damage" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
-        <MudNumericField @bind-Value="DoubleValue" Label="Percentage" Variant="MudBlazor.Variant.Filled" Min="0.0" Style="margin-bottom: 15px;" Required="true" />
-        <MudTextField T="string" Label="Comments" Variant="MudBlazor.Variant.Filled" Text="@sampleText" Lines="3" />
+        <MudTextField T="string" Label="Name" @bind-Value=@name Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
+        <MudTextField T="DateTime" Format="yyyy-MM-dd" @bind-Value=@date Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
+        <MudTextField T="string" @bind-Value=@dmg Label="Damage" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
+        <MudNumericField T="Int32" @bind-Value=@perdmg Label="Percentage" Variant="MudBlazor.Variant.Filled" Min="0" Max="100" Style="margin-bottom: 15px;" Required="true" />
+        <MudTextField T="string" @bind-Value=@comm Label="Comments" Variant="MudBlazor.Variant.Filled" Text="@sampleText" Lines="3" />
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -17,11 +21,98 @@
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+    [Parameter] public string plantId { get; set; }
 
-    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    string name;
+    DateTime date = DateTime.Now;
+    string dmg;
+    int perdmg;
+    string comm;
+    string dateformated;
+    int id;
+
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+
+    }
+    async Task plantsave()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string sqlplantnames = "INSERT INTO events (name, date, damage, perc_damage, comments) VALUES (@name, @date, @dmg, @perdmg, @comm)";
+        connection.Open();
+        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlplantnames, connection))
+        {
+            command.Parameters.AddWithValue("@name",name);
+            command.Parameters.AddWithValue("@date", dateformated);
+            command.Parameters.AddWithValue("@dmg", dmg);
+            command.Parameters.AddWithValue("@perdmg", perdmg);
+            command.Parameters.AddWithValue("@comm", comm);
+            await command.ExecuteNonQueryAsync();
+        }       
+        connection.Close();
+    }
+    async Task getLastEvntId()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        using (MySqlConnection connection = new MySqlConnection(connnectionString))
+        {
+            string lasteventsql = "SELECT MAX(event_id) AS last_event_Id FROM events";
+            using (MySqlCommand command = new MySqlCommand(lasteventsql, connection))
+            {
+                connection.Open();
+
+                MySqlCommand sqlcmd = new MySqlCommand(lasteventsql, connection);
+                sqlcmd.CommandText = lasteventsql;
+                sqlcmd.CommandType = System.Data.CommandType.Text;
+                MySqlDataReader rdr = sqlcmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    id = (Int32)rdr["last_event_Id"];
+                }
+
+                rdr.Close();
+                connection.Close();
+            }
+        }
+
+    }
+    async Task linkevent()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        using (MySqlConnection connection = new MySqlConnection(connnectionString))
+        {
+            connection.Open();
+
+            string linksql = "INSERT INTO events_has_plants (plants_user_Id, event_id) VALUES (@plantid, @eventid)";
+
+            using (MySqlCommand command = new MySqlCommand(linksql, connection))
+            {
+                command.Parameters.AddWithValue("@plantid", plantId);
+                command.Parameters.AddWithValue("@eventid", id);
+
+                await command.ExecuteNonQueryAsync();
+                connection.Close();
+            }
+        }
+
+    }
+    async void Submit()
+    {
+        dateformated = date.ToString("yyyy-MM-dd");
+        await plantsave();
+        await getLastEvntId();
+        await linkevent();
+        NavigationManager.NavigateTo("/Events/" + plantId, forceLoad: true);
+    }
     void Cancel() => MudDialog.Cancel();
 
-    public double DoubleValue { get; set; } // For hours
+    async Task<string> getUserId()
+    {
+        return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+    }
+
 
     string sampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."; // For comments
 }
