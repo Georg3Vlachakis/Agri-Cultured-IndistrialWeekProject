@@ -80,7 +80,7 @@
     {
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
         MySqlConnection connection = new MySqlConnection(connnectionString);
-        string orfeas = "KANTE KAPOIOS TO QUERRY";
+        string orfeas = "SELECT i.*, p.`plants_user_Id`, p.`aspnetusers_Id` FROM `agridata`.`irrigation` AS i INNER JOIN `agridata`.`op_irrigation` AS oi ON oi.`iirrigations_Id` = i.`irrigations_Id` INNER JOIN `agridata`.`plants_has_user` AS p ON p.`plants_user_Id` = oi.`plants_user_Id` WHERE p.`plants_user_Id` = 1 AND p.`aspnetusers_Id` = 'ff92215f-54c2-46d6-a47e-037b24a3d5fa'; ";
 
         using (MySqlCommand command = new MySqlCommand(orfeas, connection))
         {

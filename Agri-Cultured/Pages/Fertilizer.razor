@@ -49,13 +49,9 @@
                             <RadzenRow>
                                 <RadzenColumn>
                                     <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Items:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">Katana, Crossbow, Torpedo </RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@ItemsToString(frt.FertPestId)</RadzenText>
                                     <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Total Cost:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">0.50</RadzenText>
-                                </RadzenColumn>
-                                <RadzenColumn>
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Items Cost:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">1000000, 50000000, 9.99</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@totalCost</RadzenText>
                                 </RadzenColumn>
                             </RadzenRow>
                         </RadzenColumn>
@@ -82,7 +78,8 @@
 
     List<FertPest> fertPests = new List<FertPest>();
     List<Item> items = new List<Item>();
-    Dictionary<int, Item> pairs = new Dictionary<int, Item>();
+
+    private float totalCost = 0;
 
 
     async Task<string> getUserId()
@@ -94,7 +91,7 @@
     {
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
         MySqlConnection connection = new MySqlConnection(connnectionString);
-        string orfeas = "SELECT items.item_name, items.item_description, items.cost, items.item_id, fert_pest.date, fert_pest.fert_pest_Id, fert_pest.product_name, fert_pest.type, plants_has_user.plants_user_Id, plants_has_user.aspnetusers_Id FROM items JOIN fert_pest ON items.item_id = fert_pest.fert_pest_Id JOIN plants_has_user ON plants_has_user.plants_user_Id = fert_pest.fert_pest_Id";
+        string orfeas = "SELECT * FROM items JOIN fert_pest ON items.fert_pest_fert_pest_Id = fert_pest.fert_pest_Id JOIN plants_has_user ON fert_pest.fert_pest_Id = plants_has_user.plants_user_Id WHERE plants_has_user.aspnetusers_Id = '" + await getUserId() + "' AND plants_has_user.plants_user_Id = '" + plantid + "';";
 
         using (MySqlCommand command = new MySqlCommand(orfeas, connection))
         {
@@ -110,18 +107,18 @@
                 fert.ProductName = rdr["product_name"].ToString();
                 fert.Type = (bool)rdr["type"];
                 fert.Date = DateOnly.FromDateTime((DateTime)rdr["date"]);
-                fertPests.Add(fert);
+                if (!fertPests.Contains(fert))
+                {
+                    fertPests.Add(fert);                    
+                }
 
                 Item item = new Item();
+                item.ItemId = (Int32)rdr["item_id"];
                 item.ItemName = rdr["item_name"].ToString();
                 item.ItemDescription = rdr["item_description"].ToString();
                 item.Cost = (float)rdr["cost"];
+                item.FertPestFertPestId = (Int32)rdr["fert_pest_fert_pest_Id"];
                 items.Add(item);
-
-                if (!pairs.ContainsKey(fert.FertPestId))
-                {
-                    pairs.Add(fert.FertPestId, item);
-                }
             }
             rdr.Close();
             connection.Close();
@@ -141,6 +138,27 @@
             connection.Close();
         }
         NavigationManager.NavigateTo("/Fertilizer/" + plantid, forceLoad: true); //refresh page to delete the item
+    }
+
+    //Get items list to string
+    string ItemsToString(int fertPestId)
+    {
+        string itemNames = "";
+        totalCost = 0;
+        foreach (Item item in items)
+        {
+            if (item.FertPestFertPestId == fertPestId)
+            {
+                itemNames = item.ItemName + " (" + item.Cost.ToString() + ")" + ",";
+                totalCost += item.Cost;
+            }
+        }
+
+        if (itemNames != "")
+        {
+            itemNames = itemNames.TrimEnd(',');
+        }
+        return itemNames;
     }
 
     //Create new fertilizer/pesticide operetion dialog
