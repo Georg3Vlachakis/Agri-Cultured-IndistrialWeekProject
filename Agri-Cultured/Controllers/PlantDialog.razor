@@ -1,4 +1,6 @@
-﻿<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
+﻿@inject NavigationManager NavigationManager
+
+<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px 3px 3px black;">
     <TitleContent>
         Create a new Plant
     </TitleContent>
@@ -20,8 +22,23 @@
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
-    void Submit() => MudDialog.Close(DialogResult.Ok(true));
-    void Cancel() => MudDialog.Cancel();
+    [Parameter] public JSRuntime jSRuntime { get; set; }
+
+    void Submit()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+    void Cancel()
+    {
+        MudDialog.Cancel();
+        HandleDialogClose();
+    }
+
+    //Enable scrolling
+    private void HandleDialogClose()
+    {
+        NavigationManager.NavigateTo("/Dashboard", forceLoad: true);
+    }
 
     //temp
     private string plant;

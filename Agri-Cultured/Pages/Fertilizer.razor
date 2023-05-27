@@ -1,7 +1,10 @@
 @page "/Fertilizer/{plantid}"
 @inject IConfiguration Configuration
 @inject IDialogService DialogService
+@inject NavigationManager NavigationManager
+@using Agri_Cultured.Models;
 @using Controllers
+@using MySql.Data.MySqlClient;
 
 <PageTitle>Fertilizer</PageTitle>
 
@@ -14,57 +17,50 @@
     </div>
 </div>
 
-
-<RadzenRow JustifyContent="JustifyContent.Start" AlignItems="Radzen.AlignItems.Center" Gap="0">
-    <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
-        <RadzenColumn Size="12" Style="justify-self:center; align-self:center">
-            <RadzenCard Class="rz-my-12 rz-mx-auto" Style="width:auto; height:470px;  background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 2px 3px gray;">
-                <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
-                    <RadzenStack Gap="0" Style="align-self:center">
-                        <RadzenText TextStyle="TextStyle.Body1" Style="color: white; text-shadow: 0px 2px 3px gray; font-size: 15px;" class="rz-display-flex rz-mt-2 rz-my-0"><b>Fertzilizer/Pesticide</b></RadzenText>
-                    </RadzenStack>
-                </RadzenStack>
-                <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:330px; width:100%; overflow-y: auto">
-                    <RadzenRow RowGap="0">
-                        <RadzenColumn SizeXS="12">
-                            <RadzenRow>
-                                <RadzenColumn>
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Product Name:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;"> Jack Daniels</RadzenText>
-                                </RadzenColumn>
-                            </RadzenRow>
-                            <RadzenRow>
-                                 <RadzenColumn>
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Date Started:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">Since 1875</RadzenText>
-                                </RadzenColumn>
-                            </RadzenRow>
-                        </RadzenColumn>
-                        <RadzenColumn SizeXS="12" Style="margin-top: 10%">
-                            <RadzenRow>
-                                <RadzenColumn>
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Items:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">Katana, Crossbow, Torpedo </RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Total Cost:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">0.50</RadzenText>
-                                </RadzenColumn>
-                                <RadzenColumn>
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Items Cost:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">1000000, 50000000, 9.99</RadzenText>
-                                </RadzenColumn>
-                            </RadzenRow>
+<RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
+    @foreach (FertPest frt in fertPests)
+    {
+        <RadzenCard Class="rz-my-12 rz-mx-auto" Style="width:88vw; height:426px; background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 2px 3px gray;">
+        <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
+            <RadzenStack Gap="0" Style="align-self:center">
+                <RadzenText TextStyle="TextStyle.Overline" Style="color: white; text-shadow: 0px 2px 3px gray; font-size: 15px;" class="rz-display-flex rz-mt-2 rz-my-0"><b>Fertzilizer/Pesticide</b></RadzenText>
+            </RadzenStack>
+        </RadzenStack>
+        <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:75%; width:100%; overflow-y: auto">
+            <RadzenRow RowGap="0">
+                <RadzenColumn SizeXS="12">
+                    <RadzenRow>
+                        <RadzenColumn>
+                            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Product Name:</strong></RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@frt.ProductName</RadzenText>
                         </RadzenColumn>
                     </RadzenRow>
-                </RadzenCard>
-                <div class="mt-2">
-                    <RadzenButton Click="(() => EditFertilizerDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
-                    <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" />
-                </div>
-            </RadzenCard>
-        </RadzenColumn>
-    </RadzenRow>
+                    <RadzenRow>
+                         <RadzenColumn>
+                            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Date Started:</strong></RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">Since: @frt.Date</RadzenText>
+                        </RadzenColumn>
+                    </RadzenRow>
+                </RadzenColumn>
+                <RadzenColumn SizeXS="12" Style="margin-top: 10%">
+                    <RadzenRow>
+                        <RadzenColumn>
+                            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Items:</strong></RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@ItemsToString(frt.FertPestId)</RadzenText>
+                            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Total Cost:</strong></RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@totalCost</RadzenText>
+                        </RadzenColumn>
+                    </RadzenRow>
+                </RadzenColumn>
+            </RadzenRow>
+        </RadzenCard>
+        <div class="mt-2">
+            <RadzenButton Click="(() => EditFertilizerDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
+                <RadzenButton Icon="delete" Click="(() => DeleteFertPest(frt.FertPestId))" ButtonStyle="ButtonStyle.Danger" />
+        </div>
+    </RadzenCard>
+    }
 </RadzenRow>
-
 
 @code 
 {
@@ -74,10 +70,89 @@
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
+    List<FertPest> fertPests = new List<FertPest>();
+    List<Item> items = new List<Item>();
+
+    private float totalCost = 0;
+
 
     async Task<string> getUserId()
     {
         return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+    }
+
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySqlConnection connection = new MySqlConnection(connnectionString);
+        string orfeas = "SELECT * FROM items JOIN fert_pest ON items.fert_pest_fert_pest_Id = fert_pest.fert_pest_Id JOIN plants_has_user ON fert_pest.fert_pest_Id = plants_has_user.plants_user_Id WHERE plants_has_user.aspnetusers_Id = '" + await getUserId() + "' AND plants_has_user.plants_user_Id = '" + plantid + "';";
+
+        using (MySqlCommand command = new MySqlCommand(orfeas, connection))
+        {
+            connection.Open();
+            MySqlCommand sqlcmd = new MySqlCommand(orfeas, connection);
+            sqlcmd.CommandText = orfeas;
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            MySqlDataReader rdr = sqlcmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                FertPest fert = new FertPest();
+                fert.FertPestId = (Int32)rdr["fert_pest_Id"];
+                fert.ProductName = rdr["product_name"].ToString();
+                fert.Type = (bool)rdr["type"];
+                fert.Date = DateOnly.FromDateTime((DateTime)rdr["date"]);
+                if (!fertPests.Contains(fert))
+                {
+                    fertPests.Add(fert);                    
+                }
+
+                Item item = new Item();
+                item.ItemId = (Int32)rdr["item_id"];
+                item.ItemName = rdr["item_name"].ToString();
+                item.ItemDescription = rdr["item_description"].ToString();
+                item.Cost = (float)rdr["cost"];
+                item.FertPestFertPestId = (Int32)rdr["fert_pest_fert_pest_Id"];
+                items.Add(item);
+            }
+            rdr.Close();
+            connection.Close();
+        }
+    }
+
+    //Delete FertPest
+    void DeleteFertPest(int fertpestID)
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySqlConnection connection = new MySqlConnection(connnectionString);
+        string sqldeletefertpest = "DELETE fp, ofp, i FROM `agridata`.`fert_pest` AS fp LEFT JOIN `agridata`.`op_fert_pest` AS ofp ON ofp.`fert_pest_Id` = fp.`fert_pest_Id` LEFT JOIN `agridata`.`items` AS i ON i.`fert_pest_fert_pest_Id` = fp.`fert_pest_Id` WHERE fp.`fert_pest_Id` = '" + fertpestID + "';";
+        using (MySqlCommand command = new MySqlCommand(sqldeletefertpest, connection))
+        {
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+        NavigationManager.NavigateTo("/Fertilizer/" + plantid, forceLoad: true); //refresh page to delete the item
+    }
+
+    //Get items list to string
+    string ItemsToString(int fertPestId)
+    {
+        string itemNames = "";
+        totalCost = 0;
+        foreach (Item item in items)
+        {
+            if (item.FertPestFertPestId == fertPestId)
+            {
+                itemNames = item.ItemName + " (" + item.Cost.ToString() + ")" + ",";
+                totalCost += item.Cost;
+            }
+        }
+
+        if (itemNames != "")
+        {
+            itemNames = itemNames.TrimEnd(',');
+        }
+        return itemNames;
     }
 
     //Create new fertilizer/pesticide operetion dialog

@@ -13,55 +13,48 @@
     </div>
 </div>
 
-<RadzenRow JustifyContent="JustifyContent.Start" AlignItems="Radzen.AlignItems.Center" Gap="0">
-    <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
-        <RadzenColumn Size="12" Style="justify-self:center; align-self:center">
-            @foreach(Models.Income a in inc)
-            {
-            <RadzenCard Class="rz-my-12 rz-mx-auto" Style="width:auto; height:470px;  background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 1px 3px gray;">
-                <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
-                    <RadzenStack Gap="0" Style="align-self:center">
-                        <RadzenText TextStyle="TextStyle.Body1" class="rz-display-flex rz-mt-2 rz-my-0" Style="color: white; text-shadow: 0px 2px 3px gray; font-size: 17px;"><b>Income</b></RadzenText>
-                    </RadzenStack>
-                </RadzenStack>
-                <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:325px; width:100%; overflow-y: auto">
-                    <RadzenRow RowGap="0">
-                        <RadzenColumn SizeXS="12">
-                            <RadzenRow>
-                                <RadzenColumn>
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Income Type:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">Not implimented in the DataBase</RadzenText>
-                                </RadzenColumn>
-                            </RadzenRow>
-                            <RadzenRow>
-                                <RadzenColumn>
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Date:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@a.Date</RadzenText>
-                                </RadzenColumn>
-                            </RadzenRow>
-                        </RadzenColumn>
-                        <RadzenColumn Style="margin-top: 20%">
-                            <RadzenRow>
-                                <RadzenColumn>
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Plants Sold:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@getplantname()</RadzenText>
-                                </RadzenColumn>
-                                <RadzenColumn>
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Ammount:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@a.Income1</RadzenText>
-                                </RadzenColumn>
-                            </RadzenRow>
+<RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
+    <RadzenCard Class="rz-my-12 rz-mx-auto" Style="width:88vw; height:400px;  background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 1px 3px gray;">
+        <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
+            <RadzenStack Gap="0" Style="align-self:center">
+                <RadzenText TextStyle="TextStyle.Body1" class="rz-display-flex rz-mt-2 rz-my-0" Style="color: white; text-shadow: 0px 2px 3px gray; font-size: 17px;"><b>Income</b></RadzenText>
+            </RadzenStack>
+        </RadzenStack>
+        <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:73%; width:100%; overflow-y: auto">
+            <RadzenRow RowGap="0">
+                <RadzenColumn SizeXS="12">
+                    <RadzenRow>
+                        <RadzenColumn>
+                            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Income Type:</strong></RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">Sale</RadzenText>
                         </RadzenColumn>
                     </RadzenRow>
-                </RadzenCard>
-                <div class="mt-2">
-                    <RadzenButton Click="(() => EditIncomeDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
-                    <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" />
-                </div>
-            </RadzenCard>
-            }
-        </RadzenColumn>
-    </RadzenRow>
+                    <RadzenRow>
+                        <RadzenColumn>
+                            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Date:</strong></RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">20/04</RadzenText>
+                        </RadzenColumn>
+                    </RadzenRow>
+                </RadzenColumn>
+                <RadzenColumn Style="margin-top: 20%">
+                    <RadzenRow>
+                        <RadzenColumn>
+                            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Plants Sold:</strong></RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">Marijuana</RadzenText>
+                        </RadzenColumn>
+                        <RadzenColumn>
+                            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Ammount:</strong></RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">99.99</RadzenText>
+                        </RadzenColumn>
+                    </RadzenRow>
+                </RadzenColumn>
+            </RadzenRow>
+        </RadzenCard>
+        <div class="mt-2">
+            <RadzenButton Click="(() => EditIncomeDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
+            <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" />
+        </div>
+    </RadzenCard>
 </RadzenRow>
 
 @code {

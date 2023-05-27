@@ -9,6 +9,7 @@
 @inject IConfiguration Configuration
 @inject NavigationManager NavigationManager;
 @inject IDialogService DialogService
+@inject IJSRuntime JSRuntime;
 @using Controllers
 
 <PageTitle>Dashboard</PageTitle>
@@ -21,71 +22,68 @@
     </div>
 </div>
 
-<RadzenRow JustifyContent="JustifyContent.Start" AlignItems="Radzen.AlignItems.Center" Gap="0">
-    <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
-        <RadzenColumn Size="12" Style="justify-self:center; align-self:center">
-            @foreach (PlantsHasUser a in field)
-            {
-                <RadzenCard Class="rz-my-12 rz-mx-auto" id="plantmenu" Style="width:auto; height:490px;  background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 2px 3px gray;">
-                    <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
-                        <RadzenStack Gap="0" Style="align-self:center">
-                            <RadzenText TextStyle="TextStyle.Overline" Style="color: white; text-shadow: 0px 2px 3px gray; font-size: 15px;" class="rz-display-flex rz-mt-2 rz-my-0;"><b>Plant</b></RadzenText>
-                            <RadzenText TextStyle="TextStyle.Body1" Style="color: white; text-shadow: 0px 1px 1px gray;"><b>@getplantname(a.PlantsPlantId) @a.Description</b></RadzenText>
-                        </RadzenStack>
-                    </RadzenStack>
-                    <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:330px; width:100%; overflow-y: auto">
-                        <RadzenRow RowGap="0">
-                            <RadzenColumn SizeXS="2">
-                                <RadzenRow>
-                                    <RadzenColumn>
-                                        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0 rz-mr-3" Style="color: #015249"><strong>Location</strong></RadzenText>
-                                        <RadzenText TextStyle="TextStyle.Body1" class="rz-mr-3" Style="color: white">@a.Location</RadzenText>
-                                    </RadzenColumn>
-                                    <RadzenColumn>
-                                        <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0 rz-mr-3" Style="color: #015249"><strong>Date Planted</strong></RadzenText>
-                                        <RadzenText TextStyle="TextStyle.Body1" class="rz-mr-3" Style="color: white">@a.DatePlanted</RadzenText>
-                                    </RadzenColumn>
-                                </RadzenRow>
+
+<RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
+    @foreach (PlantsHasUser a in field)
+    {
+        <RadzenCard Class="rz-my-12 rz-mx-auto" id="plantmenu" Style="width:88vw; height:450px;  background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 2px 3px gray;">
+            <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
+                <RadzenStack Gap="0" Style="align-self:center">
+                    <RadzenText TextStyle="TextStyle.Overline" Style="color: white; text-shadow: 0px 2px 3px gray; font-size: 15px;" class="rz-display-flex rz-mt-2 rz-my-0;"><b>Plant</b></RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white; text-shadow: 0px 1px 1px gray;"><b>@a.Description</b></RadzenText>
+                </RadzenStack>
+            </RadzenStack>
+            <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:71%; width:100%; overflow-y: auto">
+                <RadzenRow RowGap="0">
+                    <RadzenColumn SizeXS="2">
+                        <RadzenRow>
+                            <RadzenColumn>
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0 rz-mr-3" Style="color: #015249"><strong>Location</strong></RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body1" class="rz-mr-3" Style="color: white">@a.Location</RadzenText>
                             </RadzenColumn>
-                            <RadzenColumn SizeXS="8" Style="width: 100%">
-                                <MudPaper Width="100%" Style=" height: 165px;">
-                                    <MudList Clickable="true">
-                                        @*Menu*@
-                                        <MudListItem Icon="@Icons.Material.Filled.Agriculture" Text="Operations" Style="font-weight: bold" InitiallyExpanded="false">
-                                            @*Dropdown*@
-                                            <NestedList>
-                                                <MudListItem OnClick="(()=>NavAsync(ArgiTaskHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.TaskAlt" Style="font-weight: bold">
-                                                    Tasks
-                                                </MudListItem>
-                                                <MudListItem OnClick="(()=>NavAsync(FertHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Compost" Style="font-weight: bold">
-                                                    Fert/Pest
-                                                </MudListItem>
-                                                <MudListItem OnClick="(()=>NavAsync(IrrHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Bloodtype" Style="font-weight: bold">
-                                                  Irrigation
-                                            </MudListItem>
-                                        </NestedList>
+                            <RadzenColumn>
+                                <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0 rz-mr-3" Style="color: #015249"><strong>Date Planted</strong></RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body1" class="rz-mr-3" Style="color: white">@a.DatePlanted</RadzenText>
+                            </RadzenColumn>
+                        </RadzenRow>
+                    </RadzenColumn>
+                    <RadzenColumn SizeXS="8" Style="width: 100%">
+                        <MudPaper Width="100%" Style=" height: 165px;">
+                            <MudList Clickable="true">
+                                @*Menu*@
+                                <MudListItem Icon="@Icons.Material.Filled.Agriculture" Text="Operations" Style="font-weight: bold" InitiallyExpanded="false">
+                                    @*Dropdown*@
+                                    <NestedList>
+                                        <MudListItem OnClick="(()=>NavAsync(ArgiTaskHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.TaskAlt" Style="font-weight: bold">
+                                            Tasks
+                                        </MudListItem>
+                                        <MudListItem OnClick="(()=>NavAsync(FertHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Compost" Style="font-weight: bold">
+                                            Fert/Pest
+                                        </MudListItem>
+                                        <MudListItem OnClick="(()=>NavAsync(IrrHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Bloodtype" Style="font-weight: bold">
+                                          Irrigation
                                     </MudListItem>
-                                        <MudListItem OnClick="(()=>NavAsync(EventHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Event"  Style="font-weight: bold">
-                                        Events
-                                    </MudListItem>
-                                    <MudListItem OnClick="(()=>NavAsync(ExpHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.AreaChart"  Style="font-weight: bold">
-                                        Other Expenses
-                                    </MudListItem>
-                                        <MudListItem OnClick="(()=>NavAsync(IncHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.AttachMoney"  Style="font-weight: bold">
-                                        Income
-                                    </MudListItem>
-                                </MudList>
-                            </MudPaper>
-                        </RadzenColumn>
-                    </RadzenRow>
-                </RadzenCard>
-                    <div class="mt-2" >
-                        <RadzenButton Icon="delete" Click="(() => DeletePlant(a.PlantsUserId))" ButtonStyle="ButtonStyle.Danger" Disabled="true" /> @*Delete button REMOVE DISABLE!!!!*@
-                    </div>                        
-            </RadzenCard>
-          }
-        </RadzenColumn>
-    </RadzenRow>
+                                </NestedList>
+                            </MudListItem>
+                                <MudListItem OnClick="(()=>NavAsync(EventHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.Event"  Style="font-weight: bold">
+                                Events
+                            </MudListItem>
+                            <MudListItem OnClick="(()=>NavAsync(ExpHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.AreaChart"  Style="font-weight: bold">
+                                Other Expenses
+                            </MudListItem>
+                                <MudListItem OnClick="(()=>NavAsync(IncHref,a.PlantsUserId))" Icon="@Icons.Material.Filled.AttachMoney"  Style="font-weight: bold">
+                                Income
+                            </MudListItem>
+                        </MudList>
+                    </MudPaper>
+                </RadzenColumn>
+            </RadzenRow>
+        </RadzenCard>
+            <div class="mt-2" >
+                <RadzenButton Icon="delete" Click="(() => DeletePlant(a.PlantsUserId))" ButtonStyle="ButtonStyle.Danger" Disabled="true" /> @*Delete button REMOVE DISABLE!!!!*@
+            </div>                        
+        </RadzenCard>
+    }
 </RadzenRow>
 <br />
 <br />
@@ -147,22 +145,32 @@
         }
         NavigationManager.NavigateTo("/Dashboard", forceLoad: true); //refresh page to delete the item
     }
+
     void NavAsync(string href, int plantid)
     {
         // Attach the parameter to the url
         NavigationManager.NavigateTo(href + "/" + plantid);
     }
-      
+
     async Task<string> getUserId()
     {
         return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
     }
-      
+
     //Create new plant dialog
     private void OpenCreatePlantDialog()
     {
         var options = new MudBlazor.DialogOptions { };
-        DialogService.Show<PlantDialog>(" ", options);
+        var parameters = new DialogParameters();
+        parameters.Add("JSRUNTIME", JSRuntime);
+        DialogService.Show<PlantDialog>(" ", parameters ,options);
+        HandleDialogOpen();
+    }
+
+    private void HandleDialogOpen()
+    {
+        // Add the CSS class to disable scrolling
+        JSRuntimeExtensions.InvokeVoidAsync(JSRuntime,"addClassToHtml", "no-scroll");
     }
     private string getplantname(int plantid)
     {

@@ -8,6 +8,14 @@ main {
     flex: 1;
 }
 
+.no-scroll {
+    position: absolute;
+}
+
+.re-scroll{
+    position: relative;
+}
+
 .sidebar {
     background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%)
 }
