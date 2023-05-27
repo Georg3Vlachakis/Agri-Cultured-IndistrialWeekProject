@@ -12,4 +12,6 @@ public partial class Expense
     public float ExpenseAmmount { get; set; }
 
     public DateOnly Date { get; set; }
+
+    public virtual ICollection<PlantsHasUser> PlantsUsers { get; set; } = new List<PlantsHasUser>();
 }

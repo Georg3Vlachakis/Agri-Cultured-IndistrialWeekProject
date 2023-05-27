@@ -33,8 +33,6 @@ public partial class AgridataContext : DbContext
 
     public virtual DbSet<Expense> Expenses { get; set; }
 
-    public virtual DbSet<ExpensesHasPlant> ExpensesHasPlants { get; set; }
-
     public virtual DbSet<FertPest> FertPests { get; set; }
 
     public virtual DbSet<Income> Incomes { get; set; }
@@ -211,26 +209,28 @@ public partial class AgridataContext : DbContext
             entity.Property(e => e.ExpenseType)
                 .HasMaxLength(45)
                 .HasColumnName("expense_type");
-        });
 
-        modelBuilder.Entity<ExpensesHasPlant>(entity =>
-        {
-            entity.HasKey(e => new { e.ExpensesId, e.PlantsUserId })
-                .HasName("PRIMARY")
-                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
-
-            entity.ToTable("expenses_has_plants");
-
-            entity.HasIndex(e => e.ExpensesId, "fk_expences_has_plants_has_user_expences1_idx");
-
-            entity.HasIndex(e => e.PlantsUserId, "fk_expences_has_plants_has_user_plants_has_user1_idx");
-
-            entity.Property(e => e.ExpensesId).HasColumnName("expenses_Id");
-            entity.Property(e => e.PlantsUserId).HasColumnName("plants_user_Id");
-
-            entity.HasOne(d => d.PlantsUser).WithMany(p => p.ExpensesHasPlants)
-                .HasForeignKey(d => d.PlantsUserId)
-                .HasConstraintName("fk_expences_has_plants_has_user_plants_has_user1");
+            entity.HasMany(d => d.PlantsUsers).WithMany(p => p.Expenses)
+                .UsingEntity<Dictionary<string, object>>(
+                    "ExpensesHasPlant",
+                    r => r.HasOne<PlantsHasUser>().WithMany()
+                        .HasForeignKey("PlantsUserId")
+                        .HasConstraintName("fk_expences_has_plants_has_user_plants_has_user1"),
+                    l => l.HasOne<Expense>().WithMany()
+                        .HasForeignKey("ExpensesId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("fk_expences_has_plants_has_user_expences1_idx"),
+                    j =>
+                    {
+                        j.HasKey("ExpensesId", "PlantsUserId")
+                            .HasName("PRIMARY")
+                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+                        j.ToTable("expenses_has_plants");
+                        j.HasIndex(new[] { "ExpensesId" }, "fk_expences_has_plants_has_user_expences1_idx");
+                        j.HasIndex(new[] { "PlantsUserId" }, "fk_expences_has_plants_has_user_plants_has_user1_idx");
+                        j.IndexerProperty<int>("ExpensesId").HasColumnName("expenses_Id");
+                        j.IndexerProperty<int>("PlantsUserId").HasColumnName("plants_user_Id");
+                    });
         });
 
         modelBuilder.Entity<FertPest>(entity =>
@@ -283,6 +283,7 @@ public partial class AgridataContext : DbContext
             entity.Property(e => e.IncomeId).HasColumnName("income_id");
             entity.Property(e => e.Date).HasColumnName("date");
             entity.Property(e => e.Income1).HasColumnName("income");
+            entity.Property(e => e.Iscomp).HasColumnName("iscomp");
 
             entity.HasMany(d => d.PlantsUsers).WithMany(p => p.Incomes)
                 .UsingEntity<Dictionary<string, object>>(
@@ -369,7 +370,6 @@ public partial class AgridataContext : DbContext
 
             entity.HasOne(d => d.FertPestFertPest).WithMany(p => p.Items)
                 .HasForeignKey(d => d.FertPestFertPestId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_items_fert_pest1");
         });
 

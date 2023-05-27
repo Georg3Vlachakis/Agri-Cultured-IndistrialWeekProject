@@ -11,5 +11,7 @@ public partial class Income
 
     public float Income1 { get; set; }
 
+    public bool Iscomp { get; set; }
+
     public virtual ICollection<PlantsHasUser> PlantsUsers { get; set; } = new List<PlantsHasUser>();
 }
