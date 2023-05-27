@@ -69,9 +69,8 @@
     }
     async void Submit()
     {
-
-        planthasusers.DatePlanted = DateOnly.FromDateTime(dated);
-        dateonlyformated = planthasusers.DatePlanted.ToString().Replace('/','-');
+        string datetimeformated = dated.ToString("yyyy-MM-dd");
+        dateonlyformated = datetimeformated;
         planthasusers.PlantsPlantId = plantnametoid(createdplant.PlantName);
         await plantsave();
         HandleDialogClose();
@@ -123,7 +122,6 @@
             a = await getUserId();
             command.Parameters.AddWithValue("@plantid",planthasusers.PlantsPlantId);
             command.Parameters.AddWithValue("@aspnetuser", a);
-            string b = planthasusers.DatePlanted.ToString();
             command.Parameters.AddWithValue("@date", dateonlyformated);
             command.Parameters.AddWithValue("@location", planthasusers.Location);
             command.Parameters.AddWithValue("@desc", planthasusers.Description);
