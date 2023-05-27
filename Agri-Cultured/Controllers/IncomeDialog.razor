@@ -1,10 +1,14 @@
-﻿<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
+﻿@using MySql.Data.MySqlClient;
+@inject NavigationManager NavigationManager
+@inject IConfiguration Configuration
+
+<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
     <TitleContent>
         Create a new Income
     </TitleContent>
     <DialogContent>
-        <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
-        <MudTextField @bind-Value="Amount" Label="Cost" Variant="MudBlazor.Variant.Filled" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" AdornmentColor="Color.Warning" Style="margin-bottom: 15px;" Required="true" />
+        <MudTextField T="DateTime" @bind-Value=@date Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
+        <MudTextField @bind-Value=@ammount Label="Cost" Variant="MudBlazor.Variant.Filled" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" AdornmentColor="Color.Warning" Style="margin-bottom: 15px;" Required="true" />
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -14,10 +18,92 @@
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+    [Parameter] public string plantId { get; set; }
 
-    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    float ammount;
+    bool iscomp;
+    DateTime date = DateTime.Now;
+    int incomeid;
+    string dateformated;
+
+
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+
+    }
+    async Task plantsave()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string sqlplantnames = "INSERT INTO income (income, date, iscomp) VALUES (@inc, @date, @iscomp)";
+        connection.Open();
+        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlplantnames, connection))
+        {
+            command.Parameters.AddWithValue("@inc",ammount);
+            command.Parameters.AddWithValue("@date", dateformated);
+            command.Parameters.AddWithValue("@iscomp", iscomp);
+            await command.ExecuteNonQueryAsync();
+        }       
+        connection.Close();
+    }
+    async Task getLastEvntId()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        using (MySqlConnection connection = new MySqlConnection(connnectionString))
+        {
+            string lastincomesql = "SELECT MAX(income_id) AS last_income_Id FROM income";
+            using (MySqlCommand command = new MySqlCommand(lastincomesql, connection))
+            {
+                connection.Open();
+
+                MySqlCommand sqlcmd = new MySqlCommand(lastincomesql, connection);
+                sqlcmd.CommandText = lastincomesql;
+                sqlcmd.CommandType = System.Data.CommandType.Text;
+                MySqlDataReader rdr = sqlcmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    incomeid = (Int32)rdr["last_income_Id"];
+                }
+
+                rdr.Close();
+                connection.Close();
+            }
+        }
+
+    }
+    async Task linkevent()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        using (MySqlConnection connection = new MySqlConnection(connnectionString))
+        {
+            connection.Open();
+
+            string linksql = "INSERT INTO income_has_plants (plants_user_Id, income_id) VALUES (@plantid, @incomeid)";
+
+            using (MySqlCommand command = new MySqlCommand(linksql, connection))
+            {
+                command.Parameters.AddWithValue("@plantid", plantId);
+                command.Parameters.AddWithValue("@incomeid", incomeid);
+
+                await command.ExecuteNonQueryAsync();
+                connection.Close();
+            }
+        }
+
+    }
+    async void Submit()
+    {
+        dateformated = date.ToString("yyyy-MM-dd");
+        await plantsave();
+        await getLastEvntId();
+        await linkevent();
+        NavigationManager.NavigateTo("/Events/" + plantId, forceLoad: true);
+    }
     void Cancel() => MudDialog.Cancel();
 
-    public double? Amount { get; set; } // For cost
-
+    async Task<string> getUserId()
+    {
+        return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+    }
 }
