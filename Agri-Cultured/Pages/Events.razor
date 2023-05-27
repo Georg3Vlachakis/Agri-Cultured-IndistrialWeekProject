@@ -1,7 +1,9 @@
 ﻿@page "/Events/{plantid}"
 @inject IDialogService DialogService
 @inject IConfiguration Configuration
+@inject NavigationManager NavigationManager
 @using Controllers
+@using MySql.Data.MySqlClient;
 
 <PageTitle>Events</PageTitle>
 
@@ -46,7 +48,7 @@
                                 </RadzenColumn>
                                 <RadzenColumn>
                                     <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Percentage:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@a.PercDamage</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@a.PercDamage %</RadzenText>
                                 </RadzenColumn>
                             </RadzenRow>
                             <RadzenRow>
@@ -62,7 +64,7 @@
                 </RadzenCard>
                 <div class="mt-2">
                     <RadzenButton Click="(() => EditEventDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
-                    <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" />
+                    <RadzenButton Click="(()=> DeleteEvent(a.EventId)) "Icon="delete" ButtonStyle="ButtonStyle.Danger" />
                 </div>
             </RadzenCard>
             }
@@ -111,12 +113,14 @@
     {
         return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
     }
-      
+
     //Create new event dialog
     private void OpenCreateEventDialog()
     {
         var options = new MudBlazor.DialogOptions { };
-        DialogService.Show<EventDialog>(" ", options);
+        var parameters = new DialogParameters();
+        parameters.Add("plantID", plantid);
+        DialogService.Show<EventDialog>(" ",parameters, options);
     }
 
     //Edit event dialog
@@ -124,5 +128,20 @@
     {
         var options = new MudBlazor.DialogOptions { };
         DialogService.Show<EditEventDialog>(" ", options);
+    }
+
+    private void DeleteEvent(int eventId)
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySqlConnection connection = new MySqlConnection(connnectionString);
+        string sqldeleteevent = "DELETE FROM events WHERE event_id ='" + eventId + "'";
+        using (MySqlCommand command = new MySqlCommand(sqldeleteevent, connection))
+        {
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+        NavigationManager.NavigateTo("/Events/" + plantid, forceLoad: true); //refresh page to delete the item        
+
     }
 }
