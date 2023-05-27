@@ -1,8 +1,10 @@
 @page "/Fertilizer/{plantid}"
 @inject IConfiguration Configuration
 @inject IDialogService DialogService
+@inject NavigationManager NavigationManager
 @using Agri_Cultured.Models;
 @using Controllers
+@using MySql.Data.MySqlClient;
 
 <PageTitle>Fertilizer</PageTitle>
 
@@ -61,7 +63,7 @@
                 </RadzenCard>
                 <div class="mt-2">
                     <RadzenButton Click="(() => EditFertilizerDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
-                    <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" />
+                        <RadzenButton Icon="delete" Click="(() => DeleteFertPest(plantid))" ButtonStyle="ButtonStyle.Danger" />
                 </div>
             </RadzenCard>
             }
@@ -91,16 +93,16 @@
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
-        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        MySqlConnection connection = new MySqlConnection(connnectionString);
         string orfeas = "SELECT items.item_name, items.item_description, items.cost, items.item_id, fert_pest.date, fert_pest.fert_pest_Id, fert_pest.product_name, fert_pest.type, plants_has_user.plants_user_Id, plants_has_user.aspnetusers_Id FROM items JOIN fert_pest ON items.item_id = fert_pest.fert_pest_Id JOIN plants_has_user ON plants_has_user.plants_user_Id = fert_pest.fert_pest_Id";
 
-        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(orfeas, connection))
+        using (MySqlCommand command = new MySqlCommand(orfeas, connection))
         {
             connection.Open();
-            MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(orfeas, connection);
+            MySqlCommand sqlcmd = new MySqlCommand(orfeas, connection);
             sqlcmd.CommandText = orfeas;
             sqlcmd.CommandType = System.Data.CommandType.Text;
-            MySql.Data.MySqlClient.MySqlDataReader rdr = sqlcmd.ExecuteReader();
+            MySqlDataReader rdr = sqlcmd.ExecuteReader();
             while (rdr.Read())
             {
                 FertPest fert = new FertPest();
@@ -124,6 +126,21 @@
             rdr.Close();
             connection.Close();
         }
+    }
+
+    //Delete FertPest
+    void DeleteFertPest(string plantid)
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySqlConnection connection = new MySqlConnection(connnectionString);
+        string sqldeletefertpest = "FTIAXTE TO PLS";
+        using (MySqlCommand command = new MySqlCommand(sqldeletefertpest, connection))
+        {
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+        NavigationManager.NavigateTo("/Fertilizer/" + plantid, forceLoad: true); //refresh page to delete the item
     }
 
     //Create new fertilizer/pesticide operetion dialog

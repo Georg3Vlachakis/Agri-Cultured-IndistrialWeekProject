@@ -53,7 +53,7 @@
                 </RadzenCard>
                 <div class="mt-2">
                     <RadzenButton Click="(() => EditIrrigationDialog())" Icon=" edit" ButtonStyle="ButtonStyle.Primary" /> @*Edit button*@
-                    <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" /> @*Delete button*@
+                    <RadzenButton Icon="delete" Click="(() => DeleteIrrigation(plantid))" ButtonStyle="ButtonStyle.Danger" /> @*Delete button*@
                 </div>
             </RadzenCard>
             }
@@ -79,16 +79,16 @@
     protected override async Task OnInitializedAsync()
     {
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
-        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        MySqlConnection connection = new MySqlConnection(connnectionString);
         string orfeas = "KANTE KAPOIOS TO QUERRY";
 
         using (MySqlCommand command = new MySqlCommand(orfeas, connection))
         {
             connection.Open();
-            MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(orfeas, connection);
+            MySqlCommand sqlcmd = new MySqlCommand(orfeas, connection);
             sqlcmd.CommandText = orfeas;
             sqlcmd.CommandType = System.Data.CommandType.Text;
-            MySql.Data.MySqlClient.MySqlDataReader rdr = sqlcmd.ExecuteReader();
+            MySqlDataReader rdr = sqlcmd.ExecuteReader();
             while (rdr.Read())
             {
                 Models.Irrigation irr = new Models.Irrigation();
@@ -104,7 +104,7 @@
     }
 
     //Delete Irrigation
-    void DeletePlant(int plantid)
+    void DeleteIrrigation(string plantid)
     {
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
         MySqlConnection connection = new MySqlConnection(connnectionString);
