@@ -7,6 +7,10 @@
         Create a new Income
     </TitleContent>
     <DialogContent>
+        <MudRadioGroup @bind-SelectedOption="@iscomp">
+            <MudRadio Option="@(true)" Color="Color.Error">Compensation</MudRadio>
+            <MudRadio Option="@(false)" Color="Color.Error">Sale</MudRadio>
+        </MudRadioGroup>
         <MudTextField T="DateTime" @bind-Value=@date Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
         <MudTextField @bind-Value=@ammount Label="Cost" Variant="MudBlazor.Variant.Filled" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" AdornmentColor="Color.Warning" Style="margin-bottom: 15px;" Required="true" />
     </DialogContent>
