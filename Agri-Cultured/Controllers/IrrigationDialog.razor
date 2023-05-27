@@ -4,8 +4,8 @@
     </TitleContent>
     <DialogContent>
         <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"/>
-        <MudNumericField @bind-Value="DoubleValue" Label="Hours" Variant="MudBlazor.Variant.Filled" Min="0.0" Style="margin-bottom: 15px;" Required="true"/>
-        <MudTextField @bind-Value="Amount" Label="Cost" Variant="MudBlazor.Variant.Filled" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" AdornmentColor="Color.Warning" Style="margin-bottom: 15px;"/>
+        <MudNumericField @bind-Value="Hours" Label="Hours" Variant="MudBlazor.Variant.Filled" Min="0.0" Style="margin-bottom: 15px;" Required="true" />
+        <MudNumericField @bind-Value="Amount" Format="F2" Label="Cost" Variant="MudBlazor.Variant.Filled" Min="0.0" Style="margin-bottom: 15px;" Required="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" AdornmentColor="Color.Warning" />
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -21,5 +21,5 @@
 
     public double? Amount { get; set; } // For cost
 
-    public double DoubleValue { get; set; } // For hours
+    public double Hours { get; set; } // For hours
 }
