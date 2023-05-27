@@ -1,4 +1,8 @@
-﻿<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
+﻿@using MySql.Data.MySqlClient;
+@inject IConfiguration Configuration
+@inject NavigationManager NavigationManager
+
+<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
     <TitleContent>
         Add Fertilizer or Pesticide
     </TitleContent>
@@ -7,18 +11,17 @@
             <MudRadio Option="@(true)" Color="Color.Error">Fertilizer</MudRadio>
             <MudRadio Option="@(false)" Color="Color.Error">Pesticide</MudRadio>
         </MudRadioGroup>
-        <MudTextField T="string" Value="@fertPest.ProductName" Label="Product Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
-        <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
+        <MudTextField T="string" @bind-value="@fertPest.ProductName" Immediate="true" Label="Product Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
+        <MudTextField T="DateTime" @bind-value="@dated" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
         <RadzenButton Click="OpenNested" Text="Add Item" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Success" />
         <MudDialog @bind-IsVisible="nestedVisible" Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
             <TitleContent>
                 Add Item
             </TitleContent>
             <DialogContent>
-                <MudTextField T="string" Label="Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
-                <MudTextField T="string" Label="Description" Variant="MudBlazor.Variant.Filled" Text="@sampleText" Lines="3" Style="margin-bottom: 15px;"/>
-                <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Required="true" Style="margin-bottom: 15px;"/>
-                <MudTextField @bind-Value="Amount" Label="Item Cost" Variant="MudBlazor.Variant.Filled" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" AdornmentColor="Color.Warning" Style="margin-bottom: 15px;" Required="true" />
+                <MudTextField T="string" @bind-value="@item.ItemName" Label="Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
+                <MudTextField T="string" @bind-value="@item.ItemDescription" Label="Description" Variant="MudBlazor.Variant.Filled" Lines="3" Style="margin-bottom: 15px;" />
+                <MudNumericField @bind-value="@item.Cost" T="float" Format="F2" Label="Cost" Variant="MudBlazor.Variant.Filled" Min="(float)0.0" Style="margin-bottom: 15px;" Required="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" AdornmentColor="Color.Warning" />
             </DialogContent>
             <DialogActions>
                 <MudButton Color="Color.Primary" OnClick="CloseNested">Close</MudButton>
@@ -33,10 +36,31 @@
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
-    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    [Parameter] public string plantId { get; set; }
+
+    async void Submit()
+    {
+        dateFormatted = dated.ToString("yyyy-MM-dd");
+        await FertPestSave();
+        await GetFertPestId();
+        await ItemSave();
+        await OpFertPestSave();
+        NavigationManager.NavigateTo("/Fertilizer/" + plantId, forceLoad: true);
+    }
     void Cancel() => MudDialog.Cancel();
 
     Models.FertPest fertPest = new Models.FertPest();
+    Models.Item item = new Models.Item();
+    DateTime dated = DateTime.Now;
+    string dateFormatted = "";
+    int id;
+
+    async Task<string> getUserId()
+    {
+        return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+    }
 
     // For nested modal dialog
     private bool visible;
@@ -48,6 +72,91 @@
 
     string sampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."; // For item description
 
-    public double? Amount { get; set; } // For item cost
+    private async Task FertPestSave()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        using (MySqlConnection connection = new MySqlConnection(connnectionString))
+        {
+            connection.Open();
 
+            string query = "INSERT INTO fert_pest (type, product_name, date) VALUES (@FertPestType, @FertPestName, @FertPestDate)";
+
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@FertPestType", fertPest.Type);
+                command.Parameters.AddWithValue("@FertPestName", fertPest.ProductName);
+                command.Parameters.AddWithValue("@FertPestDate", dateFormatted);
+
+                await command.ExecuteNonQueryAsync();
+                connection.Close();
+            }
+        }
+    }
+
+    private async Task GetFertPestId()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        using (MySqlConnection connection = new MySqlConnection(connnectionString))
+        {
+            string query2 = "SELECT MAX(fert_pest_Id) AS last_fert_pest_Id FROM fert_pest";
+            using (MySqlCommand command = new MySqlCommand(query2, connection))
+            {
+                connection.Open();
+
+                MySqlCommand sqlcmd = new MySqlCommand(query2, connection);
+                sqlcmd.CommandText = query2;
+                sqlcmd.CommandType = System.Data.CommandType.Text;
+                MySqlDataReader rdr = sqlcmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    id = (Int32)rdr["last_fert_pest_Id"];
+                }
+
+                rdr.Close();
+                connection.Close();
+            }
+        }
+    }
+
+    private async Task ItemSave()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        using (MySqlConnection connection = new MySqlConnection(connnectionString))
+        {
+            connection.Open();
+
+            string query = "INSERT INTO items (item_name, item_description, cost, fert_pest_fert_pest_Id) VALUES (@ItemName, @ItemDescription, @ItemCost, @FertPestId)";
+
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@ItemName", item.ItemName);
+                command.Parameters.AddWithValue("@ItemDescription", item.ItemDescription);
+                command.Parameters.AddWithValue("@ItemCost", item.Cost);
+                command.Parameters.AddWithValue("@FertPestId", id);
+
+                await command.ExecuteNonQueryAsync();
+                connection.Close();
+            }
+        }
+    }
+
+    private async Task OpFertPestSave()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        using (MySqlConnection connection = new MySqlConnection(connnectionString))
+        {
+            connection.Open();
+
+            string query = "INSERT INTO op_fert_pest (fert_pest_Id, plants_user_Id) VALUES (@FertPestId, @PlantsUserId)";
+
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@FertPestId", id);
+                command.Parameters.AddWithValue("@PlantsUserId", plantId);
+
+                await command.ExecuteNonQueryAsync();
+                connection.Close();
+            }
+        }
+    }
 }
