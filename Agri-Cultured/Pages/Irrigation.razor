@@ -1,7 +1,9 @@
 ﻿@page "/Irrigation/{plantid}"
 @inject IConfiguration Configuration
 @inject IDialogService DialogService
+@inject NavigationManager NavigationManager;
 @using Controllers
+@using MySql.Data.MySqlClient;
 
 
 <PageTitle>Irrigation</PageTitle>
@@ -80,7 +82,7 @@
         MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
         string orfeas = "KANTE KAPOIOS TO QUERRY";
 
-        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(orfeas, connection))
+        using (MySqlCommand command = new MySqlCommand(orfeas, connection))
         {
             connection.Open();
             MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(orfeas, connection);
@@ -99,6 +101,21 @@
             rdr.Close();
             connection.Close();
         }
+    }
+
+    //Delete Irrigation
+    void DeletePlant(int plantid)
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySqlConnection connection = new MySqlConnection(connnectionString);
+        string sqldeleteirrigation = "FTIAXTE TO PLS";
+        using (MySqlCommand command = new MySqlCommand(sqldeleteirrigation, connection))
+        {
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+        NavigationManager.NavigateTo("/Irrigation/" + plantid, forceLoad: true); //refresh page to delete the item
     }
 
     //Create new irrigation operetion dialog
