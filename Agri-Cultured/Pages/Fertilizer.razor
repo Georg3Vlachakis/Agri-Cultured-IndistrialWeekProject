@@ -59,7 +59,7 @@
                 </RadzenCard>
                 <div class="mt-2">
                     <RadzenButton Click="(() => EditFertilizerDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
-                        <RadzenButton Icon="delete" Click="(() => DeleteFertPest(plantid))" ButtonStyle="ButtonStyle.Danger" />
+                        <RadzenButton Icon="delete" Click="(() => DeleteFertPest(frt.FertPestId))" ButtonStyle="ButtonStyle.Danger" />
                 </div>
             </RadzenCard>
             }
@@ -126,11 +126,11 @@
     }
 
     //Delete FertPest
-    void DeleteFertPest(string plantid)
+    void DeleteFertPest(int fertpestID)
     {
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
         MySqlConnection connection = new MySqlConnection(connnectionString);
-        string sqldeletefertpest = "FTIAXTE TO PLS";
+        string sqldeletefertpest = "DELETE fp, ofp, i FROM `agridata`.`fert_pest` AS fp LEFT JOIN `agridata`.`op_fert_pest` AS ofp ON ofp.`fert_pest_Id` = fp.`fert_pest_Id` LEFT JOIN `agridata`.`items` AS i ON i.`fert_pest_fert_pest_Id` = fp.`fert_pest_Id` WHERE fp.`fert_pest_Id` = '" + fertpestID + "';";
         using (MySqlCommand command = new MySqlCommand(sqldeletefertpest, connection))
         {
             connection.Open();
