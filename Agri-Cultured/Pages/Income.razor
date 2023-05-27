@@ -1,5 +1,6 @@
 ﻿@page "/Income/{plantid}"
 @inject IDialogService DialogService
+@inject IConfiguration Configuration
 @using Controllers
 
 <PageTitle>Income</PageTitle>
@@ -15,6 +16,8 @@
 <RadzenRow JustifyContent="JustifyContent.Start" AlignItems="Radzen.AlignItems.Center" Gap="0">
     <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
         <RadzenColumn Size="12" Style="justify-self:center; align-self:center">
+            @foreach(Models.Income a in inc)
+            {
             <RadzenCard Class="rz-my-12 rz-mx-auto" Style="width:auto; height:470px;  background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 1px 3px gray;">
                 <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
                     <RadzenStack Gap="0" Style="align-self:center">
@@ -27,13 +30,13 @@
                             <RadzenRow>
                                 <RadzenColumn>
                                     <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Income Type:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">Sale</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">Not implimented in the DataBase</RadzenText>
                                 </RadzenColumn>
                             </RadzenRow>
                             <RadzenRow>
                                 <RadzenColumn>
                                     <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Date:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">20/04</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@a.Date</RadzenText>
                                 </RadzenColumn>
                             </RadzenRow>
                         </RadzenColumn>
@@ -41,11 +44,11 @@
                             <RadzenRow>
                                 <RadzenColumn>
                                     <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Plants Sold:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">Marijuana</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@getplantname()</RadzenText>
                                 </RadzenColumn>
                                 <RadzenColumn>
                                     <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Ammount:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">99.99</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@a.Income1</RadzenText>
                                 </RadzenColumn>
                             </RadzenRow>
                         </RadzenColumn>
@@ -56,6 +59,7 @@
                     <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" />
                 </div>
             </RadzenCard>
+            }
         </RadzenColumn>
     </RadzenRow>
 </RadzenRow>
@@ -63,7 +67,37 @@
 @code {
     [Parameter]
     public string plantid { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    string plantname;
+    List<Models.Income> inc = new List<Models.Income>();
 
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string sqlmyplantincomes = "SELECT income.* FROM income INNER JOIN income_has_plants ON income.income_id = income_has_plants.income_id INNER JOIN plants_has_user ON plants_has_user.plants_user_Id = income_has_plants.plants_user_Id WHERE plants_has_user.aspnetusers_Id = '" + await getUserId() + "' AND plants_has_user.plants_user_Id = '" + plantid + "'";
+        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlmyplantincomes, connection))
+        {
+            connection.Open();
+            MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(sqlmyplantincomes, connection);
+            sqlcmd.CommandText = sqlmyplantincomes;
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            MySql.Data.MySqlClient.MySqlDataReader rdr = sqlcmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                Models.Income incomes = new Models.Income();
+                incomes.IncomeId = (Int32)rdr["income_id"];
+                incomes.Income1 = (float)rdr["income"];
+                incomes.Date = DateOnly.FromDateTime((DateTime)rdr["date"]);
+                inc.Add(incomes);
+            }
+            rdr.Close();
+            connection.Close();
+        }
+
+
+    }
     //Create new income dialog
     private void OpenCreateIncomeDialog()
     {
@@ -76,5 +110,31 @@
     {
         var options = new MudBlazor.DialogOptions { };
         DialogService.Show<EditIncomeDialog>(" ", options);
+    }
+    async Task<string> getUserId()
+    {
+        return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+    }
+
+    private string getplantname()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string slqplantname = "SELECT plants.plant_name FROM plants_has_user INNER JOIN plants ON plants_has_user.plants_plant_Id = plants.plant_Id WHERE plants_has_user.plants_user_Id = '" + plantid + "'";
+        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(slqplantname, connection))
+        {
+            connection.Open();
+            MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(slqplantname, connection);
+            sqlcmd.CommandText = slqplantname;
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            MySql.Data.MySqlClient.MySqlDataReader rdr = sqlcmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                plantname = rdr["plant_name"].ToString();
+            }
+            rdr.Close();
+            connection.Close();
+        }
+        return plantname;
     }
 }
