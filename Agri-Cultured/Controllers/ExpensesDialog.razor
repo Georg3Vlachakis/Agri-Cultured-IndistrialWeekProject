@@ -1,11 +1,14 @@
-﻿<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
+﻿@using MySql.Data.MySqlClient;
+@inject IConfiguration Configuration
+
+<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
     <TitleContent>
         Create a new Expense
     </TitleContent>
     <DialogContent>
-        <MudTextField T="string" Label="Type" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
-        <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
-        <MudTextField @bind-Value="Amount" Label="Cost" Variant="MudBlazor.Variant.Filled" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" AdornmentColor="Color.Warning" Style="margin-bottom: 15px;" Required="true" />
+        <MudTextField T="string" @bind-Value="@expense.ExpenseType" Label="Type" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
+        <MudTextField T="DateTime" @bind-Value="dated" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
+        <MudTextField @bind-Value="@expense.ExpenseAmmount" Label="Cost" Variant="MudBlazor.Variant.Filled" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" AdornmentColor="Color.Warning" Style="margin-bottom: 15px;" Required="true" />
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -16,9 +19,40 @@
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    [Parameter] public string plantId { get; set; }
+
     void Submit() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();
 
-    public double? Amount { get; set; } // For cost
+    Models.Expense expense = new Models.Expense();
+    DateTime dated = DateTime.Now;
+    string dateFormatted = "";
 
+    async Task<string> getUserId()
+    {
+        return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+    }
+
+    private async Task ExpensesSave()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        using (MySqlConnection connection = new MySqlConnection(connnectionString))
+        {
+            connection.Open();
+
+            string query = "INSERT INTO irrigation (date, hours, cost) VALUES (@IrrDate, @IrrHours, @IrrCost)";
+
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@IrrDate", dateFormatted);
+                command.Parameters.AddWithValue("@IrrHours", irrigation.Hours);
+                command.Parameters.AddWithValue("@IrrCost", irrigation.Cost);
+
+                await command.ExecuteNonQueryAsync();
+                connection.Close();
+            }
+        }
+    }
 }

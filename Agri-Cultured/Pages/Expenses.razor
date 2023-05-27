@@ -59,6 +59,7 @@
 @code {
     [Parameter]
     public string plantid { get; set; }
+
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
@@ -99,8 +100,10 @@
     //Create new expense dialog
     private void OpenCreateExpenseDialog()
     {
+        var parameters = new DialogParameters();
+        parameters.Add("plantID", plantid);
         var options = new MudBlazor.DialogOptions { };
-        DialogService.Show<ExpensesDialog>(" ", options);
+        DialogService.Show<ExpensesDialog>(" ", parameters, options);
     }
 
     //Edit expense dialog
