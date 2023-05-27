@@ -1,4 +1,5 @@
 ﻿@page "/Irrigation/{plantid}"
+@inject IConfiguration Configuration
 @inject IDialogService DialogService
 @using Controllers
 
@@ -56,8 +57,46 @@
 </RadzenRow>
 
 @code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
     [Parameter]
     public string plantid { get; set; }
+
+    List<Models.Irrigation> irrigations = new List<Models.Irrigation>();
+
+
+    async Task<string> getUserId()
+    {
+        return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string orfeas = "KANTE KAPOIOS TO QUERRY";
+
+        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(orfeas, connection))
+        {
+            connection.Open();
+            MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(orfeas, connection);
+            sqlcmd.CommandText = orfeas;
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            MySql.Data.MySqlClient.MySqlDataReader rdr = sqlcmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                Models.Irrigation irr = new Models.Irrigation();
+                irr.IrrigationsId = (Int32)rdr["irrigations_Id"];
+                irr.Hours = (Int32)rdr["hours"];
+                irr.Cost = (float)rdr["cost"];
+                irr.Date = DateOnly.FromDateTime((DateTime)rdr["date"]);
+                irrigations.Add(irr);
+            }
+            rdr.Close();
+            connection.Close();
+        }
+    }
 
     //Create new irrigation operetion dialog
     private void OpenCreateIrrigationDialog()
