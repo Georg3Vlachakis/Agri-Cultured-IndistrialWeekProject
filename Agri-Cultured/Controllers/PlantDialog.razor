@@ -1,4 +1,5 @@
 ﻿@inject NavigationManager NavigationManager
+@inject IConfiguration Configuration
 
 <MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px 3px 3px black;">
     <TitleContent>
@@ -7,7 +8,7 @@
     <DialogContent>
         <MudTextField T="string" Label="Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
 
-        <RadzenDropDown AllowClear="true" Placeholder="Plant Type" @bind-Value=@plant Data=@plants Style="width: 100%; max-width: 400px; margin-bottom: 15px" />
+        <RadzenDropDown AllowClear="true" Placeholder="Plant" @bind-Value=@plant Data=@plants Style="width: 100%; max-width: 400px; margin-bottom: 15px" />
 
         <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Planted" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
 
@@ -21,9 +22,45 @@
 </MudDialog>
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-
     [Parameter] public JSRuntime jSRuntime { get; set; }
 
+    private string plant;
+    private string city;
+
+    List<string> plants = new List<string>();
+
+    IEnumerable<string> cities = new List<string>
+    {
+        new String("Thessaloniki"),
+        new String("Serres"),
+        new String("Kriti"),
+        new String("Xanthi"),
+        new String("Kastoria")
+    };
+
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string sqlmyfields = "SELECT plant_name FROM plants";
+        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlmyfields, connection))
+        {
+            connection.Open();
+            MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(sqlmyfields, connection);
+            sqlcmd.CommandText = sqlmyfields;
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            MySql.Data.MySqlClient.MySqlDataReader rdr = sqlcmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                string addplant = "";
+                addplant = rdr["plant_name"].ToString();
+                plants.Add(addplant);
+            }
+            rdr.Close();
+            connection.Close();
+        }
+
+    }
     void Submit()
     {
         MudDialog.Close(DialogResult.Ok(true));
@@ -40,26 +77,26 @@
         NavigationManager.NavigateTo("/Dashboard", forceLoad: true);
     }
 
-    //temp
-    private string plant;
-
-    IEnumerable<string> plants = new List<string>
+    private void plantnametoid()
     {
-        new String("Herbs"),
-        new String("Shrubs"),
-        new String("Climbers"),
-        new String("Trees"),
-        new String("Creepers")
-    };
 
-    private string city;
+    }
 
-    IEnumerable<string> cities = new List<string>
+    private void plantsave()
     {
-        new String("Thessaloniki"),
-        new String("Serres"),
-        new String("Kriti"),
-        new String("Xanthi"),
-        new String("Kastoria")
-    };
+        //var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        //MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        //string sqlplantnames = "INSERT INTO plants_has_user (plants_plant_Id ,)";
+        //connection.Open();
+        //using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlplantnames, connection))
+        //{
+        //    command.Parameters.AddWithValue("",);
+
+
+
+        //    connection.Close();
+        //}    
+    
+    
+    }
 }
