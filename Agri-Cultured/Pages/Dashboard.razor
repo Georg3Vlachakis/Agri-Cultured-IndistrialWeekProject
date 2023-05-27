@@ -22,6 +22,7 @@
     </div>
 </div>
 
+
 <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
     @foreach (PlantsHasUser a in field)
     {
@@ -94,13 +95,13 @@
 
     //redirect links for buttons
     string ArgiTaskHref = "/Agriculturaltasks";     //done
-    string FertHref = "/Fertilizer";
-    string IrrHref = "/Irrigation";
+    string FertHref = "/Fertilizer";                //done
+    string IrrHref = "/Irrigation";                 //
     string EventHref = "/Events";                   //done
     string ExpHref = "/Expenses";                   //done
-    string IncHref = "/Income";
+    string IncHref = "/Income";                     //done
 
-
+    string plantname;
     List<PlantsHasUser> field = new List<PlantsHasUser>();
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
@@ -170,5 +171,26 @@
     {
         // Add the CSS class to disable scrolling
         JSRuntimeExtensions.InvokeVoidAsync(JSRuntime,"addClassToHtml", "no-scroll");
+    }
+    private string getplantname(int plantid)
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string slqplantname = "SELECT plants.plant_name FROM plants WHERE plant_Id = '" + plantid + "'";
+        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(slqplantname, connection))
+        {
+            connection.Open();
+            MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(slqplantname, connection);
+            sqlcmd.CommandText = slqplantname;
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            MySql.Data.MySqlClient.MySqlDataReader rdr = sqlcmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                plantname = rdr["plant_name"].ToString();
+            }
+            rdr.Close();
+            connection.Close();
+        }
+        return plantname;
     }
 }

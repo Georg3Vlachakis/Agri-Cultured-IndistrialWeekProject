@@ -1,5 +1,6 @@
 ﻿@page "/Income/{plantid}"
 @inject IDialogService DialogService
+@inject IConfiguration Configuration
 @using Controllers
 
 <PageTitle>Income</PageTitle>
@@ -59,7 +60,37 @@
 @code {
     [Parameter]
     public string plantid { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    string plantname;
+    List<Models.Income> inc = new List<Models.Income>();
 
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string sqlmyplantincomes = "SELECT income.* FROM income INNER JOIN income_has_plants ON income.income_id = income_has_plants.income_id INNER JOIN plants_has_user ON plants_has_user.plants_user_Id = income_has_plants.plants_user_Id WHERE plants_has_user.aspnetusers_Id = '" + await getUserId() + "' AND plants_has_user.plants_user_Id = '" + plantid + "'";
+        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlmyplantincomes, connection))
+        {
+            connection.Open();
+            MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(sqlmyplantincomes, connection);
+            sqlcmd.CommandText = sqlmyplantincomes;
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            MySql.Data.MySqlClient.MySqlDataReader rdr = sqlcmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                Models.Income incomes = new Models.Income();
+                incomes.IncomeId = (Int32)rdr["income_id"];
+                incomes.Income1 = (float)rdr["income"];
+                incomes.Date = DateOnly.FromDateTime((DateTime)rdr["date"]);
+                inc.Add(incomes);
+            }
+            rdr.Close();
+            connection.Close();
+        }
+
+
+    }
     //Create new income dialog
     private void OpenCreateIncomeDialog()
     {
@@ -72,5 +103,31 @@
     {
         var options = new MudBlazor.DialogOptions { };
         DialogService.Show<EditIncomeDialog>(" ", options);
+    }
+    async Task<string> getUserId()
+    {
+        return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+    }
+
+    private string getplantname()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string slqplantname = "SELECT plants.plant_name FROM plants_has_user INNER JOIN plants ON plants_has_user.plants_plant_Id = plants.plant_Id WHERE plants_has_user.plants_user_Id = '" + plantid + "'";
+        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(slqplantname, connection))
+        {
+            connection.Open();
+            MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(slqplantname, connection);
+            sqlcmd.CommandText = slqplantname;
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            MySql.Data.MySqlClient.MySqlDataReader rdr = sqlcmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                plantname = rdr["plant_name"].ToString();
+            }
+            rdr.Close();
+            connection.Close();
+        }
+        return plantname;
     }
 }
