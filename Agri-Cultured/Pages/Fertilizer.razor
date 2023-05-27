@@ -159,7 +159,9 @@
     private void OpenCreateFertilizerDialog()
     {
         var options = new MudBlazor.DialogOptions { };
-        DialogService.Show<FertilizerDialog>(" ", options);
+        var parameters = new DialogParameters();
+        parameters.Add("plantID", plantid);
+        DialogService.Show<FertilizerDialog>(" ", parameters, options);
     }
 
     //Edit fertilizer/pesticide operetion dialog
