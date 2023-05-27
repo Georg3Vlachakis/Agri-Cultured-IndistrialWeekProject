@@ -7,6 +7,21 @@
         <MudCheckBox @bind-Checked="@Label_CheckBox3" Label="Pestiside" Color="Color.Secondary"></MudCheckBox>
         <MudTextField T="string" Label="Product Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
         <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
+        <RadzenButton Click="OpenNested" Text="Edit Item" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Success" />
+        <MudDialog @bind-IsVisible="nestedVisible" Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
+            <TitleContent>
+                Edit Item
+            </TitleContent>
+            <DialogContent>
+                <MudTextField T="string" Label="Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
+                <MudTextField T="string" Label="Description" Variant="MudBlazor.Variant.Filled" Text="@sampleText" Lines="3" Style="margin-bottom: 15px;" />
+                <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Required="true" Style="margin-bottom: 15px;" />
+                <MudTextField @bind-Value="Amount" Label="Item Cost" Variant="MudBlazor.Variant.Filled" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" AdornmentColor="Color.Warning" Style="margin-bottom: 15px;" Required="true" />
+            </DialogContent>
+            <DialogActions>
+                <MudButton Color="Color.Primary" OnClick="CloseNested">Close</MudButton>
+            </DialogActions>
+        </MudDialog>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -23,4 +38,15 @@
     public bool Label_CheckBox2 { get; set; } = true;
     public bool Label_CheckBox3 { get; set; } = false;
 
+    // For nested modal dialog
+    private bool visible;
+    private bool nestedVisible;
+    private void Open() => visible = true;
+    private void Close() => visible = false;
+    private void OpenNested() => nestedVisible = true;
+    private void CloseNested() => nestedVisible = false;
+
+    string sampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."; // For item description
+
+    public double? Amount { get; set; } // For item cost
 }
