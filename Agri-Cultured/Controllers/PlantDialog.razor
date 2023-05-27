@@ -10,7 +10,7 @@
 
         <RadzenDropDown AllowClear="true" Placeholder="Plant" @bind-Value=@createdplant.PlantName Data=@plants Style="width: 100%; max-width: 400px; margin-bottom: 15px" />
 
-        <MudTextField T="DateOnly" Format="yyyy-MM-dd" Label="Date Planted" @bind-Value=@planthasusers.DatePlanted InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
+        <MudTextField T="DateTime" Format="yyyy-MM-dd" Label="Date Planted" @bind-Value=@dated InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
 
         <RadzenDropDown AllowClear="true" Placeholder="City" @bind-Value=@planthasusers.Location Data=@cities Style="width: 100%; max-width: 400px; margin-bottom: 15px" />
 
@@ -26,7 +26,7 @@
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
-
+    DateTime dated = DateTime.Now;
     List<string> plants = new List<string>();
     List<Models.PlantsHasUser> phu = new List<Models.PlantsHasUser>();
 
@@ -68,6 +68,7 @@
     }
     async void Submit()
     {
+        planthasusers.DatePlanted = DateOnly.FromDateTime(dated);
         planthasusers.PlantsPlantId = plantnametoid(createdplant.PlantName);
         await plantsave();
         HandleDialogClose();
