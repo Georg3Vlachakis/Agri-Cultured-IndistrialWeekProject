@@ -17,7 +17,9 @@
 <RadzenRow JustifyContent="JustifyContent.Start" AlignItems="Radzen.AlignItems.Center" Gap="0">
     <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
         <RadzenColumn Size="12" Style="justify-self:center; align-self:center">
-            <RadzenCard Class="rz-my-12 rz-mx-auto" Style="width:auto; height:470px;  background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 1px 3px gray;">
+            @foreach (Models.Irrigation irrigation in irrigations)
+            {
+                <RadzenCard Class="rz-my-12 rz-mx-auto" Style="width:auto; height:470px;  background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 1px 3px gray;">
                 <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
                     <RadzenStack Gap="0" Style="align-self:center">
                         <RadzenText TextStyle="TextStyle.Body1" class="rz-display-flex rz-mt-2 rz-my-0" Style="color: white; text-shadow: 0px 2px 3px gray; font-size: 15px;"><b>Irrigation</b></RadzenText>
@@ -29,7 +31,7 @@
                             <RadzenRow>
                                 <RadzenColumn>
                                     <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Date Started:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">06/06/06</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@irrigation.Date.ToString()</RadzenText>
                                 </RadzenColumn>
                             </RadzenRow>
                         </RadzenColumn>
@@ -37,11 +39,11 @@
                             <RadzenRow>
                                 <RadzenColumn>
                                     <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Hours:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">5H</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@irrigation.Hours.ToString() hour(s)</RadzenText>
                                 </RadzenColumn>
                                 <RadzenColumn>
                                     <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Cost:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">666.66 &euro;</RadzenText>
+                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@irrigation.Cost.ToString() &euro;</RadzenText>
                                 </RadzenColumn>
                             </RadzenRow>
                         </RadzenColumn>
@@ -52,6 +54,7 @@
                     <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" /> @*Delete button*@
                 </div>
             </RadzenCard>
+            }
         </RadzenColumn>
     </RadzenRow>
 </RadzenRow>
