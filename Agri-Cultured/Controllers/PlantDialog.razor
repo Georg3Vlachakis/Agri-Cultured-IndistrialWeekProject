@@ -6,13 +6,13 @@
         Create a new Plant
     </TitleContent>
     <DialogContent>
-        <MudTextField T="string" Label="Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
+        <MudTextField T="string" Label="Name" Variant="MudBlazor.Variant.Filled" @bind-Value=@planthasusers.Description Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
 
-        <RadzenDropDown AllowClear="true" Placeholder="Plant" @bind-Value=@plant Data=@plants Style="width: 100%; max-width: 400px; margin-bottom: 15px" />
+        <RadzenDropDown AllowClear="true" Placeholder="Plant" @bind-Value=@createdplant.PlantName Data=@plants Style="width: 100%; max-width: 400px; margin-bottom: 15px" />
 
-        <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Planted" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
+        <MudTextField T="DateOnly" Format="yyyy-MM-dd" Label="Date Planted" @bind-Value=@planthasusers.DatePlanted InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
 
-        <RadzenDropDown AllowClear="true" Placeholder="City" @bind-Value=@city Data=@cities Style="width: 100%; max-width: 400px; margin-bottom: 15px" />
+        <RadzenDropDown AllowClear="true" Placeholder="City" @bind-Value=@planthasusers.Location Data=@cities Style="width: 100%; max-width: 400px; margin-bottom: 15px" />
 
     </DialogContent>
     <DialogActions>
@@ -23,11 +23,16 @@
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public JSRuntime jSRuntime { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
 
-    private string plant;
-    private string city;
 
     List<string> plants = new List<string>();
+    List<Models.PlantsHasUser> phu = new List<Models.PlantsHasUser>();
+
+    //placeholder
+    Models.Plant createdplant = new Models.Plant();
+    Models.PlantsHasUser planthasusers = new Models.PlantsHasUser();
 
     IEnumerable<string> cities = new List<string>
     {
@@ -61,9 +66,11 @@
         }
 
     }
-    void Submit()
+    async void Submit()
     {
-        MudDialog.Close(DialogResult.Ok(true));
+        planthasusers.PlantsPlantId = plantnametoid(createdplant.PlantName);
+        await plantsave();
+        HandleDialogClose();
     }
     void Cancel()
     {
@@ -77,26 +84,51 @@
         NavigationManager.NavigateTo("/Dashboard", forceLoad: true);
     }
 
-    private void plantnametoid()
+    private int plantnametoid(string plantname)
     {
-
+        int plantid = 0;
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string sqlplantnametoid = "SELECT plant_Id FROM plants WHERE plant_name = '" + plantname + "'";
+        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlplantnametoid, connection))
+        {
+            connection.Open();
+            MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(sqlplantnametoid, connection);
+            sqlcmd.CommandText = sqlplantnametoid;
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            MySql.Data.MySqlClient.MySqlDataReader rdr = sqlcmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                plantid = (Int32)rdr["plant_Id"];
+            }
+            rdr.Close();
+            connection.Close();
+        }
+        return plantid;
     }
 
-    private void plantsave()
+    async Task plantsave()
     {
-        //var connnectionString = Configuration.GetConnectionString("DefaultConnection");
-        //MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
-        //string sqlplantnames = "INSERT INTO plants_has_user (plants_plant_Id ,)";
-        //connection.Open();
-        //using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlplantnames, connection))
-        //{
-        //    command.Parameters.AddWithValue("",);
-
-
-
-        //    connection.Close();
-        //}    
-    
-    
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string sqlplantnames = "INSERT INTO plants_has_user (plants_plant_Id, aspnetusers_Id, date_planted, location, description ) VALUES (@plantid, @aspnetuser, @date, @location, @desc )";
+        connection.Open();
+        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlplantnames, connection))
+        {
+            string a;
+            a = await getUserId();
+            command.Parameters.AddWithValue("@plantid",planthasusers.PlantsPlantId);
+            command.Parameters.AddWithValue("@aspnetuser", a);
+            
+            command.Parameters.AddWithValue("@date", planthasusers.DatePlanted);
+            command.Parameters.AddWithValue("@location", planthasusers.Location);
+            command.Parameters.AddWithValue("@desc", planthasusers.Description);
+            await command.ExecuteNonQueryAsync();
+            connection.Close();
+        }        
+    }
+    async Task<string> getUserId()
+    {
+        return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
     }
 }
