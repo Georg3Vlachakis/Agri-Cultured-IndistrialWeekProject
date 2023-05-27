@@ -26,6 +26,7 @@
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
+    string dateonlyformated;
     DateTime dated = DateTime.Now;
     List<string> plants = new List<string>();
     List<Models.PlantsHasUser> phu = new List<Models.PlantsHasUser>();
@@ -68,7 +69,9 @@
     }
     async void Submit()
     {
+
         planthasusers.DatePlanted = DateOnly.FromDateTime(dated);
+        dateonlyformated = planthasusers.DatePlanted.ToString().Replace('/','-');
         planthasusers.PlantsPlantId = plantnametoid(createdplant.PlantName);
         await plantsave();
         HandleDialogClose();
@@ -120,8 +123,8 @@
             a = await getUserId();
             command.Parameters.AddWithValue("@plantid",planthasusers.PlantsPlantId);
             command.Parameters.AddWithValue("@aspnetuser", a);
-            
-            command.Parameters.AddWithValue("@date", planthasusers.DatePlanted);
+            string b = planthasusers.DatePlanted.ToString();
+            command.Parameters.AddWithValue("@date", dateonlyformated);
             command.Parameters.AddWithValue("@location", planthasusers.Location);
             command.Parameters.AddWithValue("@desc", planthasusers.Description);
             await command.ExecuteNonQueryAsync();
