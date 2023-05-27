@@ -2,10 +2,12 @@
     <TitleContent>
         Add Fertilizer or Pesticide
     </TitleContent>
-    <DialogContent>   
-        <MudCheckBox @bind-Checked="@Label_CheckBox2" Label="Fertilizer" Color="Color.Primary"></MudCheckBox>
-        <MudCheckBox @bind-Checked="@Label_CheckBox3" Label="Pestiside" Color="Color.Secondary"></MudCheckBox>
-        <MudTextField T="string" Label="Product Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
+    <DialogContent>
+        <MudRadioGroup @bind-SelectedOption="@fertPest.Type">
+            <MudRadio Option="@(true)" Color="Color.Error">Fertilizer</MudRadio>
+            <MudRadio Option="@(false)" Color="Color.Error">Pesticide</MudRadio>
+        </MudRadioGroup>
+        <MudTextField T="string" Value="@fertPest.ProductName" Label="Product Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
         <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
         <RadzenButton Click="OpenNested" Text="Add Item" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Success" />
         <MudDialog @bind-IsVisible="nestedVisible" Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
@@ -34,9 +36,7 @@
     void Submit() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();
 
-    // For checkboxes
-    public bool Label_CheckBox2 { get; set; } = true;
-    public bool Label_CheckBox3 { get; set; } = false;
+    Models.FertPest fertPest = new Models.FertPest();
 
     // For nested modal dialog
     private bool visible;
@@ -50,5 +50,4 @@
 
     public double? Amount { get; set; } // For item cost
 
-}
 }
