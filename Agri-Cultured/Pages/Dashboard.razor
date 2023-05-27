@@ -9,6 +9,7 @@
 @inject IConfiguration Configuration
 @inject NavigationManager NavigationManager;
 @inject IDialogService DialogService
+@inject IJSRuntime JSRuntime;
 @using Controllers
 
 <PageTitle>Dashboard</PageTitle>
@@ -149,16 +150,25 @@
         // Attach the parameter to the url
         NavigationManager.NavigateTo(href + "/" + plantid);
     }
-      
+
     async Task<string> getUserId()
     {
         return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
     }
-      
+
     //Create new plant dialog
     private void OpenCreatePlantDialog()
     {
         var options = new MudBlazor.DialogOptions { };
-        DialogService.Show<PlantDialog>(" ", options);
+        var parameters = new DialogParameters();
+        parameters.Add("JSRUNTIME", JSRuntime);
+        DialogService.Show<PlantDialog>(" ", parameters ,options);
+        HandleDialogOpen();
+    }
+
+    private void HandleDialogOpen()
+    {
+        // Add the CSS class to disable scrolling
+        JSRuntimeExtensions.InvokeVoidAsync(JSRuntime,"addClassToHtml", "no-scroll");
     }
 }
