@@ -17,56 +17,50 @@
     </div>
 </div>
 
-
-<RadzenRow JustifyContent="JustifyContent.Start" AlignItems="Radzen.AlignItems.Center" Gap="0">
-    <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
-        <RadzenColumn Size="12" Style="justify-self:center; align-self:center">
-            @foreach (FertPest frt in fertPests)
-            {
-                <RadzenCard Class="rz-my-12 rz-mx-auto" Style="width:auto; height:470px; background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 2px 3px gray;">
-                <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
-                    <RadzenStack Gap="0" Style="align-self:center">
-                        <RadzenText TextStyle="TextStyle.Body1" Style="color: white; text-shadow: 0px 2px 3px gray; font-size: 15px;" class="rz-display-flex rz-mt-2 rz-my-0"><b>Fertzilizer/Pesticide</b></RadzenText>
-                    </RadzenStack>
-                </RadzenStack>
-                <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:330px; width:100%; overflow-y: auto">
-                    <RadzenRow RowGap="0">
-                        <RadzenColumn SizeXS="12">
-                            <RadzenRow>
-                                <RadzenColumn>
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Product Name:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@frt.ProductName</RadzenText>
-                                </RadzenColumn>
-                            </RadzenRow>
-                            <RadzenRow>
-                                 <RadzenColumn>
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Date Started:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">Since: @frt.Date</RadzenText>
-                                </RadzenColumn>
-                            </RadzenRow>
-                        </RadzenColumn>
-                        <RadzenColumn SizeXS="12" Style="margin-top: 10%">
-                            <RadzenRow>
-                                <RadzenColumn>
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Items:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@ItemsToString(frt.FertPestId)</RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Total Cost:</strong></RadzenText>
-                                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@totalCost</RadzenText>
-                                </RadzenColumn>
-                            </RadzenRow>
+<RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
+    @foreach (FertPest frt in fertPests)
+    {
+        <RadzenCard Class="rz-my-12 rz-mx-auto" Style="width:88vw; height:426px; background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 2px 3px gray;">
+        <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
+            <RadzenStack Gap="0" Style="align-self:center">
+                <RadzenText TextStyle="TextStyle.Overline" Style="color: white; text-shadow: 0px 2px 3px gray; font-size: 15px;" class="rz-display-flex rz-mt-2 rz-my-0"><b>Fertzilizer/Pesticide</b></RadzenText>
+            </RadzenStack>
+        </RadzenStack>
+        <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:75%; width:100%; overflow-y: auto">
+            <RadzenRow RowGap="0">
+                <RadzenColumn SizeXS="12">
+                    <RadzenRow>
+                        <RadzenColumn>
+                            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Product Name:</strong></RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@frt.ProductName</RadzenText>
                         </RadzenColumn>
                     </RadzenRow>
-                </RadzenCard>
-                <div class="mt-2">
-                    <RadzenButton Click="(() => EditFertilizerDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
-                        <RadzenButton Icon="delete" Click="(() => DeleteFertPest(frt.FertPestId))" ButtonStyle="ButtonStyle.Danger" />
-                </div>
-            </RadzenCard>
-            }
-        </RadzenColumn>
-    </RadzenRow>
+                    <RadzenRow>
+                         <RadzenColumn>
+                            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Date Started:</strong></RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">Since: @frt.Date</RadzenText>
+                        </RadzenColumn>
+                    </RadzenRow>
+                </RadzenColumn>
+                <RadzenColumn SizeXS="12" Style="margin-top: 10%">
+                    <RadzenRow>
+                        <RadzenColumn>
+                            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Items:</strong></RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@ItemsToString(frt.FertPestId)</RadzenText>
+                            <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-4 rz-mb-0" Style="color: #015249; font-size: 12px;"><strong>Total Cost:</strong></RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body1" Style="color: white;">@totalCost</RadzenText>
+                        </RadzenColumn>
+                    </RadzenRow>
+                </RadzenColumn>
+            </RadzenRow>
+        </RadzenCard>
+        <div class="mt-2">
+            <RadzenButton Click="(() => EditFertilizerDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
+                <RadzenButton Icon="delete" Click="(() => DeleteFertPest(frt.FertPestId))" ButtonStyle="ButtonStyle.Danger" />
+        </div>
+    </RadzenCard>
+    }
 </RadzenRow>
-
 
 @code 
 {
