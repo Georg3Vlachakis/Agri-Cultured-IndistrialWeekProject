@@ -1,25 +1,41 @@
 ﻿@page "/History"
+@using Agri_Cultured.Controllers;
 @inject IConfiguration Configuration
+@inject IDialogService DialogService
 @inject NavigationManager NavigationManager
 
-<h3 style="color: #015249; text-shadow: 0px 2px 3px #015249; margin-right: 10px; margin-bottom: 50px;">Search/History</h3>
+<RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
+    <h3 style="color: #015249; text-shadow: 0px 2px 3px #015249; margin-right: 10px; margin-bottom: 20px;">Search/History</h3>
+</RadzenRow>
 
-<MudTable Style="background-image: linear-gradient(180deg, rgb(0, 0, 50) 5%, rgb(102, 255, 178) 100%); color: white; text-shadow: 5px 0px 5px black;" Items="@Tasks" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<Task,bool>(FilterFunc1)" @bind-SelectedItem="selectedTask">
-    <ToolBarContent>
-        <MudText Typo="Typo.h6">Tasks</MudText>
-        <MudSpacer />
-        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-    </ToolBarContent>
-    <HeaderContent>
-        <MudTh>Name</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Name">@context.Name</MudTd>
-    </RowTemplate>
-    <PagerContent>
-        <MudTablePager />
-    </PagerContent>
-</MudTable>
+<RadzenRow JustifyContent="JustifyContent.SpaceEvenly" AlignItems="Radzen.AlignItems.Center" Gap="0" Style=" margin-bottom:20px;">
+    <MudButtonGroup Color="Color.Primary" Variant="MudBlazor.Variant.Text">
+        <MudButton OnClick="OpenNetIncomeDialog" Style="width: 25%">Net Income</MudButton>
+        <MudButton OnClick="OpenEventsDialog" Style="width: 25%">Events</MudButton>
+        <MudButton OnClick="OpenTasksDialog" Style="width: 25%">Tasks</MudButton>
+        <MudButton OnClick="OpenFertPestDialog" Style="width: 25%">Fertilizers - Pesticides</MudButton>
+    </MudButtonGroup>
+</RadzenRow>
+
+<RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
+	<MudTable Style="background-image: linear-gradient(180deg, rgb(0, 0, 50) 5%, rgb(102, 255, 178) 100%); color: white; text-shadow: 5px 0px 5px black;" Items="@Tasks" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<Task,bool>(FilterFunc1)" @bind-SelectedItem="selectedTask">
+		<ToolBarContent>
+			<MudText Typo="Typo.h6">Tasks</MudText>
+			<MudSpacer />
+			<MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+		</ToolBarContent>
+		<HeaderContent>
+			<MudTh>Name</MudTh>
+		</HeaderContent>
+		<RowTemplate>
+			<MudTd DataLabel="Name">@context.Name</MudTd>
+		</RowTemplate>
+		<PagerContent>
+			<MudTablePager />
+		</PagerContent>
+	</MudTable>
+</RadzenRow>
+
 
 
 @code {
@@ -75,7 +91,7 @@
     public string plantid { get; set; }
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
-       float annualexpenses = await AnnualExpenses();
+        float annualexpenses = await AnnualExpenses();
     }
 
     async Task<float> AnnualExpenses()
@@ -107,5 +123,30 @@
     async Task<string> getUserId()
     {
         return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+    }
+
+    //Dialogs
+    private void OpenNetIncomeDialog()
+    {
+        var options = new MudBlazor.DialogOptions { FullWidth=true };
+        DialogService.Show<AnnualNetIncomeDialog>(" ", options);
+    }
+
+    private void OpenEventsDialog()
+    {
+        var options = new MudBlazor.DialogOptions { };
+        DialogService.Show<AnnualEventsDialog>(" ", options);
+    }
+
+    private void OpenTasksDialog()
+    {
+        var options = new MudBlazor.DialogOptions { };
+        DialogService.Show<AnnualTasksDialog>(" ", options);
+    }
+
+    private void OpenFertPestDialog()
+    {
+        var options = new MudBlazor.DialogOptions { };
+        DialogService.Show<AnnualFertPestDialog>(" ", options);
     }
 }
