@@ -109,7 +109,9 @@
     private void OpenCreateIncomeDialog()
     {
         var options = new MudBlazor.DialogOptions { };
-        DialogService.Show<IncomeDialog>(" ", options);
+        var parameters = new DialogParameters();
+        parameters.Add("plantID", plantid);
+        DialogService.Show<IncomeDialog>(" ", parameters, options);
     }
 
     //Edit income dialog
