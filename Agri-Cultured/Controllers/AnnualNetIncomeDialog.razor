@@ -2,33 +2,33 @@
 @inject IConfiguration Configuration
 @inject NavigationManager NavigationManager
 
-<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
+<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 4px 0px 3px black;">
     <TitleContent>
-        <RadzenText TextStyle="TextStyle.H3"><b>Annual Net Income</b></RadzenText>
+        <RadzenText Style="Color:white" TextStyle="TextStyle.H3"><b>Annual Net Income</b></RadzenText>
     </TitleContent>
     <DialogContent>
         <RadzenRow JustifyContent="JustifyContent.SpaceEvenly" AlignItems="Radzen.AlignItems.Center" Gap="0" Style="margin-bottom: 10%">
             <RadzenColumn Size="9">
-                <RadzenText TextStyle="TextStyle.DisplayH6">Gross Income</RadzenText>
+                <RadzenText Style="Color:white" TextStyle="TextStyle.DisplayH6">Gross Income</RadzenText>
             </RadzenColumn>
             <RadzenColumn Size="3">
-                <RadzenText TextStyle="TextStyle.Body2">@income</RadzenText>
+                <RadzenText Style="Color:white" TextStyle="TextStyle.Body2">@income</RadzenText>
             </RadzenColumn>
         </RadzenRow>
         <RadzenRow JustifyContent="JustifyContent.SpaceEvenly" AlignItems="Radzen.AlignItems.Center" Gap="0" Style="margin-bottom: 10%">
             <RadzenColumn Size="9">
-                <RadzenText TextStyle="TextStyle.DisplayH6">Gross Expenses</RadzenText>
+                <RadzenText Style="Color:white" TextStyle="TextStyle.DisplayH6">Gross Expenses</RadzenText>
             </RadzenColumn>
             <RadzenColumn Size="3">
-                <RadzenText TextStyle="TextStyle.Body2">@expenses</RadzenText>
+                <RadzenText Style="Color:white" TextStyle="TextStyle.Body2">@expenses</RadzenText>
             </RadzenColumn>
         </RadzenRow>
         <RadzenRow JustifyContent="JustifyContent.SpaceEvenly" AlignItems="Radzen.AlignItems.Center" Gap="0" Style="margin-bottom: 10%">
             <RadzenColumn Size="9">
-                <RadzenText TextStyle="TextStyle.DisplayH6">Gross Profit</RadzenText>
+                <RadzenText Style="Color:white" TextStyle="TextStyle.DisplayH6">Net Profit</RadzenText>
             </RadzenColumn>
             <RadzenColumn Size="3">
-                <RadzenText TextStyle="TextStyle.Body2">@(income - expenses)</RadzenText>
+                <RadzenText Style="Color:white" TextStyle="TextStyle.Body2">@(income - expenses)</RadzenText>
             </RadzenColumn>
         </RadzenRow>
     </DialogContent>
@@ -41,6 +41,7 @@
 
     [Parameter] public float income { get; set; }
     [Parameter] public float expenses { get; set; }
+
 
     void Cancel() => MudDialog.Close();
 }
