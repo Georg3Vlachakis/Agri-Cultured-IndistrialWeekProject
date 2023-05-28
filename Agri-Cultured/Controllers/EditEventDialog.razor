@@ -3,6 +3,8 @@
 @inject IConfiguration Configuration
 @using Agri_Cultured.Controllers;
 @using Agri_Cultured.Pages;
+
+
 <MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
     <TitleContent>
         Edit Event
@@ -22,7 +24,7 @@
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public string eventId { get; set; }
+    [Parameter] public int eventId { get; set; }
     private string name;
     DateTime dated = DateTime.Now;
     private string dmg; 
@@ -34,11 +36,9 @@
 
     async void Submit()
     {
-
         dateFormatted = dated.ToString("yyyy-MM-dd");
-        await UpdateEvent();
-            NavigationManager.NavigateTo("/Events/" + eventId, forceLoad: true);
-        
+        await UpdateEvent();       
+        NavigationManager.NavigateTo("/Events/" + eventId, forceLoad: true);
     }
     void Cancel() => MudDialog.Cancel();
 
@@ -47,7 +47,7 @@
     {
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
         MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);  
-        string updateEventQuery = "UPDATE events SET name = @name, date = @dateFormatted, damage = @dmg, perc_damage = @perdmg, comments = @comm WHERE event_id ='" + eventId + "'";
+        string updateEventQuery = "UPDATE events SET name = @name, date = @dateFormatted, damage = @dmg, perc_damage = @perdmg, comments = @comm WHERE event_id='" + eventId + "'";
         using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(updateEventQuery, connection))
 
         {
