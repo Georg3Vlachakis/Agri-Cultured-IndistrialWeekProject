@@ -10,7 +10,10 @@
 @inject NavigationManager NavigationManager;
 @inject IDialogService DialogService
 @inject IJSRuntime JSRuntime;
-@using Controllers
+@using Controllers;
+@using RestSharp;
+@using Newtonsoft.Json;
+@using System.Text.Json;
 
 <PageTitle>Dashboard</PageTitle>
 
@@ -26,11 +29,15 @@
 <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
     @foreach (PlantsHasUser a in field)
     {
-        <RadzenCard Class="rz-my-12 rz-mx-auto" id="plantmenu" Style="width:88vw; height:450px;  background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 2px 3px gray;">
-            <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Stretch" Gap="1rem" Class="rz-p-4">
+        <RadzenCard Class="rz-my-12 rz-mx-auto" id="plantmenu" Style="width:88vw; height:485; padding-top:0px; background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 2px 3px gray;">
+            <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" Gap="0.5rem" Style="padding-top:0px;" Class="rz-p-4">
+                <RadzenStack Gap="0" Style="align-self:center;padding-top:0px !important;">
+                    <RadzenText TextStyle="TextStyle.Overline" Style="color: white; text-shadow: 0px 2px 3px gray; font-size: 15px;" class="rz-display-flex rz-mt-2 rz-my-0;"><b>Plant</b></RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white; text-shadow: 0px 1px 1px gray;"><b>@getplantname(a.PlantsPlantId)<br>@a.Description</b></RadzenText>
+                </RadzenStack>
                 <RadzenStack Gap="0" Style="align-self:center">
                     <RadzenText TextStyle="TextStyle.Overline" Style="color: white; text-shadow: 0px 2px 3px gray; font-size: 15px;" class="rz-display-flex rz-mt-2 rz-my-0;"><b>Plant</b></RadzenText>
-                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white; text-shadow: 0px 1px 1px gray;"><b>@getplantname(a.PlantsPlantId) @a.Description</b></RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white; text-shadow: 0px 1px 1px gray;"><b>@(async() => await getweather(a.Location))<br>@a.Description</b></RadzenText>
                 </RadzenStack>
             </RadzenStack>
             <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:71%; width:100%; overflow-y: auto">
@@ -106,7 +113,9 @@
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
+
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+
         MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
         string sqlmyfields = "SELECT * FROM plants_has_user WHERE aspnetusers_Id = '" + await getUserId() + "'";
         using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlmyfields, connection))
@@ -130,6 +139,7 @@
             rdr.Close();
             connection.Close();
         }
+
     }
     void DeletePlant(int plantid)
     {
@@ -192,5 +202,59 @@
             connection.Close();
         }
         return plantname;
+    }
+
+    private async Task<string> getweather(string location)
+    {
+        string lon = "";
+        string lat = "";
+        List<string> LocationXY = new List<string>();
+        LocationXY.Add("Attica:38.07568709809507,23.673109334822787");
+        LocationXY.Add("Central Greece:38.63570676385782,22.45413309232338");
+        LocationXY.Add("Central Macedonia:40.798876539070875,22.87369702319696");
+        LocationXY.Add("Crete:35.18968554900035,25.001839666579578");
+        LocationXY.Add("East Macedonia and Thrace:41.112521636537494,25.307941236463947");
+        LocationXY.Add("Epirus:39.648065999220826,20.735634183699922");
+        LocationXY.Add("Ionian Islands:38.80527603016909,20.665010468154655");
+        LocationXY.Add("North Aegean:39.22310173317197,26.08447023944656");
+        LocationXY.Add("Peloponnese:37.58718401231568,22.228931816422158");
+        LocationXY.Add("South Aegean:37.106108505589,25.493401835102667");
+        LocationXY.Add("Thessaly:39.646651366889316,21.96036354839707");
+        LocationXY.Add("West Greece:38.19530903007895,21.790900191202333");
+        LocationXY.Add("West Macedonia:40.43123939308935,21.485237920650242");
+
+        foreach (string item in LocationXY)
+        {
+            if (item.Contains(location))
+            {
+                string[] split = item.Split(":");
+                string[] split2 = split[1].Split(",");
+                lat = split2[0];
+                lon = split2[1];
+            }
+        }
+        var WeatherAPI = Configuration.GetConnectionString("WeatherApi");
+        string weather = WeatherAPI;
+        string weathered = "";
+        //var url = "https://api.openweathermap.org/data/3.0/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,daily,alerts&appid=8eb27a3bd3eabfb512a42893dbd595de";
+        var url = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + weather + "&units=metric";
+
+        var client = new RestClient(url);
+        var request = new RestRequest(url, Method.Get);
+        RestResponse response = await client.ExecuteAsync(request);
+        var Output = response.Content;
+        string jsonString = response.Content;
+        JsonDocument jsonDoc = JsonDocument.Parse(jsonString);
+        string iconValue = jsonDoc.RootElement
+        .GetProperty("weather")[0]
+        .GetProperty("icon")
+        .GetString();
+        double tempValue = jsonDoc.RootElement
+        .GetProperty("main")
+        .GetProperty("temp")
+        .GetDouble();
+        weathered = tempValue.ToString() + "°C " + iconValue;
+        return weathered;
+
     }
 }
