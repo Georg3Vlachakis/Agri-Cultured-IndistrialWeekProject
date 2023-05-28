@@ -64,7 +64,7 @@
             </RadzenRow>
         </RadzenCard>
         <div class="mt-2">
-            <RadzenButton Click="(() => EditIncomeDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
+            <RadzenButton Click="(() => EditIncomeDialog(a.IncomeId))" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
                 <RadzenButton Click="(() => DeleteIncome(a.IncomeId))"Icon="delete" ButtonStyle="ButtonStyle.Danger" />
         </div>
     </RadzenCard>
@@ -117,10 +117,13 @@
     }
 
     //Edit income dialog
-    private void EditIncomeDialog()
+    private void EditIncomeDialog(int incomeid)
     {
         var options = new MudBlazor.DialogOptions { };
-        DialogService.Show<EditIncomeDialog>(" ", options);
+        var parameters = new DialogParameters();
+        parameters.Add("plantID", plantid);
+        parameters.Add("incomeID", incomeid);
+        DialogService.Show<EditIncomeDialog>(" ",parameters, options);
     }
     async Task<string> getUserId()
     {

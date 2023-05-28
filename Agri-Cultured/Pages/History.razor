@@ -1,74 +1,64 @@
 ﻿@page "/History"
+@using Agri_Cultured.Controllers;
+@using Agri_Cultured.Data;
 @inject IConfiguration Configuration
+@inject IDialogService DialogService
 @inject NavigationManager NavigationManager
 
-<h3 style="color: #015249; text-shadow: 0px 2px 3px #015249; margin-right: 10px; margin-bottom: 50px;">Search/History</h3>
+<RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
+    <h3 style="color: #015249; text-shadow: 0px 2px 3px #015249; margin-right: 10px; margin-bottom: 20px;">Search/History</h3>
+</RadzenRow>
 
-<MudTable Style="background-image: linear-gradient(180deg, rgb(0, 0, 50) 5%, rgb(102, 255, 178) 100%); color: white; text-shadow: 5px 0px 5px black;" Items="@Tasks" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<Task,bool>(FilterFunc1)" @bind-SelectedItem="selectedTask">
-    <ToolBarContent>
-        <MudText Typo="Typo.h6">Tasks</MudText>
-        <MudSpacer />
-        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-    </ToolBarContent>
-    <HeaderContent>
-        <MudTh>Name</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Name">@context.Name</MudTd>
-    </RowTemplate>
-    <PagerContent>
-        <MudTablePager />
-    </PagerContent>
-</MudTable>
+<RadzenRow JustifyContent="JustifyContent.SpaceEvenly" AlignItems="Radzen.AlignItems.Center" Gap="0" Style=" margin-bottom:20px;">
+    <RadzenButton Click="OpenNetIncomeDialog" Style="width: 25%" Shade="Shade.Darker" ButtonStyle="ButtonStyle.Success">Net Income</RadzenButton>
+</RadzenRow>
+
+<RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
+    <MudTable Style="background-image: linear-gradient(180deg, rgb(0, 0, 50) 5%, rgb(102, 255, 178) 100%); color: white; text-shadow: 5px 0px 5px black;" T="history" Items="@hist" Dense="true" Hover="@hover" Bordered="true" Filter="new Func<history,bool>(FilterFunc1)" @bind-SelectedItem="selectedTask">
+		<ToolBarContent>
+			<MudText Typo="Typo.h6">Diary</MudText>
+			<MudSpacer />
+			<MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+		</ToolBarContent>
+		<HeaderContent>
+            <MudTh>Date</MudTh>
+            <MudTh>Description</MudTh>
+		</HeaderContent>
+		<RowTemplate>
+            <MudTd DataLabel="Date">@context.date</MudTd>
+            <MudTd DataLabel="Description">@context.name</MudTd>
+		</RowTemplate>
+		<PagerContent>
+			<MudTablePager />
+		</PagerContent>
+	</MudTable>
+</RadzenRow>
+
 
 
 @code {
     private bool dense = false;
     private bool hover = true;
-    private bool striped = false;
-    private bool bordered = false;
     private string searchString = "";
-    private Task selectedTask = null;
-    private HashSet<Task> selectedTasks = new HashSet<Task>();
+    private history selectedTask = null;
+    List<history> hist = new List<history>();
+    float annualexpenses;
+    float annualincome;
+    float annualnetprofit;
 
-    private IEnumerable<Task> Tasks = new List<Task>
-    {
-        new Task { Name = "Task 1" },
-        new Task { Name = "Task 2" },
-        new Task { Name = "Task 3" }
-    };
+    private bool FilterFunc1(history search) => FilterFunc(search, searchString);
 
-    private bool FilterFunc1(Task task) => FilterFunc(task, searchString);
-
-    private bool FilterFunc(Task task, string searchString)
+    private bool FilterFunc(history search, string searchString)
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
-        if (task.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (search.name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
     }
 
-    public class Task
-    {
-        public string Name { get; set; }
-    }
-}
 
-@*<MudItem xs="12" md="6">
-    <MudText Typo="Typo.h6" GutterBottom="true">Search History</MudText>
-    <MudPaper Width="100%" Style="background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 2px 3px gray;">
-        <MudList Clickable="@Clickable" Dense="@Dense" DisableGutters="@Gutters">
-            <MudListItem Text="Single List Item" />
-            <MudDivider />
-            <MudListItem Text="Single List Item" />
-            <MudDivider />
-            <MudListItem Text="Single List Item" />
-        </MudList>
-    </MudPaper>
-</MudItem>*@
 
-@code {
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
     [Parameter]
@@ -79,9 +69,32 @@
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
-        float annualexpenses = await AnnualExpenses();
-        float annualincome = await AnnualIncome();
-        float annualnetprofit = annualincome - annualexpenses;
+        annualexpenses = await AnnualExpenses();
+        annualincome = await AnnualIncome();
+        annualnetprofit = annualincome - annualexpenses;
+
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string aspnetuserid = await getUserId();
+        string sqlmyhistory = "SELECT e.`date`, CONCAT(e.`expense_type`, ' Bought') AS name FROM `expenses` e JOIN `expenses_has_plants` ep ON e.`expenses_Id` = ep.`expenses_Id` JOIN `plants_has_user` pu ON pu.`plants_user_Id` = ep.`plants_user_Id` JOIN `aspnetusers` u ON u.`Id` = pu.`aspnetusers_Id` WHERE u.`Id` = '" + aspnetuserid + "' UNION ALL SELECT i.`date`, IF(i.`iscomp` = 1, 'Compensation', 'Sale') AS name FROM `income` i JOIN `income_has_plants` ip ON i.`income_id` = ip.`income_id` JOIN `plants_has_user` pu ON pu.`plants_user_Id` = ip.`plants_user_Id` JOIN `aspnetusers` u ON u.`Id` = pu.`aspnetusers_Id` WHERE u.`Id` = '" + aspnetuserid + "' UNION ALL SELECT fp.`date`, IF(fp.`type` = 1, 'Fertilizer', 'Pesticide') AS name FROM `fert_pest` fp JOIN `items` it ON it.`fert_pest_fert_pest_Id` = fp.`fert_pest_Id` JOIN `expenses_has_plants` ep ON ep.`expenses_Id` = it.`item_id` JOIN `plants_has_user` pu ON pu.`plants_user_Id` = ep.`plants_user_Id` JOIN `aspnetusers` u ON u.`Id` = pu.`aspnetusers_Id` WHERE u.`Id` = '" + aspnetuserid + "' UNION ALL SELECT ev.`date`, CONCAT(ev.`name`, ' Happened') AS name FROM `events` ev JOIN `events_has_plants` ep ON ev.`event_id` = ep.`event_id` JOIN `plants_has_user` pu ON pu.`plants_user_Id` = ep.`plants_user_Id` JOIN `aspnetusers` u ON u.`Id` = pu.`aspnetusers_Id` WHERE u.`Id` = '" + aspnetuserid + "' UNION ALL SELECT ir.`date`, 'Irrigation' AS name FROM `irrigation` ir JOIN `op_irrigation` oi ON ir.`irrigations_Id` = oi.`iirrigations_Id` JOIN `plants_has_user` pu ON pu.`plants_user_Id` = oi.`plants_user_Id` JOIN `aspnetusers` u ON u.`Id` = pu.`aspnetusers_Id` WHERE u.`Id` = '" + aspnetuserid + "' UNION ALL SELECT t.`date_started`, t.`task_name` AS name FROM `tasks` t JOIN `op_tasks` ot ON t.`task_id` = ot.`task_id` JOIN `plants_has_user` pu ON pu.`plants_user_Id` = ot.`plants_user_Id` JOIN `aspnetusers` u ON u.`Id` = pu.`aspnetusers_Id` WHERE u.`Id` = '" + aspnetuserid + "' UNION ALL SELECT pu.`date_planted`, CONCAT(p.`plant_name`, ' Planted') AS name FROM `plants_has_user` pu JOIN `plants` p ON p.`plant_Id` = pu.`plants_plant_Id` JOIN `aspnetusers` u ON u.`Id` = pu.`aspnetusers_Id` WHERE u.`Id` = '" + aspnetuserid + "' ORDER BY `date` DESC";    //Hallo :)
+        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlmyhistory, connection))
+        {
+            connection.Open();
+            MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(sqlmyhistory, connection);
+            sqlcmd.CommandText = sqlmyhistory;
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            MySql.Data.MySqlClient.MySqlDataReader rdr = sqlcmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                history histories = new history();
+                histories.name = rdr["name"].ToString();
+                histories.date = DateOnly.FromDateTime((DateTime)rdr["date"]);
+                hist.Add(histories);
+            }
+            rdr.Close();
+            connection.Close();
+        }
+
     }
 
     async Task<float> AnnualExpenses()
@@ -133,5 +146,21 @@
     async Task<string> getUserId()
     {
         return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+    }
+
+    //Dialogs
+    private void OpenNetIncomeDialog()
+    {
+        var options = new MudBlazor.DialogOptions { FullWidth=true };
+        var parameters = new DialogParameters();
+        parameters.Add("expenses", annualexpenses);
+        parameters.Add("income", annualincome);
+        DialogService.Show<AnnualNetIncomeDialog>(" ",parameters, options);
+    }
+    public class history
+    {
+        public string name { get; set; }
+
+        public DateOnly date {get; set;}
     }
 }
