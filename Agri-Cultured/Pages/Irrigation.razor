@@ -130,7 +130,7 @@
         var parameters = new DialogParameters();
         parameters.Add("plantID", plantid);
         parameters.Add("irrigationID", irrigationId);
-        DialogService.Show<EditIrrigationDialog>(" ", options);
+        DialogService.Show<EditIrrigationDialog>(" ", parameters, options);
 
     }
 }

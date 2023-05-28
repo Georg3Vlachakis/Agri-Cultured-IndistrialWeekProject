@@ -53,6 +53,7 @@
 
         dateFormatted = dated.ToString("yyyy-MM-dd");
         await UpdateFertPest();
+        await UpdateItem();
         NavigationManager.NavigateTo("/Fertilizer/" + plantId, forceLoad: true);
     }
     void Cancel() => MudDialog.Cancel();
@@ -82,7 +83,7 @@
     {
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
         MySqlConnection connection = new MySqlConnection(connnectionString);
-        string updateItemQuery = "UPDATE items SET item_name = @itemName, item_description = @itemDescription, cost = @itemCost, date = @date WHERE item_id = '" + Merge(fertpestId) + "'";
+        string updateItemQuery = "UPDATE items SET item_name = @itemName, item_description = @itemDescription, cost = @itemCost, date = @date WHERE item_id = '" + await Merge(fertpestId) + "'";
         using (MySqlCommand command = new MySqlCommand(updateItemQuery, connection))
         {
             connection.Open();
@@ -96,7 +97,7 @@
         }
     }
 
-    private string Merge(int fertpestid)
+    async Task Merge(int fertpestid)
     {
         string itemid="";
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -119,13 +120,6 @@
 
             connection.Close();
         }
-        return itemid;
-
-
-
-        
-
-
     }
 
     // For checkboxes
@@ -140,7 +134,4 @@
     private void OpenNested() => nestedVisible = true;
     private void CloseNested() => nestedVisible = false;
 
-    //string sampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."; // For item description
-
-    public double? Amount { get; set; } // For item cost
 }
