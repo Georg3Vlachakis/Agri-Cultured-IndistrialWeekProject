@@ -1,4 +1,6 @@
 ﻿@page "/History"
+@inject IConfiguration Configuration
+@inject NavigationManager NavigationManager
 
 <h3 style="color: #015249; text-shadow: 0px 2px 3px #015249; margin-right: 10px; margin-bottom: 50px;">Search/History</h3>
 
@@ -67,5 +69,43 @@
 </MudItem>*@
 
 @code {
-    
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    [Parameter]
+    public string plantid { get; set; }
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+       float annualexpenses = await AnnualExpenses();
+    }
+
+    async Task<float> AnnualExpenses()
+    {
+        float addexp = 0;
+        DateTime oneYearAgo = DateTime.Now.AddYears(-1).Date;
+        string oneyearagoformated = oneYearAgo.ToString("yyyy-MM-dd");
+
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string sqlmyevents = "SELECT e.* FROM expenses AS e JOIN expenses_has_plants AS ep ON e.expenses_Id = ep.expenses_Id JOIN plants_has_user AS pu ON ep.plants_user_Id = pu.plants_user_Id WHERE pu.aspnetusers_Id = '" + await getUserId() + "' AND e.date >= '" + oneyearagoformated + "'";
+
+        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlmyevents, connection))
+        {
+            connection.Open();
+            MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(sqlmyevents, connection);
+            sqlcmd.CommandText = sqlmyevents;
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            MySql.Data.MySqlClient.MySqlDataReader rdr = sqlcmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                addexp = addexp + (float)rdr["expense_ammount"];
+            }
+            rdr.Close();
+            connection.Close();
+        }
+        return (float)addexp;
+    }
+    async Task<string> getUserId()
+    {
+        return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
+    }
 }
