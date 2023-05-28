@@ -63,7 +63,7 @@
                     </RadzenRow>
                 </RadzenCard>
                 <div class="mt-2">
-                    <RadzenButton Click="(() => EditEventDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
+                    <RadzenButton Click="(() => EditEventDialog(a.EventId))" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
                     <RadzenButton Click="(()=> DeleteEvent(a.EventId)) "Icon="delete" ButtonStyle="ButtonStyle.Danger" />
                 </div>
             </RadzenCard>
@@ -124,10 +124,12 @@
     }
 
     //Edit event dialog
-    private void EditEventDialog()
+    private void EditEventDialog(int eventId)
     {
         var options = new MudBlazor.DialogOptions { };
-        DialogService.Show<EditEventDialog>(" ", options);
+        var parameters = new DialogParameters();
+        parameters.Add("eventId", eventId);
+        DialogService.Show<EventDialog>(" ", parameters, options);
     }
 
     private void DeleteEvent(int eventId)
