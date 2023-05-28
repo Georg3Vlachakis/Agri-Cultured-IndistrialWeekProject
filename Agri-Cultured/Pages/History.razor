@@ -1,5 +1,6 @@
 ﻿@page "/History"
 @using Agri_Cultured.Controllers;
+@using Agri_Cultured.Data;
 @inject IConfiguration Configuration
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager
@@ -13,17 +14,19 @@
 </RadzenRow>
 
 <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
-	<MudTable Style="background-image: linear-gradient(180deg, rgb(0, 0, 50) 5%, rgb(102, 255, 178) 100%); color: white; text-shadow: 5px 0px 5px black;" Items="@Tasks" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<Task,bool>(FilterFunc1)" @bind-SelectedItem="selectedTask">
+    <MudTable T="Search" Items="@searches" Dense="true" Hover="@hover" Bordered="true" Filter="new Func<Search,bool>(FilterFunc1)" @bind-SelectedItem="selectedTask">
 		<ToolBarContent>
-			<MudText Typo="Typo.h6">Tasks</MudText>
+			<MudText Typo="Typo.h6">Diary</MudText>
 			<MudSpacer />
 			<MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
 		</ToolBarContent>
 		<HeaderContent>
-			<MudTh>Name</MudTh>
+            <MudTh>Date</MudTh>
+            <MudTh>Description</MudTh>
 		</HeaderContent>
 		<RowTemplate>
-			<MudTd DataLabel="Name">@context.Name</MudTd>
+            <MudTd DataLabel="Date">@context.Date</MudTd>
+            <MudTd DataLabel="Description">@context.Description</MudTd>
 		</RowTemplate>
 		<PagerContent>
 			<MudTablePager />
@@ -36,50 +39,29 @@
 @code {
     private bool dense = false;
     private bool hover = true;
-    private bool striped = false;
-    private bool bordered = false;
     private string searchString = "";
-    private Task selectedTask = null;
-    private HashSet<Task> selectedTasks = new HashSet<Task>();
-
-    private IEnumerable<Task> Tasks = new List<Task>
+    private Search selectedTask = null;
+    public HashSet<Search> searches = new HashSet<Search>
     {
-        new Task { Name = "Task 1" },
-        new Task { Name = "Task 2" },
-        new Task { Name = "Task 3" }
+        new Search("21/09/98", "idswabguiyabsdgby gayuiodgb aybgoia gvdyasg voyyoasdovgyuiasv dsguoysavy"),
+        new Search("21/09/98", "idswabguiyabsdgby gayuiodgb aybgoia gvdyasg voyyoasdovgyuiasv dsguoysavy"),
+        new Search("21/09/98", "idswabguiyabsdgby gayuiodgb aybgoia gvdyasg voyyoasdovgyuiasv dsguoysavy"),
+        new Search("21/09/98", "idswabguiyabsdgby gayuiodgb aybgoia gvdyasg voyyoasdovgyuiasv dsguoysavy"),
     };
 
-    private bool FilterFunc1(Task task) => FilterFunc(task, searchString);
+    private bool FilterFunc1(Search search) => FilterFunc(search, searchString);
 
-    private bool FilterFunc(Task task, string searchString)
+    private bool FilterFunc(Search search, string searchString)
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
-        if (task.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (search.Description.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
     }
 
-    public class Task
-    {
-        public string Name { get; set; }
-    }
-}
+    
 
-@*<MudItem xs="12" md="6">
-    <MudText Typo="Typo.h6" GutterBottom="true">Search History</MudText>
-    <MudPaper Width="100%" Style="background-image: linear-gradient(180deg, rgb(87, 188, 144) 0%, rgb(0119, 201, 212) 70%); color: #015249; text-shadow: 0px 2px 3px gray;">
-        <MudList Clickable="@Clickable" Dense="@Dense" DisableGutters="@Gutters">
-            <MudListItem Text="Single List Item" />
-            <MudDivider />
-            <MudListItem Text="Single List Item" />
-            <MudDivider />
-            <MudListItem Text="Single List Item" />
-        </MudList>
-    </MudPaper>
-</MudItem>*@
-
-@code {
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
     [Parameter]
