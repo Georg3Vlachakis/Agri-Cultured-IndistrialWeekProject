@@ -12,7 +12,7 @@
 
         <MudTextField T="DateTime" Format="yyyy-MM-dd" Label="Date Planted" @bind-Value=@dated InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
 
-        <RadzenDropDown AllowClear="true" Placeholder="City" @bind-Value=@planthasusers.Location Data=@cities Style="width: 100%; max-width: 400px; margin-bottom: 15px" />
+        <RadzenDropDown AllowClear="true" Placeholder="City" @bind-Value=@planthasusers.Location Data=@peripheries Style="width: 100%; max-width: 400px; margin-bottom: 15px" />
 
     </DialogContent>
     <DialogActions>
@@ -30,22 +30,32 @@
     DateTime dated = DateTime.Now;
     List<string> plants = new List<string>();
     List<Models.PlantsHasUser> phu = new List<Models.PlantsHasUser>();
+    LinkedList<Tuple<string, Tuple<double, double>>> peripheries = new LinkedList<Tuple<string, Tuple<double, double>>>();
 
     //placeholder
     Models.Plant createdplant = new Models.Plant();
     Models.PlantsHasUser planthasusers = new Models.PlantsHasUser();
 
-    IEnumerable<string> cities = new List<string>
-    {
-        new String("Thessaloniki"),
-        new String("Serres"),
-        new String("Kriti"),
-        new String("Xanthi"),
-        new String("Kastoria")
-    };
+ 
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
+        // average longtitude and latidute of each region/periphery
+        peripheries.AddLast(new Tuple<string, Tuple<double, double>>("Attica", new Tuple<double, double>(38.07568709809507, 23.673109334822787)));
+        peripheries.AddLast(new Tuple<string, Tuple<double, double>>("Central Greece", new Tuple<double, double>(38.63570676385782, 22.45413309232338)));
+        peripheries.AddLast(new Tuple<string, Tuple<double, double>>("Central Macedonia", new Tuple<double, double>(40.798876539070875, 22.87369702319696)));
+        peripheries.AddLast(new Tuple<string, Tuple<double, double>>("Crete", new Tuple<double, double>(35.18968554900035, 25.001839666579578)));
+        peripheries.AddLast(new Tuple<string, Tuple<double, double>>("East Macedonia and Thrace", new Tuple<double, double>(41.112521636537494, 25.307941236463947)));
+        peripheries.AddLast(new Tuple<string, Tuple<double, double>>("Epirus", new Tuple<double, double>(39.648065999220826, 20.735634183699922)));
+        peripheries.AddLast(new Tuple<string, Tuple<double, double>>("Ionian Islands", new Tuple<double, double>(38.80527603016909, 20.665010468154655)));
+        peripheries.AddLast(new Tuple<string, Tuple<double, double>>("North Aegean", new Tuple<double, double>(39.22310173317197, 26.08447023944656)));
+        peripheries.AddLast(new Tuple<string, Tuple<double, double>>("Peloponnese", new Tuple<double, double>(37.58718401231568, 22.228931816422158)));
+        peripheries.AddLast(new Tuple<string, Tuple<double, double>>("South Aegean", new Tuple<double, double>(37.106108505589, 25.493401835102667)));
+        peripheries.AddLast(new Tuple<string, Tuple<double, double>>("Thessaly", new Tuple<double, double>(39.646651366889316, 21.96036354839707)));
+        peripheries.AddLast(new Tuple<string, Tuple<double, double>>("West Greece", new Tuple<double, double>(38.19530903007895, 21.790900191202333)));
+        peripheries.AddLast(new Tuple<string, Tuple<double, double>>("West Macedonia", new Tuple<double, double>(40.43123939308935, 21.485237920650242)));
+
+
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
         MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
         string sqlmyfields = "SELECT plant_name FROM plants";
@@ -133,4 +143,6 @@
     {
         return (await authenticationStateTask).User.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value;
     }
+
+
 }
