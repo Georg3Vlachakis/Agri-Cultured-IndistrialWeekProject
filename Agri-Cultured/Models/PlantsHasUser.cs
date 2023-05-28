@@ -17,6 +17,8 @@ public partial class PlantsHasUser
 
     public string Description { get; set; } = null!;
 
+    public string? Weather { get; set; }
+
     public virtual Aspnetuser Aspnetusers { get; set; } = null!;
 
     public virtual Plant PlantsPlant { get; set; } = null!;
