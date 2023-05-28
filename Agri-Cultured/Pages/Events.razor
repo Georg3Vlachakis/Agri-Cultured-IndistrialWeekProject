@@ -128,8 +128,9 @@
     {
         var options = new MudBlazor.DialogOptions { };
         var parameters = new DialogParameters();
+        parameters.Add("plantId", plantid);
         parameters.Add("eventId", eventId);
-        DialogService.Show<EventDialog>(" ", parameters, options);
+        DialogService.Show<EditEventDialog>(" ", parameters, options);
     }
 
     private void DeleteEvent(int eventId)
