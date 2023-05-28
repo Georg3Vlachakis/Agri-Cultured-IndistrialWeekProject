@@ -1,13 +1,17 @@
-﻿<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
+﻿@using MySql.Data.MySqlClient;
+@inject NavigationManager NavigationManager
+@inject IConfiguration Configuration
+@using Agri_Cultured.Controllers;
+<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
     <TitleContent>
         Edit Event
     </TitleContent>
     <DialogContent>
-        <MudTextField T="string" Label="Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
-        <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
-        <MudTextField T="string" Label="Damage" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
-        <MudNumericField @bind-Value="DoubleValue" Label="Percentage" Variant="MudBlazor.Variant.Filled" Min="0.0" Style="margin-bottom: 15px;" Required="true" />
-        <MudTextField T="string" Label="Comments" Variant="MudBlazor.Variant.Filled" Text="@sampleText" Lines="3" />
+        <MudTextField T="string" Label="Name" @bind-Value=@name Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
+        <MudTextField T="DateTime?" @bind-Value=@date Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
+        <MudTextField T="string" @bind-Value=@dmg Label="Damage" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
+        <MudNumericField @bind-Value=@perdmg Label="Percentage" Variant="MudBlazor.Variant.Filled" Min="0.0" Style="margin-bottom: 15px;" Required="true" />
+        <MudTextField T="string" @bind-Value=@comm Label="Comments" Variant="MudBlazor.Variant.Filled" Lines="3" />
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -17,9 +21,49 @@
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public string eventId { get; set; }
+    private string name; 
+    private DateTime? date; 
+    private string dmg; 
+    private double perdmg; 
+    private string comm; 
+    
 
-    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+
+    async void Submit()
+    {
+        try
+        {
+            await UpdateEvent();
+            NavigationManager.NavigateTo("/Events/" + eventId, forceLoad: true);
+        }
+        catch (Exception e)
+        {
+            // handle exception
+        }
+        MudDialog.Close(DialogResult.Ok(true));
+    }
     void Cancel() => MudDialog.Cancel();
+    async Task UpdateEvent()
+    {
+        var connectionString = Configuration.GetConnectionString("DefaultConnection");
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+            string updateEventQuery = "UPDATE events SET name = @name, date = @date, damage = @dmg, perc_damage = @perdmg, comments = @comm WHERE event_id = @eventId";
+            using (var command = new MySqlCommand(updateEventQuery, connection))
+            {
+                command.Parameters.AddWithValue("@name", name);
+                command.Parameters.AddWithValue("@date", date?.ToString("yyyy-MM-dd"));
+                command.Parameters.AddWithValue("@dmg", dmg);
+                command.Parameters.AddWithValue("@perdmg", perdmg);
+                command.Parameters.AddWithValue("@comm", comm);
+                command.Parameters.AddWithValue("@eventId", eventId);
+
+                await command.ExecuteNonQueryAsync();
+            }
+        }
+    }
 
     public double DoubleValue { get; set; } // For hours
 
