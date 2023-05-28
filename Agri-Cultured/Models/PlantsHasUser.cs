@@ -16,9 +16,12 @@ public partial class PlantsHasUser
     public string Location { get; set; } = null!;
 
     public string Description { get; set; } = null!;
+    
+    public string? Icon { get; set; }
 
-    public string? Weather { get; set; }
+    public string? Temp { get; set; }
 
+    public string? Source { get; set; }
     public virtual Aspnetuser Aspnetusers { get; set; } = null!;
 
     public virtual Plant PlantsPlant { get; set; } = null!;

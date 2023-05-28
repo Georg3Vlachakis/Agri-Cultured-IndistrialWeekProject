@@ -33,11 +33,17 @@
             <RadzenStack Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" Gap="0.5rem" Style="padding-top:0px;" Class="rz-p-4">
                 <RadzenStack Gap="0" Style="align-self:center;padding-top:0px !important;">
                     <RadzenText TextStyle="TextStyle.Overline" Style="color: white; text-shadow: 0px 2px 3px gray; font-size: 15px;" class="rz-display-flex rz-mt-2 rz-my-0;"><b>Plant</b></RadzenText>
-                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white; text-shadow: 0px 1px 1px gray;"><b>@getplantname(a.PlantsPlantId)<br>@a.Description</b></RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white; text-shadow: 0px 1px 1px gray;"><b>@getplantname(a.PlantsPlantId)<br>@a.Description</b>
+                        
+                        
+                    </RadzenText>
                 </RadzenStack>
                 <RadzenStack Gap="0" Style="align-self:center">
-                    <RadzenText TextStyle="TextStyle.Overline" Style="color: white; text-shadow: 0px 2px 3px gray; font-size: 15px;" class="rz-display-flex rz-mt-2 rz-my-0;"><b>Plant</b></RadzenText>
-                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white; text-shadow: 0px 1px 1px gray;"><b>@a.Weather <br>@a.Description</b></RadzenText>
+                    <RadzenText TextStyle="TextStyle.Overline" Style="color: white; text-shadow: 0px 2px 3px gray; font-size: 15px;" class="rz-display-flex rz-mt-2 rz-my-0;"><b>Weather</b></RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body1" Style="color: white; text-shadow: 0px 1px 1px gray;"><b>@a.Temp</b>
+                        <RadzenImage Path="@a.Source" Style="width: 2.5rem;" />
+                    </RadzenText>
+
                 </RadzenStack>
             </RadzenStack>
             <RadzenCard class="rz-background-color-danger-lighter rz-shadow-0 rz-border-radius-0 rz-p-8" style="height:71%; width:100%; overflow-y: auto">
@@ -101,6 +107,7 @@
     private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     //redirect links for buttons
+    List<Weather> Weathers = new List<Weather>();
     string ArgiTaskHref = "/Agriculturaltasks";     //done
     string FertHref = "/Fertilizer";                //done
     string IrrHref = "/Irrigation";                 //done
@@ -134,8 +141,14 @@
                 plant.PlantsPlantId = (Int32)rdr["plants_plant_Id"];
                 plant.DatePlanted = DateOnly.FromDateTime((DateTime)rdr["date_planted"]);
                 plant.Location = rdr["location"].ToString();
-                plant.Weather = await getweather(plant.Location);
                 plant.Description = rdr["description"].ToString();
+
+
+                string weatherxy = await getweather(plant.Location);
+                string[] splitResult = weatherxy.Split(' ').Take(1).Concat(weatherxy.Split(' ').Skip(1)).ToArray();
+                plant.Icon = splitResult[1];
+                plant.Temp = splitResult[0];
+                plant.Source = "https://openweathermap.org/img/wn/" + plant.Icon + "@2x.png";
                 field.Add(plant);
             }
             rdr.Close();
@@ -256,5 +269,10 @@
         .GetDouble();
         weathered = tempValue.ToString() + "°C " + iconValue;
         return weathered;
+    }
+
+    public class Weather {
+        public string icon { get; set; }
+        public string temp { get; set; }
     }
 }
