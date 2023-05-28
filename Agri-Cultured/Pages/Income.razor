@@ -1,7 +1,9 @@
 ﻿@page "/Income/{plantid}"
 @inject IDialogService DialogService
 @inject IConfiguration Configuration
+@inject NavigationManager NavigationManager
 @using Controllers
+@using MySql.Data.MySqlClient;
 
 <PageTitle>Income</PageTitle>
 
@@ -63,7 +65,7 @@
         </RadzenCard>
         <div class="mt-2">
             <RadzenButton Click="(() => EditIncomeDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
-            <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" />
+                <RadzenButton Click="(() => DeleteIncome(a.IncomeId))"Icon="delete" ButtonStyle="ButtonStyle.Danger" />
         </div>
     </RadzenCard>
         }
@@ -145,5 +147,20 @@
             connection.Close();
         }
         return plantname;
+    }
+
+    private void DeleteIncome(int incomeId)
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySqlConnection connection = new MySqlConnection(connnectionString);
+        string sqldeleteincome = "DELETE FROM income WHERE income_id ='" + incomeId + "'";
+        using (MySqlCommand command = new MySqlCommand(sqldeleteincome, connection))
+        {
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+        NavigationManager.NavigateTo("/Income/" + plantid, forceLoad: true); //refresh page to delete the item
+
     }
 }
