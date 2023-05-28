@@ -1,7 +1,9 @@
 ﻿@page "/Expenses/{plantid}"
 @inject IDialogService DialogService
 @inject IConfiguration Configuration
+@inject NavigationManager NavigationManager
 @using Controllers
+@using MySql.Data.MySqlClient;
 
 <PageTitle>Other Expenses</PageTitle>
 
@@ -50,7 +52,7 @@
         </RadzenCard>
         <div class="mt-2">
             <RadzenButton Click="(() => EditExpenseDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
-            <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" />
+            <RadzenButton Click="(() => DeleteExpenses(a.ExpensesId))" Icon="delete" ButtonStyle="ButtonStyle.Danger" />
         </div>
     </RadzenCard>
     }
@@ -90,6 +92,21 @@
             rdr.Close();
             connection.Close();
         }
+    }
+
+    //Delete Expenses
+    void DeleteExpenses(int expenseId)
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySqlConnection connection = new MySqlConnection(connnectionString);
+        string sqldeleteexpense = "DELETE FROM expenses WHERE expenses_Id = '" + expenseId + "'";
+        using (MySqlCommand command = new MySqlCommand(sqldeleteexpense, connection))
+        {
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+        NavigationManager.NavigateTo("/Expenses/" + plantid, forceLoad: true); //refresh page to delete the item
     }
 
     async Task<string> getUserId()
