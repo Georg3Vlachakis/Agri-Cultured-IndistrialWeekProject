@@ -46,23 +46,23 @@
     void Cancel() => MudDialog.Cancel();
     async Task UpdateEvent()
     {
-        var connectionString = Configuration.GetConnectionString("DefaultConnection");
-        using (var connection = new MySqlConnection(connectionString))
-        {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+ 
             connection.Open();
             string updateEventQuery = "UPDATE events SET name = @name, date = @date, damage = @dmg, perc_damage = @perdmg, comments = @comm WHERE event_id = @eventId";
-            using (var command = new MySqlCommand(updateEventQuery, connection))
+            connection.Open();
+            using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(updateEventQuery, connection))
             {
                 command.Parameters.AddWithValue("@name", name);
-                command.Parameters.AddWithValue("@date", date?.ToString("yyyy-MM-dd"));
+                command.Parameters.AddWithValue("@date", date);
                 command.Parameters.AddWithValue("@dmg", dmg);
                 command.Parameters.AddWithValue("@perdmg", perdmg);
                 command.Parameters.AddWithValue("@comm", comm);
-                command.Parameters.AddWithValue("@eventId", eventId);
-
                 await command.ExecuteNonQueryAsync();
             }
-        }
+            connection.Close();
+        
     }
 
     public double DoubleValue { get; set; } // For hours
