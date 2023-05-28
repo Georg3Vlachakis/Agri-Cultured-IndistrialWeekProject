@@ -55,7 +55,7 @@
             </RadzenRow>
         </RadzenCard>
         <div class="mt-2">
-            <RadzenButton Click="(() => EditFertilizerDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
+            <RadzenButton Click="(() => EditFertilizerDialog(frt.FertPestId))" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
                 <RadzenButton Icon="delete" Click="(() => DeleteFertPest(frt.FertPestId))" ButtonStyle="ButtonStyle.Danger" />
         </div>
     </RadzenCard>
@@ -165,10 +165,14 @@
     }
 
     //Edit fertilizer/pesticide operetion dialog
-    private void EditFertilizerDialog()
+    private void EditFertilizerDialog(int fertpestID)
     {
+
         var options = new MudBlazor.DialogOptions { };
-        DialogService.Show<EditFertilizerDialog>(" ", options);
+        var parameters = new DialogParameters();
+        parameters.Add("plantID", plantid);
+        parameters.Add("fertpestID", fertpestID);
+        DialogService.Show<EditFertilizerDialog>(" ", parameters, options);
     }
 }
 

@@ -56,7 +56,7 @@
             </RadzenRow>
         </RadzenCard>
         <div class="mt-2">
-            <RadzenButton Click="(() => EditTaskDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
+            <RadzenButton Click="(() => EditTaskDialog(a.TaskId))" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
                 <RadzenButton Click="(() => DeleteTasks(a.TaskId))" Icon="delete" ButtonStyle="ButtonStyle.Danger" />
         </div>
     </RadzenCard>
@@ -132,9 +132,12 @@
     }
 
     //Edit task dialog
-    private void EditTaskDialog()
+    private void EditTaskDialog(int taskid)
     {
         var options = new MudBlazor.DialogOptions { };
-        DialogService.Show<EditTaskDialog>(" ", options);
+        var parameters = new DialogParameters();
+        parameters.Add("plantID", plantid);
+        parameters.Add("taskID", taskid);
+        DialogService.Show<EditTaskDialog>(" ",parameters, options);
     }
 }

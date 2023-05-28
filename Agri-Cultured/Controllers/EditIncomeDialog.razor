@@ -1,10 +1,15 @@
-﻿<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
+﻿@using MySql.Data.MySqlClient;
+@inject NavigationManager NavigationManager
+@inject IConfiguration Configuration
+@using Agri_Cultured.Controllers;
+@using Agri_Cultured.Pages;
+<MudDialog Class="rz-background-color-base-800 rz-shadow-10 rz-border-radius-10 rz-p-1" Style="color: white; text-shadow: 5px px 3px black;">
     <TitleContent>
         Edit Income
     </TitleContent>
     <DialogContent>
-        <MudTextField T="DateTime?" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
-        <MudTextField @bind-Value="Amount" Label="Cost" Variant="MudBlazor.Variant.Filled" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" AdornmentColor="Color.Warning" Style="margin-bottom: 15px;" Required="true" />
+        <MudTextField T="DateTime" @bind-Value=@dated Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
+        <MudTextField @bind-Value="@income" Label="Cost" Variant="MudBlazor.Variant.Filled" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" AdornmentColor="Color.Warning" Style="margin-bottom: 15px;" Required="true" />
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -14,9 +19,38 @@
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public int incomeId { get; set; }
+    [Parameter] public string plantId { get; set; }
+    DateTime dated = DateTime.Now;
+    private float income;
+    string dateFormatted;
 
-    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+
+    async void Submit()
+    {
+        dateFormatted = dated.ToString("yyyy-MM-dd");
+        await UpdateIncome();
+        NavigationManager.NavigateTo("/Income/" + plantId, forceLoad: true);
+    }
     void Cancel() => MudDialog.Cancel();
+
+    async Task UpdateIncome()
+    {
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string updateEventQuery = "UPDATE income SET date = @date, date = @date, income=@income WHERE income_id='" + incomeId + "'";
+        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(updateEventQuery, connection))
+
+        {
+            connection.Open();
+            command.Parameters.AddWithValue("@date", dateFormatted);
+            command.Parameters.AddWithValue("@income", income);
+            await command.ExecuteNonQueryAsync();
+            connection.Close();
+        }
+
+
+    }
 
     public double? Amount { get; set; } // For cost
 
