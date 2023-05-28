@@ -12,7 +12,7 @@
 
         <MudTextField T="DateTime" Format="yyyy-MM-dd" Label="Date Planted" @bind-Value=@dated InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
 
-        <RadzenDropDown AllowClear="true" Placeholder="Region" @bind-Value=@planthasusers.Location Data=@peripheries Style="width: 100%; max-width: 400px; margin-bottom: 15px" />
+        <RadzenDropDown AllowClear="true" Placeholder="Region" @bind-Value=@planthasusers.Location Data=@lacations Style="width: 100%; max-width: 400px; margin-bottom: 15px" />
 
     </DialogContent>
     <DialogActions>
@@ -30,16 +30,31 @@
     DateTime dated = DateTime.Now;
     List<string> plants = new List<string>();
     List<Models.PlantsHasUser> phu = new List<Models.PlantsHasUser>();
+    List<string> lacations = new List<string>();
     LinkedList<Tuple<string, Tuple<double, double>>> peripheries = new LinkedList<Tuple<string, Tuple<double, double>>>();
 
     //placeholder
     Models.Plant createdplant = new Models.Plant();
     Models.PlantsHasUser planthasusers = new Models.PlantsHasUser();
 
- 
+
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
+        lacations.Add("Attica");
+        lacations.Add("Central Greece");
+        lacations.Add("Central Macedonia");
+        lacations.Add("Crete");
+        lacations.Add("East Macedonia and Thrace");
+        lacations.Add("Epirus");
+        lacations.Add("Ionian Islands");
+        lacations.Add("North Aegean");
+        lacations.Add("Peloponnese");
+        lacations.Add("South Aegean");
+        lacations.Add("Thessaly");
+        lacations.Add("West Greece");
+        lacations.Add("West Macedonia");
+
         // average longtitude and latidute of each region/periphery
         peripheries.AddLast(new Tuple<string, Tuple<double, double>>("Attica", new Tuple<double, double>(38.07568709809507, 23.673109334822787)));
         peripheries.AddLast(new Tuple<string, Tuple<double, double>>("Central Greece", new Tuple<double, double>(38.63570676385782, 22.45413309232338)));
@@ -55,7 +70,7 @@
         peripheries.AddLast(new Tuple<string, Tuple<double, double>>("West Greece", new Tuple<double, double>(38.19530903007895, 21.790900191202333)));
         peripheries.AddLast(new Tuple<string, Tuple<double, double>>("West Macedonia", new Tuple<double, double>(40.43123939308935, 21.485237920650242)));
 
-
+        
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
         MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
         string sqlmyfields = "SELECT plant_name FROM plants";
