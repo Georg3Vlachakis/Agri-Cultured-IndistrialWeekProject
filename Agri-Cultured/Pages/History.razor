@@ -73,20 +73,22 @@
     private Task<AuthenticationState> authenticationStateTask { get; set; }
     [Parameter]
     public string plantid { get; set; }
+    static DateTime oneYearAgo = DateTime.Now.AddYears(-1).Date;
+    string oneyearagoformated = oneYearAgo.ToString("yyyy-MM-dd");
+
+
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
-       float annualexpenses = await AnnualExpenses();
+        float annualexpenses = await AnnualExpenses();
+        float income = await AnnualIncome();
     }
 
     async Task<float> AnnualExpenses()
     {
         float addexp = 0;
-        DateTime oneYearAgo = DateTime.Now.AddYears(-1).Date;
-        string oneyearagoformated = oneYearAgo.ToString("yyyy-MM-dd");
-
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
         MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
-        string sqlmyevents = "SELECT e.* FROM expenses AS e JOIN expenses_has_plants AS ep ON e.expenses_Id = ep.expenses_Id JOIN plants_has_user AS pu ON ep.plants_user_Id = pu.plants_user_Id WHERE pu.aspnetusers_Id = '" + await getUserId() + "' AND e.date >= '" + oneyearagoformated + "'";
+        string sqlmyevents = "SELECT e.expense_ammount FROM expenses AS e JOIN expenses_has_plants AS ep ON e.expenses_Id = ep.expenses_Id JOIN plants_has_user AS pu ON ep.plants_user_Id = pu.plants_user_Id WHERE pu.aspnetusers_Id = '" + await getUserId() + "' AND e.date >= '" + oneyearagoformated + "'";
 
         using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlmyevents, connection))
         {
@@ -103,6 +105,29 @@
             connection.Close();
         }
         return (float)addexp;
+    }
+    async Task<float> AnnualIncome()
+    {
+        float addinc = 0;
+        var connnectionString = Configuration.GetConnectionString("DefaultConnection");
+        MySql.Data.MySqlClient.MySqlConnection connection = new MySql.Data.MySqlClient.MySqlConnection(connnectionString);
+        string sqlmyevents = "SELECT i.income FROM income AS i JOIN income_has_plants AS ihp ON i.income_id = ihp.income_id JOIN plants_has_user AS pu ON ihp.plants_user_Id = pu.plants_user_Id WHERE pu.aspnetusers_Id = '" + await getUserId() + "' AND i.date >= '" + oneyearagoformated + "'";
+
+        using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(sqlmyevents, connection))
+        {
+            connection.Open();
+            MySql.Data.MySqlClient.MySqlCommand sqlcmd = new MySql.Data.MySqlClient.MySqlCommand(sqlmyevents, connection);
+            sqlcmd.CommandText = sqlmyevents;
+            sqlcmd.CommandType = System.Data.CommandType.Text;
+            MySql.Data.MySqlClient.MySqlDataReader rdr = sqlcmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                addinc = addinc + (float)rdr["income"];
+            }
+            rdr.Close();
+            connection.Close();
+        }
+        return addinc;
     }
     async Task<string> getUserId()
     {
