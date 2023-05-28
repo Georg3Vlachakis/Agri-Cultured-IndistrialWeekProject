@@ -32,7 +32,7 @@
     {
         dateFormatted = dated.ToString("yyyy-MM-dd");
         await UpdateIrrigation();
-        NavigationManager.NavigateTo("/Dashboard/" + plantId, forceLoad: true);
+        NavigationManager.NavigateTo("/Irrigation/" + plantId, forceLoad: true);
     }
     async Task UpdateIrrigation()
     {
