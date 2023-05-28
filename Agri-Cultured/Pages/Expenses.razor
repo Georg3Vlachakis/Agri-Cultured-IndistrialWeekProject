@@ -49,7 +49,7 @@
             </RadzenRow>
         </RadzenCard>
         <div class="mt-2">
-            <RadzenButton Click="(() => EditExpenseDialog())" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
+            <RadzenButton Click="(() => EditExpenseDialog(a.ExpensesId))" Icon="edit" ButtonStyle="ButtonStyle.Primary" />
             <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" />
         </div>
     </RadzenCard>
@@ -104,9 +104,12 @@
     }
 
     //Edit expense dialog
-    private void EditExpenseDialog()
+    private void EditExpenseDialog(int expenseid)
     {
         var options = new MudBlazor.DialogOptions { };
-        DialogService.Show<EditExpensesDialog>(" ", options);
+        var parameters = new DialogParameters();
+        parameters.Add("plantId", plantid);
+        parameters.Add("expenseId", expenseid);
+        DialogService.Show<EditExpensesDialog>(" ",parameters, options);
     }
 }
