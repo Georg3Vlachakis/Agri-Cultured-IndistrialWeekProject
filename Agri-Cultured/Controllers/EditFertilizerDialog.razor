@@ -8,8 +8,10 @@
         Edit Fertilizer or Pesticide
     </TitleContent>
     <DialogContent>
-        <MudCheckBox @bind-Checked="@Label_CheckBox2" Label="Fertilizer" Color="Color.Primary"></MudCheckBox>
-        <MudCheckBox @bind-Checked="@Label_CheckBox3" Label="Pestiside" Color="Color.Secondary"></MudCheckBox>
+        <MudRadioGroup @bind-SelectedOption="@ferttype">
+            <MudRadio Option="@(true)" Color="Color.Error">Fertilizer</MudRadio>
+            <MudRadio Option="@(false)" Color="Color.Error">Pesticide</MudRadio>
+        </MudRadioGroup>
         <MudTextField @bind-Value="@productname" T="string" Label="Product Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
         <MudTextField T="DateTime"@bind-Value="@dated" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true" />
         <RadzenButton Click="OpenNested" Text="Edit Item" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Success" />
@@ -20,7 +22,6 @@
             <DialogContent>
                 <MudTextField @bind-Value="@itemName" T="string" Label="Name" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Style="margin-bottom: 15px;" Required="true"></MudTextField>
                 <MudTextField @bind-Value="@itemDescription" T="string" Label="Description" Variant="MudBlazor.Variant.Filled" Lines="3" Style="margin-bottom: 15px;" />
-                <MudTextField T="DateTime"@bind-Value="@dated" Format="yyyy-MM-dd" Label="Date Started" InputType="InputType.Date" Variant="MudBlazor.Variant.Filled" Margin="Margin.Dense" Required="true" Style="margin-bottom: 15px;" />
                 <MudTextField @bind-Value="@itemCost" Label="Item Cost" Variant="MudBlazor.Variant.Filled" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney" AdornmentColor="Color.Warning" Style="margin-bottom: 15px;" Required="true" />
             </DialogContent>
             <DialogActions>
@@ -41,11 +42,11 @@
     DateTime dated = DateTime.Now;
     string dateFormatted;
     private string productname;
-    private bool type;
     private string itemName;
     private string itemDescription;
     private float itemCost;
-
+    string itemid="";
+    bool ferttype;
 
 
     async void Submit()
@@ -53,6 +54,7 @@
 
         dateFormatted = dated.ToString("yyyy-MM-dd");
         await UpdateFertPest();
+        await Merge(fertpestId); 
         await UpdateItem();
         NavigationManager.NavigateTo("/Fertilizer/" + plantId, forceLoad: true);
     }
@@ -71,7 +73,7 @@
         using (MySql.Data.MySqlClient.MySqlCommand command = new MySql.Data.MySqlClient.MySqlCommand(updateFertPestquery, connection))
         {
             connection.Open();
-            command.Parameters.AddWithValue("@type", type);
+            command.Parameters.AddWithValue("@type", ferttype);
             command.Parameters.AddWithValue("@productname", productname);
             command.Parameters.AddWithValue("@date", dateFormatted);
             await command.ExecuteNonQueryAsync();
@@ -83,14 +85,13 @@
     {
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
         MySqlConnection connection = new MySqlConnection(connnectionString);
-        string updateItemQuery = "UPDATE items SET item_name = @itemName, item_description = @itemDescription, cost = @itemCost, date = @date WHERE item_id = '" + await Merge(fertpestId) + "'";
+        string updateItemQuery = "UPDATE items SET item_name = @itemName, item_description = @itemDescription, cost = @itemCost WHERE item_id = '" + itemid + "'";
         using (MySqlCommand command = new MySqlCommand(updateItemQuery, connection))
         {
             connection.Open();
             command.Parameters.AddWithValue("@itemName", itemName);
             command.Parameters.AddWithValue("@itemDescription", itemDescription);
             command.Parameters.AddWithValue("@itemCost", itemCost);
-            command.Parameters.AddWithValue("@itemDate", dateFormatted);
             command.Parameters.AddWithValue("@itemId", itemId);
             await command.ExecuteNonQueryAsync();
             connection.Close();
@@ -99,7 +100,7 @@
 
     async Task Merge(int fertpestid)
     {
-        string itemid="";
+        
         var connnectionString = Configuration.GetConnectionString("DefaultConnection");
         MySqlConnection connection = new MySqlConnection(connnectionString);
         string mergequery = "SELECT item_id FROM items WHERE fert_pest_fert_pest_Id='"+fertpestid+"'";
