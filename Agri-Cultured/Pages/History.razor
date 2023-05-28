@@ -80,7 +80,8 @@
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
         float annualexpenses = await AnnualExpenses();
-        float income = await AnnualIncome();
+        float annualincome = await AnnualIncome();
+        float annualnetprofit = annualincome - annualexpenses;
     }
 
     async Task<float> AnnualExpenses()
