@@ -267,7 +267,7 @@
         .GetProperty("main")
         .GetProperty("temp")
         .GetDouble();
-        weathered = tempValue.ToString() + "°C " + iconValue;
+        weathered = (Math.Round(tempValue, MidpointRounding.ToZero)).ToString() + "°C " + iconValue;
         return weathered;
     }
 
