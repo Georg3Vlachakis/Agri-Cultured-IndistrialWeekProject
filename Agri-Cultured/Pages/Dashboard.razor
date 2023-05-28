@@ -185,7 +185,7 @@
     //Create new plant dialog
     private void OpenCreatePlantDialog()
     {
-        var options = new MudBlazor.DialogOptions { };
+        var options = new MudBlazor.DialogOptions { DisableBackdropClick = true };
         var parameters = new DialogParameters();
         parameters.Add("JSRUNTIME", JSRuntime);
         DialogService.Show<PlantDialog>(" ", parameters ,options);
