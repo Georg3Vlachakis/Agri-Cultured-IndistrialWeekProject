@@ -9,12 +9,7 @@
 </RadzenRow>
 
 <RadzenRow JustifyContent="JustifyContent.SpaceEvenly" AlignItems="Radzen.AlignItems.Center" Gap="0" Style=" margin-bottom:20px;">
-    <MudButtonGroup Color="Color.Primary" Variant="MudBlazor.Variant.Text">
-        <MudButton OnClick="OpenNetIncomeDialog" Style="width: 25%">Net Income</MudButton>
-        <MudButton OnClick="OpenEventsDialog" Style="width: 25%">Events</MudButton>
-        <MudButton OnClick="OpenTasksDialog" Style="width: 25%">Tasks</MudButton>
-        <MudButton OnClick="OpenFertPestDialog" Style="width: 25%">Fertilizers - Pesticides</MudButton>
-    </MudButtonGroup>
+    <MudButton OnClick="OpenNetIncomeDialog" Style="width: 25%">Net Income</MudButton>
 </RadzenRow>
 
 <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="Radzen.AlignItems.Center" Gap="0">
@@ -130,23 +125,5 @@
     {
         var options = new MudBlazor.DialogOptions { FullWidth=true };
         DialogService.Show<AnnualNetIncomeDialog>(" ", options);
-    }
-
-    private void OpenEventsDialog()
-    {
-        var options = new MudBlazor.DialogOptions { };
-        DialogService.Show<AnnualEventsDialog>(" ", options);
-    }
-
-    private void OpenTasksDialog()
-    {
-        var options = new MudBlazor.DialogOptions { };
-        DialogService.Show<AnnualTasksDialog>(" ", options);
-    }
-
-    private void OpenFertPestDialog()
-    {
-        var options = new MudBlazor.DialogOptions { };
-        DialogService.Show<AnnualFertPestDialog>(" ", options);
     }
 }
